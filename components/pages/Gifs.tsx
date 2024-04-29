@@ -18,7 +18,7 @@ import { selectHomeItems } from '../../store/selectors';
 import Store from '../../store';
 import GifCard from '../ui/GifCard';
 import axios from 'axios';
-const Gifs= () => {
+const Gifs = () => {
   const homeItems = Store.useState(selectHomeItems);
   const [showNotifications, setShowNotifications] = useState(false);
   useEffect(() => {
@@ -36,7 +36,7 @@ const Gifs= () => {
 
 
     fetchGifs();
- }, []);
+  }, []);
   return (
     <IonPage>
       <IonHeader>
@@ -50,14 +50,14 @@ const Gifs= () => {
             </IonButton>
           </IonButtons>
         </IonToolbar>
-      <IonSearchbar ></IonSearchbar>
+        <IonSearchbar ></IonSearchbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>
         <Notifications
           open={showNotifications}
           onDidDismiss={() => setShowNotifications(false)}
         />
-        {homeItems&&homeItems.map((i, index) => (
+        {homeItems && homeItems.map((i, index) => (
           <GifCard {...i} key={index} />
         ))}
       </IonContent>
