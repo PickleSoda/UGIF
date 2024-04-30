@@ -7,7 +7,7 @@ import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route } from 'react-router-dom';
-
+import usePollTasks from '../hooks/usePollTasks';
 import Tabs from './pages/Tabs';
 
 setupIonicReact({});
@@ -19,10 +19,11 @@ window
       await StatusBar.setStyle({
         style: status.matches ? Style.Dark : Style.Light,
       });
-    } catch {}
+    } catch { }
   });
 
 const AppShell = () => {
+  usePollTasks();
   return (
     <IonApp>
       <IonReactRouter>

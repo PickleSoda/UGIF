@@ -16,7 +16,7 @@ import * as selectors from '../../store/selectors';
 import GifCard from '../ui/GifCard';
 import axios from 'axios';
 import { close } from 'ionicons/icons';
-
+import { addTask } from '../../store/actions';
 
 const GifDetailModal = ({
   open,
@@ -41,27 +41,26 @@ const GifDetailModal = ({
   const handleGenerateGif = async () => {
     if (!photo) return; // Ensure there's a photo to process
     const base64Photo = await getPhotoAsBase64(photo);
-    console.log('Photo as base64:', base64Photo ,   id);
-    
-    axios.post('https://proxy.unclothed.com/gen_video', { 
+    console.log('Photo as base64:', base64Photo, id);
+
+    axios.post('https://proxy.unclothed.com/gen_video', {
       image: base64Photo,
       video_id: id
     })
-    .then(response  =>
-      {
-        console.log('Response:', response.data)
-        
-      } 
-    )
-    .catch(error => {
-      console.error( error);
-    });
+      .then(response => {
+        console.log('Response:', response.data.task_id);
+        addTask(response.data.task_id);
+      }
+      )
+      .catch(error => {
+        console.error(error);
+      });
 
   };
   return (
     <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
       <IonHeader>
-      <IonToolbar>
+        <IonToolbar>
           <IonTitle>Create Your GIF</IonTitle>
           <IonButton
             slot="end"
@@ -75,11 +74,14 @@ const GifDetailModal = ({
       </IonHeader>
       <IonContent fullscreen>
         {loadedList && <GifCard {...loadedList} />}
-        <IonButton onClick={handleTakePhoto}>Take Photo</IonButton>
         {photo && <>
           <IonImg src={photo} />
-          <IonButton onClick={handleGenerateGif}>Generate GIF</IonButton>
         </>}
+        <IonButton onClick={handleTakePhoto}>{photo ? 'Retake photo' : 'Take Photo'}</IonButton>
+        {
+          // Display the 'Generate GIF' button only if there's a photo
+          photo && <IonButton onClick={handleGenerateGif}>Generate GIF</IonButton>
+        }
       </IonContent>
     </IonModal>
   );

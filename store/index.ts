@@ -1,6 +1,11 @@
 import { Store as PullStateStore } from 'pullstate';
 
-import { lists,  notifications, settings, TodoListItem, HomeItem, NotificationItem, Settings } from '../mock';
+import { lists,  notifications, settings, TodoListItem, HomeItem, NotificationItem, Settings, Task } from '../mock';
+
+
+
+
+
 
 type StoreProps = {
   safeAreaTop: number;
@@ -13,6 +18,7 @@ type StoreProps = {
   notifications: NotificationItem[];
   settings: Settings;
   selectedList: TodoListItem | undefined;
+  tasks: Task[]; 
 }
 
 const Store = new PullStateStore<StoreProps>({
@@ -26,6 +32,7 @@ const Store = new PullStateStore<StoreProps>({
   notifications,
   settings,
   selectedList: undefined,
+  tasks: [], 
 });
 
 export default Store;

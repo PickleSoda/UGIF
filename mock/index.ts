@@ -3,6 +3,11 @@ export type HomeItem = {
   src: string;
 };
 
+export type Task = {
+  id: string;
+  status?: string; // Additional attributes like status can be added here
+};
+
 export type NotificationItem = {
   id: number;
   title: string;

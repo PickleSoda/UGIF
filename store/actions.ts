@@ -1,5 +1,5 @@
 import Store from '.';
-import { ListItem, Settings, TodoListItem } from '../mock';
+import { ListItem, Settings, TodoListItem, Task } from '../mock';
 
 export const setMenuOpen = (open: boolean) => {
   Store.update(s => {
@@ -19,6 +19,17 @@ export const setSettings = (settings: Settings) => {
   });
 };
 
+export const addTask = (task: Task) => {
+  Store.update(s => {
+    s.tasks.push(task);
+  });
+};
+
+export   const removeTask = (taskId: string) => {
+  Store.update(s => {
+    s.tasks = s.tasks.filter(t => t.id !== taskId);
+  });
+};
 // App-specific actions
 
 export const setDone = (
