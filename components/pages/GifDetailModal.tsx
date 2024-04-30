@@ -8,11 +8,9 @@ import {
   IonButton,
   IonImg, // Import IonImg for displaying images
 } from '@ionic/react';
-import { useParams } from 'react-router-dom';
 import { useState } from 'react'; // Import useState
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
 import Store from '../../store';
-import * as selectors from '../../store/selectors';
 import GifCard from '../ui/GifCard';
 import axios from 'axios';
 import { close } from 'ionicons/icons';
@@ -27,7 +25,7 @@ const GifDetailModal = ({
   open: boolean;
   onDidDismiss: () => void;
 }) => {
-  const items = Store.useState(selectors.selectHomeItems);
+  const items = Store.useState(s => s.homeItems);
   const loadedList = items?.find((l) => l.id === id);
   const { takePhoto, getPhotoAsBase64 } = usePhotoGallery();
   const [photo, setPhoto] = useState<string | undefined>(undefined);

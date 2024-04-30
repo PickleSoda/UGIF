@@ -14,12 +14,11 @@ import {
 import Notifications from './Notifications';
 import { useState, useEffect } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
-import { selectHomeItems } from '../../store/selectors';
 import Store from '../../store';
 import GifCard from '../ui/GifCard';
 import axios from 'axios';
 const Gifs = () => {
-  const homeItems = Store.useState(selectHomeItems);
+  const homeItems = Store.useState(s => s.homeItems);
   const [showNotifications, setShowNotifications] = useState(false);
   useEffect(() => {
     const fetchGifs = async () => {

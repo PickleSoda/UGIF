@@ -12,7 +12,6 @@ import {
   IonLabel,
 } from '@ionic/react';
 import Store from '../../store';
-import { selectNotifications } from '../../store/selectors';
 
 import { close } from 'ionicons/icons';
 import { type NotificationItem } from '../../mock';
@@ -38,7 +37,7 @@ const Notifications = ({
   open: boolean;
   onDidDismiss: () => void;
 }) => {
-  const notifications = Store.useState(selectNotifications);
+  const notifications = Store.useState(s => s.notifications);
 
   return (
     <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
