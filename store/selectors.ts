@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { HomeItem, NotificationItem, Settings, TodoListItem } from '../mock';
 
 export interface RootState {
-    homeItems: HomeItem[]|  null
+    homeItems: HomeItem[]|null
     lists: TodoListItem[]
     notifications: NotificationItem[]
     settings: Settings

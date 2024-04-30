@@ -8,7 +8,7 @@ type StoreProps = {
   menuOpen: boolean;
   notificationsOpen: boolean;
   currentPage: number | null;
-  homeItems: HomeItem[]|null;
+  homeItems: HomeItem[];
   lists: TodoListItem[];
   notifications: NotificationItem[];
   settings: Settings;
@@ -21,7 +21,7 @@ const Store = new PullStateStore<StoreProps>({
   menuOpen: false,
   notificationsOpen: false,
   currentPage: null,
-  homeItems: null,
+  homeItems: [],
   lists,
   notifications,
   settings,

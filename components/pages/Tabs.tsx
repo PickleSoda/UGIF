@@ -13,17 +13,12 @@ import Lists from './Lists';
 import ListDetail from './ListDetail';
 import Settings from './Settings';
 import Gifs from './Gifs';
-import GifDetail from './GifDetail';
+import GifDetail from './GifDetailModal';
 const Tabs = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
         <Route path="/gifs" render={() => <Gifs />} exact={true} />
-        <Route
-          path="/gifs/:id"
-          render={() => <GifDetail />}
-          exact={true}
-        /> 
         {/* <Route path="/lists" render={() => <Lists />} exact={true} />
         <Route
           path="/lists/:listId"

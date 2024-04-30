@@ -7,7 +7,6 @@ type FeedCardProps = {
 };
 const GifCard = ({ id, src }: FeedCardProps) => (
   <Card className="my-4 mx-auto w-full">
-    <IonItem routerLink={`/gifs/${id}`} className="list-entry">
       <div className="h-48 w-full relative">
         <Image
           className="object-cover min-w-full min-h-full max-w-full max-h-full"
@@ -16,7 +15,6 @@ const GifCard = ({ id, src }: FeedCardProps) => (
           fill
         />
       </div>
-    </IonItem>
     <div ></div>
   </Card>
 );
