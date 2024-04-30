@@ -1,5 +1,4 @@
 import dynamic from 'next/dynamic';
-import { lists } from '../../mock';
 
 const App = dynamic(() => import('../../components/AppShell'), {
   ssr: false,
@@ -7,11 +6,8 @@ const App = dynamic(() => import('../../components/AppShell'), {
 
 export async function generateStaticParams() {
   return [
-    { all: ['feed'] },
-    { all: ['lists'] },
-    ...lists.map(list => ({ all: ['lists', list.id] })),
-    { all: ['notifications'] },
     {all: ['gifs'] },
+    { all: ['my-gifs'] },
     { all: ['settings'] },
   ];
 }

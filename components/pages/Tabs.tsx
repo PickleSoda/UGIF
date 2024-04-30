@@ -9,11 +9,9 @@ import {
 } from '@ionic/react';
 import { cog, flash, list } from 'ionicons/icons';
 
-import Lists from './Lists';
-import ListDetail from './ListDetail';
 import Settings from './Settings';
 import Gifs from './Gifs';
-import GifDetail from './GifDetailModal';
+import MyGifs from './MyGifs';
 const Tabs = () => {
   return (
     <IonTabs>
@@ -25,6 +23,7 @@ const Tabs = () => {
           render={() => <ListDetail />}
           exact={true}
         /> */}
+        <Route path="/my-gifs" render={() => <MyGifs />} exact={true} />
         <Route path="/settings" render={() => <Settings />} exact={true} />
         <Route path="" render={() => <Redirect to="/gifs" />} exact={true} />
       </IonRouterOutlet>
@@ -33,7 +32,12 @@ const Tabs = () => {
           <IonIcon icon={flash} />
           <IonLabel>GIFs</IonLabel>
         </IonTabButton>
-        <IonTabButton tab="tab2" href="/settings">
+        
+        <IonTabButton tab="tab2" href="/my-gifs">
+          <IonIcon icon={list} />
+          <IonLabel>My GIFs</IonLabel>
+        </IonTabButton>
+        <IonTabButton tab="tab3" href="/settings">
           <IonIcon icon={cog} />
           <IonLabel>Settings</IonLabel>
         </IonTabButton>

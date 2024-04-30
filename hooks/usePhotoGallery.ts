@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { isPlatform } from '@ionic/react';
+import { useState, useEffect,useCallback } from 'react';
 import {
   Camera,
   CameraResultType,
@@ -39,38 +38,64 @@ export function usePhotoGallery() {
       data: base64Data,
       directory: Directory.Data,
     });
-
-    // Use webPath to display the new image instead of base64 preview
     return {
       filepath: fileName,
-      webviewPath: photo.webPath,
+      webviewPath: photo.webPath, // This should now be a correct URL
     };
   };
 
-  const loadSaved = async () => {
-    const photoList = await Preferences.get({ key: 'photos' });
-    const photos = photoList.value
-      ? (JSON.parse(photoList.value) as UserPhoto[])
-      : [];
-
-    for (let photo of photos) {
-      const readFileResult = await Filesystem.readFile({
-        path: photo.filepath,
+  const loadSaved = useCallback(async () => {
+    try {
+      const fileList = await Filesystem.readdir({
         directory: Directory.Data,
+        path: '',
       });
+      const photos = await Promise.all(
+        fileList.files.map(async FileInfo => {
+          const readFileResult = await Filesystem.readFile({
+            path: FileInfo.name,
+            directory: Directory.Data,
+          });
+          const blob = b64toBlob(readFileResult.data.toString(), 'image/jpeg');
 
-      // Use convertFileSrc to adjust the path for native platforms
-      if (isPlatform('hybrid')) {
-        // convertFileSrc requires the full file path to the saved file.
-        // Assuming photo.filepath contains the full path from the root.
-        photo.webviewPath = Capacitor.convertFileSrc(photo.filepath);
-      } else {
-        // For the web platform, assuming readFileResult.data is base64 since no encoding is specified.
-        photo.webviewPath = `data:image/jpeg;base64,${readFileResult.data}`;
-      }
+          // Create a blob URL for the image
+          const webviewPath = URL.createObjectURL(blob);
+          const photo: UserPhoto = {
+            filepath: FileInfo.name,
+            webviewPath: webviewPath,
+          };
+          return photo;
+        }),
+      );
+
+      return photos;
+    } catch (error) {
+      console.error('Error loading saved photos:', error);
+      return [];
     }
-    setPhotos(photos);
-  };
+  }, []);
+
+  function b64toBlob(
+    b64Data: string,
+    contentType = 'image/jpeg',
+    sliceSize = 512,
+  ) {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
 
   const base64FromPath = async (path: string) => {
     const response = await fetch(path);
@@ -99,8 +124,8 @@ export function usePhotoGallery() {
     });
   };
   useEffect(() => {
-    loadSaved();
-  }, []);
+    (async () => setPhotos(await loadSaved()))();
+  }, [loadSaved]);
 
   return {
     photos,

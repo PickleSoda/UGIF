@@ -1,13 +1,11 @@
 import Image from 'next/image';
 import Card from '../ui/Card';
-import { IonItem } from '@ionic/react';
 type FeedCardProps = {
-  id: string;
   src: string;
 };
-const GifCard = ({ id, src }: FeedCardProps) => (
+const GifCard = ({  src }: FeedCardProps) => (
   <Card className="my-4 mx-auto w-full">
-      <div className="h-48 w-full relative">
+      <div className="h-64 w-full relative">
         <Image
           className="object-cover min-w-full min-h-full max-w-full max-h-full"
           src={src}

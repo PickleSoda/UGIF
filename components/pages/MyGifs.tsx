@@ -8,29 +8,39 @@ import {
   IonIcon,
   IonContent,
   IonMenuButton,
-  IonSearchbar,
   IonInfiniteScrollContent,
   IonInfiniteScroll,
 } from '@ionic/react';
 import { Virtuoso } from 'react-virtuoso';
 import Notifications from './Notifications';
-import { useState, } from 'react';
+import { useState, useEffect } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
-import GifDetailModal from './GifDetailModal';
 import GifCard from '../ui/GifCard';
 import useGifs from '../../hooks/useGifs';
+import Image from 'next/image';
+import { usePhotoGallery } from '../../hooks/usePhotoGallery';
 const MyGifs = () => {
-  const { handleInput, homeItems } = useGifs();
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [showGifDetail, setShowGifDetail] = useState(false);
   const [selectedGif, setSelectedGif] = useState('');
-
+  const { loadSaved, photos } = usePhotoGallery();
 
   const openGifDetails = (id: string) => {
     setShowGifDetail(true);
-    setSelectedGif(id);
   }
+
+  useEffect(() => {
+    const loadPhotos = async () => {
+      if (!photos) {
+        await loadSaved();
+        console.log('photos', photos);
+      }
+    };
+
+    loadPhotos();
+    console.log('photos', photos);
+  }, [loadSaved, photos]);
 
   return (
     <IonPage>
@@ -44,7 +54,6 @@ const MyGifs = () => {
               <IonIcon icon={notificationsOutline} />
             </IonButton>
           </IonButtons>
-          <IonSearchbar debounce={1000} onIonInput={(ev) => handleInput(ev)} className='p-0'></IonSearchbar>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding" fullscreen>
@@ -52,14 +61,13 @@ const MyGifs = () => {
           open={showNotifications}
           onDidDismiss={() => setShowNotifications(false)}
         />
-        <GifDetailModal open={showGifDetail} onDidDismiss={() => setShowGifDetail(false)} id={selectedGif} />
         <Virtuoso className="ion-content-scroll-host" style={{ height: '100%' }}
-          data={homeItems}
+          data={photos}
           itemContent={(index, Item) =>
-            <div onClick={() => openGifDetails(Item.id)} key={index} >
-              <GifCard {...Item} />
-            </div>}
-          components={{ Footer }}
+            <GifCard
+              src={Item.webviewPath?Item.webviewPath:''}
+            />
+          }
         />
 
       </IonContent>
