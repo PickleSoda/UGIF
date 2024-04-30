@@ -9,50 +9,29 @@ import {
   IonContent,
   IonMenuButton,
   IonSearchbar,
-  IonList
+  IonInfiniteScrollContent,
+  IonInfiniteScroll,
 } from '@ionic/react';
+import { Virtuoso } from 'react-virtuoso';
 import Notifications from './Notifications';
-import { useState, useEffect } from 'react';
+import { useState, } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
 import GifDetailModal from './GifDetailModal';
-import Store from '../../store';
 import GifCard from '../ui/GifCard';
-import axios from 'axios';
-import { HomeItem } from '../../mock';
+import useGifs from '../../hooks/useGifs';
 const Gifs = () => {
-  const loadedGifs = Store.useState(s => s.homeItems);
-  const [homeItems, setHomeItems] = useState<HomeItem[]>([]);
+  const { handleInput, homeItems } = useGifs();
+
   const [showNotifications, setShowNotifications] = useState(false);
   const [showGifDetail, setShowGifDetail] = useState(false);
   const [selectedGif, setSelectedGif] = useState('');
-  useEffect(() => {
-    const fetchGifs = async () => {
-      try {
-        const response = await axios.post('https://gifs.unclothed.com/gifs/fetch', { /* request body */ }); // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint and provide the request body as needed
-        console.log(response.data); // Assuming the data you need is directly in the response body
-        Store.update((s) => {
-          s.homeItems = response.data.gifs;
-        });
-        setHomeItems(response.data.gifs);
-      } catch (error) {
-        console.error('Failed to fetch GIFs:', error);
-      }
-    };
-    loadedGifs.length === 0 ? fetchGifs() : setHomeItems(loadedGifs);
-  }, [loadedGifs]);
-  const handleInput = (ev: Event) => {
-    let query = '';
-    const target = ev.target as HTMLIonSearchbarElement;
-    if (target) query = target.value!.toLowerCase();
 
-    homeItems && setHomeItems(loadedGifs.filter((d) => d.id.toLowerCase().indexOf(query) > -1));
-
-  };
 
   const openGifDetails = (id: string) => {
     setShowGifDetail(true);
     setSelectedGif(id);
   }
+
   return (
     <IonPage>
       <IonHeader>
@@ -74,19 +53,30 @@ const Gifs = () => {
           onDidDismiss={() => setShowNotifications(false)}
         />
         <GifDetailModal open={showGifDetail} onDidDismiss={() => setShowGifDetail(false)} id={selectedGif} />
-
-        <IonList>
-          {homeItems ? homeItems.map((i, index) => (
-            <div onClick={() => openGifDetails(i.id)} key={index} >
-              <GifCard {...i} />
-            </div>
-          )) : <div>Loading...</div>}
-        </IonList>
-
+        <Virtuoso className="ion-content-scroll-host" style={{ height: '100%' }}
+          data={homeItems}
+          itemContent={(index, Item) =>
+            <div onClick={() => openGifDetails(Item.id)} key={index} >
+              <GifCard {...Item} />
+            </div>}
+          components={{ Footer }}
+        />
 
       </IonContent>
     </IonPage>
   );
 };
-
+const Footer = () => {
+  const { fetchGifs } = useGifs();
+  return (
+    <IonInfiniteScroll onIonInfinite={
+      (ev) => {
+        console.log('yoi', ev);
+        fetchGifs();
+        setTimeout(() => ev.target.complete(), 500);
+      }}>
+      <IonInfiniteScrollContent loadingText="Please wait..." loadingSpinner="bubbles" ></IonInfiniteScrollContent>
+    </IonInfiniteScroll>
+  )
+}
 export default Gifs;
