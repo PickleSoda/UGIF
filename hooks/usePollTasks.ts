@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import Store from '../store'; // Import your store and actions
 import { removeTask } from '../store/actions';
-import {userStore, addGif} from '../store/userStore';
+import { userStore, addGif } from '../store/userStore';
 import { add } from 'ionicons/icons';
 const usePollTasks = () => {
   useEffect(() => {
@@ -14,13 +14,17 @@ const usePollTasks = () => {
       currentTasks.forEach(task => {
         console.log('Polling task:', task);
         axios
-            .post('https://gifs.unclothed.com/videos/get', {
+          .post(
+            'https://gifs.unclothed.com/videos/get',
+            {
               task_id: task.id,
-            }, {
+            },
+            {
               headers: {
-                Authorization: 'Bearer '  + userStore.getRawState().token,
+                Authorization: 'Bearer ' + userStore.getRawState().token,
               },
-            })
+            },
+          )
 
           .then(response => {
             // Handle the response
@@ -28,7 +32,7 @@ const usePollTasks = () => {
             if (response.data.status === 'completed') {
               // Remove the task from the store
               removeTask(task.id);
-              addGif(response.data.src);
+              addGif({ src: response.data.src });
             }
           })
           .catch(error => console.error('Request error:', error));

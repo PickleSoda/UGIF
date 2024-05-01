@@ -117,8 +117,8 @@ const GifDetailModal = ({
         {photo ? <>
           <GifCard src={photo} />
         </> :
-          <NanCard />}
-        <div className='flex fles-col items-center justify-center'>
+          <NanCard spinner={false} />}
+        <div className='flex flex-col items-center justify-center'>
 
           <IonButton onClick={handleTakePhoto}>{photo ? 'Retake photo' : 'Take Photo'}</IonButton>
           {

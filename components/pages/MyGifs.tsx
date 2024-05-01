@@ -10,37 +10,34 @@ import {
   IonMenuButton,
   IonInfiniteScrollContent,
   IonInfiniteScroll,
+  IonList,
+  IonItem,
 } from '@ionic/react';
 import { Virtuoso } from 'react-virtuoso';
 import Notifications from './Notifications';
 import { useState, useEffect } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
 import GifCard from '../ui/GifCard';
-import useGifs from '../../hooks/useGifs';
-import Image from 'next/image';
-import { usePhotoGallery } from '../../hooks/usePhotoGallery';
+import { userStore } from '../../store/userStore';
+import NanCard from '../ui/NanCard';
+import Store from '../../store';
 const MyGifs = () => {
-
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showGifDetail, setShowGifDetail] = useState(false);
-  const [selectedGif, setSelectedGif] = useState('');
-  const { loadSaved, photos } = usePhotoGallery();
+  const gifs = userStore.useState(s => s.gifs);
+  const tasks = Store.useState(s => s.tasks);
+  console.log('MyGifs', gifs || []);
 
-  const openGifDetails = (id: string) => {
-    setShowGifDetail(true);
-  }
+  // useEffect(() => {
+  //   const loadPhotos = async () => {
+  //     if (!photos) {
+  //       await loadSaved();
+  //       console.log('photos', photos);
+  //     }
+  //   };
 
-  useEffect(() => {
-    const loadPhotos = async () => {
-      if (!photos) {
-        await loadSaved();
-        console.log('photos', photos);
-      }
-    };
-
-    loadPhotos();
-    console.log('photos', photos);
-  }, [loadSaved, photos]);
+  //   loadPhotos();
+  //   console.log('photos', photos);
+  // }, [loadSaved, photos]);
 
   return (
     <IonPage>
@@ -61,11 +58,18 @@ const MyGifs = () => {
           open={showNotifications}
           onDidDismiss={() => setShowNotifications(false)}
         />
+        {
+          tasks.map((task, index) => (
+            <NanCard key={index} spinner
+            />
+          ))
+        }
         <Virtuoso className="ion-content-scroll-host" style={{ height: '100%' }}
-          data={photos}
-          itemContent={(index, Item) =>
+          data={gifs || []}
+          itemContent={(index, gif) =>
             <GifCard
-              src={Item.webviewPath?Item.webviewPath:''}
+              key={index}
+              src={gif.src}
             />
           }
         />
@@ -74,17 +78,4 @@ const MyGifs = () => {
     </IonPage>
   );
 };
-const Footer = () => {
-  const { fetchGifs } = useGifs();
-  return (
-    <IonInfiniteScroll onIonInfinite={
-      (ev) => {
-        console.log('yoi', ev);
-        fetchGifs();
-        setTimeout(() => ev.target.complete(), 500);
-      }}>
-      <IonInfiniteScrollContent loadingText="Please wait..." loadingSpinner="bubbles" ></IonInfiniteScrollContent>
-    </IonInfiniteScroll>
-  )
-}
 export default MyGifs;

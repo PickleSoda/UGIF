@@ -1,10 +1,9 @@
-
-import { Store as PullStateStore } from "pullstate";
+import { Store as PullStateStore } from 'pullstate';
 import { Preferences } from '@capacitor/preferences';
-import { createPullstateCore } from "pullstate";
+import { createPullstateCore } from 'pullstate';
 
 interface IGif {
-   src: string;
+  src: string;
 }
 
 export interface IUser {
@@ -12,14 +11,14 @@ export interface IUser {
   username: string;
   email: string; // Add an array of Habit objects
   token: string;
-  gifs:IGif[],
+  gifs: IGif[];
 }
 const initialState: IUser = {
   isAuth: false,
-  username: "",
-  email: "",
-  token: "",
-  gifs:[],
+  username: '',
+  email: '',
+  token: '',
+  gifs: [],
 };
 
 const userStore = new PullStateStore(initialState);
@@ -29,38 +28,37 @@ const setUser = (user: IUser) => userStore.update(() => user);
 const setAuth = (isAuth: boolean) =>
   userStore.update((state: IUser) => ({ ...state, isAuth }));
 const setUsername = (username: string) =>
-  userStore.update((state) => ({ ...state, username }));
+  userStore.update(state => ({ ...state, username }));
 const setEmail = (email: string) =>
-  userStore.update((state) => ({ ...state, email }));
+  userStore.update(state => ({ ...state, email }));
 const addGif = (gif: IGif) =>
-  userStore.update((state) => ({ ...state, gifs: [...state.gifs, gif] }));
+  userStore.update(state => ({ ...state, gifs: [...state.gifs, gif] }));
 const removeGif = (id: string) =>
-  userStore.update((state) => ({
+  userStore.update(state => ({
     ...state,
-    gifs: state.gifs.filter((gif) => gif.src !== id),
+    gifs: state.gifs.filter(gif => gif.src !== id),
   }));
 // New actions for managing habits
 
-    export async function initializeUserState  ()  {
-        console.log('Initializing user state');
-      const savedState = await Preferences.get({ key: 'userState' });
-      console.log(savedState);
-      if (savedState && typeof savedState.value === 'string') {
-      const parsedState = JSON.parse(savedState.value);
-      userStore.update((state) => ({
-        ...parsedState,
-      }));
-      }
-    };
-    
+export async function initializeUserState() {
+  console.log('Initializing user state');
+  const savedState = await Preferences.get({ key: 'userState' });
+  console.log(savedState);
+  if (savedState && typeof savedState.value === 'string') {
+    const parsedState = JSON.parse(savedState.value);
+    userStore.update(state => ({
+      ...parsedState,
+    }));
+  }
+}
 
-    userStore.createReaction(
-      (state) => state,
-      (state: IUser) => {
-        Preferences.set({ key: 'userState', value: JSON.stringify(state) });
-        document.documentElement.classList.toggle('dark');
-      }
-    );
+userStore.createReaction(
+  state => state,
+  (state: IUser) => {
+    Preferences.set({ key: 'userState', value: JSON.stringify(state) });
+    document.documentElement.classList.toggle('dark');
+  },
+);
 // Export the store and actions
 export {
   userStore,
@@ -69,5 +67,5 @@ export {
   setUsername,
   setEmail,
   addGif,
-  removeGif
+  removeGif,
 };
