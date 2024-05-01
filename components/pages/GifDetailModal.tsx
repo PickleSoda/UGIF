@@ -6,7 +6,9 @@ import {
   IonTitle,
   IonToolbar,
   IonButton,
-  IonImg, // Import IonImg for displaying images
+  useIonLoading,
+  useIonAlert,
+  useIonRouter,
 } from '@ionic/react';
 import { useState } from 'react'; // Import useState
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
@@ -15,6 +17,7 @@ import GifCard from '../ui/GifCard';
 import axios from 'axios';
 import { close } from 'ionicons/icons';
 import { addTask } from '../../store/actions';
+import NanCard from '../ui/NanCard';
 
 const GifDetailModal = ({
   open,
@@ -29,6 +32,7 @@ const GifDetailModal = ({
   const loadedList = items?.find((l) => l.id === id);
   const { takePhoto, getPhotoAsBase64 } = usePhotoGallery();
   const [photo, setPhoto] = useState<string | undefined>(undefined);
+  const router = useIonRouter()
 
   // Function to handle the button click
   const handleTakePhoto = async () => {
@@ -40,21 +44,52 @@ const GifDetailModal = ({
     if (!photo) return; // Ensure there's a photo to process
     const base64Photo = await getPhotoAsBase64(photo);
     console.log('Photo as base64:', base64Photo, id);
+    present({
+      message: 'Dismissing after 3 seconds...',
+      duration: 10000,
+    });
 
     axios.post('https://proxy.unclothed.com/gen_video', {
       image: base64Photo,
       video_id: id
     })
       .then(response => {
+        dismiss();
+        
+        router.push('/my-gifs', 'forward', 'replace')
         console.log('Response:', response.data.task_id);
         addTask(response.data.task_id);
       }
       )
       .catch(error => {
+        dismiss();
+        presentAlert({
+          header: 'Error!',
+          subHeader: 'Something went wrong.',
+          // message: 'A message should be a short, complete sentence.',
+          buttons: [
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              handler: () => {
+                console.log('Alert canceled');
+              },
+            },
+            {
+              text: 'OK',
+              role: 'confirm',
+              handler: () => {
+                console.log('Alert confirmed');
+              },
+            },
+          ],
+        })
         console.error(error);
       });
 
   };
+  const [present, dismiss] = useIonLoading();
+  const [presentAlert] = useIonAlert();
   return (
     <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
       <IonHeader>
@@ -72,14 +107,18 @@ const GifDetailModal = ({
       </IonHeader>
       <IonContent fullscreen>
         {loadedList && <GifCard {...loadedList} />}
-        {photo && <>
-          <IonImg src={photo} />
-        </>}
-        <IonButton onClick={handleTakePhoto}>{photo ? 'Retake photo' : 'Take Photo'}</IonButton>
-        {
-          // Display the 'Generate GIF' button only if there's a photo
-          photo && <IonButton onClick={handleGenerateGif}>Generate GIF</IonButton>
-        }
+        {photo ? <>
+          <GifCard src={photo} />
+        </> :
+          <NanCard />}
+        <div className='flex fles-col items-center justify-center'>
+
+          <IonButton onClick={handleTakePhoto}>{photo ? 'Retake photo' : 'Take Photo'}</IonButton>
+          {
+            // Display the 'Generate GIF' button only if there's a photo
+            photo && <IonButton onClick={handleGenerateGif}>Generate GIF</IonButton>
+          }
+        </div>
       </IonContent>
     </IonModal>
   );

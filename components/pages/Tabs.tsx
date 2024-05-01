@@ -7,7 +7,7 @@ import {
   IonIcon,
   IonLabel,
 } from '@ionic/react';
-import { cog, flash, list } from 'ionicons/icons';
+import { cog, flash, list, albumsOutline } from 'ionicons/icons';
 
 import Settings from './Settings';
 import Gifs from './Gifs';
@@ -34,7 +34,7 @@ const Tabs = () => {
         </IonTabButton>
         
         <IonTabButton tab="tab2" href="/my-gifs">
-          <IonIcon icon={list} />
+          <IonIcon icon={albumsOutline} />
           <IonLabel>My GIFs</IonLabel>
         </IonTabButton>
         <IonTabButton tab="tab3" href="/settings">

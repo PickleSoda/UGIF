@@ -9,6 +9,8 @@ export async function generateStaticParams() {
     {all: ['gifs'] },
     { all: ['my-gifs'] },
     { all: ['settings'] },
+    { all: ['signin'] },
+    { all: ['signup'] },
   ];
 }
 
