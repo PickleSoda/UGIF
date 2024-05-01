@@ -21,11 +21,9 @@ import GifCard from '../ui/GifCard';
 import useGifs from '../../hooks/useGifs';
 const Gifs = () => {
   const { handleInput, homeItems } = useGifs();
-
   const [showNotifications, setShowNotifications] = useState(false);
   const [showGifDetail, setShowGifDetail] = useState(false);
   const [selectedGif, setSelectedGif] = useState('');
-
 
   const openGifDetails = (id: string) => {
     setShowGifDetail(true);

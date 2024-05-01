@@ -3,8 +3,10 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import Store from '../store'; // Import your store and actions
 import { removeTask } from '../store/actions';
-import { userStore, addGif } from '../store/userStore';
-import { add } from 'ionicons/icons';
+import { userStore } from '../store/userStore';
+
+import { addGif,updateGif } from '../store/actions';
+import { update } from 'pullstate';
 const usePollTasks = () => {
   useEffect(() => {
     const pollTasks = () => {
@@ -32,7 +34,7 @@ const usePollTasks = () => {
             if (response.data.status === 'completed') {
               // Remove the task from the store
               removeTask(task.id);
-              addGif({ src: response.data.src });
+              updateGif(task.id, 'completed', response.data.src);
             }
           })
           .catch(error => console.error('Request error:', error));

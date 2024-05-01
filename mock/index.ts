@@ -3,9 +3,11 @@ export type HomeItem = {
   src: string;
 };
 
+export type TaskStatus = 'processing' | 'completed' | 'failed';
+
 export type Task = {
   id: string;
-  status?: 'processing' | 'completed' | 'failed'; // Additional attributes like status can be added here
+  status: TaskStatus; // Additional attributes like status can be added here
 };
 
 export type NotificationItem = {
@@ -73,3 +75,16 @@ export type Settings = {
 export const settings: Settings = {
   enableNotifications: true,
 };
+export interface IGif {
+  id: string;
+  status: TaskStatus;
+  src: string;
+}
+
+export interface IUser {
+  isAuth: boolean;
+  username: string;
+  email: string; // Add an array of Habit objects
+  token: string;
+  gifs: IGif[];
+}

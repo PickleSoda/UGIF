@@ -10,14 +10,17 @@ import {
   useIonAlert,
   useIonRouter,
 } from '@ionic/react';
+import { close } from 'ionicons/icons';
+
+
+import { request } from "../../lib/axios";
+import Store from '../../store';
+import { addGifTask } from '../../store/actions';
+
 import { useState } from 'react'; // Import useState
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
-import Store from '../../store';
 import GifCard from '../ui/GifCard';
-import { close } from 'ionicons/icons';
-import { addTask } from '../../store/actions';
 import NanCard from '../ui/NanCard';
-import { request } from "../../lib/axios";
 
 const GifDetailModal = ({
   open,
@@ -45,7 +48,7 @@ const GifDetailModal = ({
     const base64Photo = await getPhotoAsBase64(photo);
     console.log('Photo as base64:', base64Photo, id);
     present({
-      message: 'Dismissing after 3 seconds...',
+      message: 'Requesting GIF generation...',
       duration: 10000,
     });
     request({
@@ -59,14 +62,14 @@ const GifDetailModal = ({
       .then(response => {
         dismiss();
 
-        router.push('/my-gifs', 'forward', 'replace')
         console.log('Response:', response.data.task_id);
-        addTask(
+        addGifTask(
           {
             id: response.data.task_id,
             status: 'processing'
           }
         );
+        router.push('/my-gifs', 'root', 'push')
       })
       .catch(error => {
         dismiss();

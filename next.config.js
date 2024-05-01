@@ -1,5 +1,12 @@
 module.exports = {
   basePath: '',
+  webpack: (config, { isServer, dev }) => {
+    // Enable source maps in production
+    if (!dev) {
+      config.devtool = 'source-map';
+    }
+    return config;
+  },
   images: {
     remotePatterns: [
       {
@@ -11,7 +18,7 @@ module.exports = {
     ],
     unoptimized: true,
   },
-  output: 'export',
+  reactStrictMode: true,
   swcMinify: true,
   transpilePackages: [
     '@ionic/react',

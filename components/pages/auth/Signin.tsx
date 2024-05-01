@@ -34,7 +34,7 @@ const SignIn = () => {
       // Process the response here
       console.log(response);
       loginUser({ username, password, token: response.data.token }); // Update the user state
-      router.push('/home', 'forward', 'replace'); // Redirect on successful login
+      router.push('/', 'none', 'push')
     } catch (err: any) {
       setError(err.message || 'Failed to login');
     } finally {
