@@ -1,85 +1,78 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   IonPage,
   IonContent,
-  IonImg,
-  IonIcon,
   IonButton,
   IonGrid,
-  IonCol,
+  IonCol, // Add this import statement
   IonRow,
   IonItem,
   IonInput,
-} from "@ionic/react";
-import { useHistory } from "react-router-dom";
-import { chevronBackOutline } from "ionicons/icons";
-import { useStoreState } from "pullstate";
-import { userStore } from "../../../store/userStore";
+  useIonRouter,
+} from '@ionic/react';
+import { request } from "../../../lib/axios";
 
-const Signup = () => {
-  // Add your component's state and other initializations here
-    const history = useHistory();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const isAuthorized = useStoreState(userStore, (state) => state.isAuth);
+const SignUp = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const router = useIonRouter();
+
+  const handleSignUp = async () => {
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await
+        request({
+          url: "/auth/register",
+          method: "post",
+          data: {
+            username: username,
+            email: email,
+            password: password,
+          }
+        });
+      // Process the response here
+      console.log(response);
+      router.push('/login', 'forward', 'replace'); // Redirect to login on successful sign-up
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Failed to sign up');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <IonPage>
       <IonContent className="char-bg content-div">
-        <div className="flex justify-end p-2">
-
-          <IonButton fill="clear" onClick={() => history.push("/signin")}>
-            <p className="text-white font-bold">Sign In</p>
-          </IonButton>
-        </div>
         <IonGrid>
           <IonRow>
             <IonCol>
-              <h1>Sign up</h1>
-              {/* Add more JSX elements as needed */}
+              <IonItem>
+                <IonInput
+                  value={username || ''}
+                  onIonChange={e => setUsername(e.detail.value || '')}
+                  placeholder="Enter username"
+                  type="text"
+                ></IonInput>
+              </IonItem>
             </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButton
-                onClick={() => {
-                  history.push("/character-select");
-                }}
-              >
-                G with google
-              </IonButton>
-            </IonCol>
-            <IonCol>
-              <IonButton
-                onClick={() => {
-                  history.push("/signin");
-                }}
-              >
-                F
-              </IonButton>
-            </IonCol>
-            <IonCol>
-              <IonButton
-                onClick={() => {
-                  history.push("/signin");
-                }}
-              >
-                T
-              </IonButton>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>Or with Email</IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
               <IonItem>
                 <IonInput
-                  label="Email"
-                  labelPlacement="floating"
+                  value={email || ''}
+                  onIonChange={e => setEmail(e.detail.value || '')}
                   placeholder="Enter email"
+                  type="email"
                 ></IonInput>
               </IonItem>
             </IonCol>
@@ -88,10 +81,10 @@ const Signup = () => {
             <IonCol>
               <IonItem>
                 <IonInput
-                  label="Password"
-                  labelPlacement="floating"
+                  value={password || ''}
+                  onIonChange={e => setPassword(e.detail.value || '')}
+                  placeholder="Enter password"
                   type="password"
-                  placeholder="Choose password"
                 ></IonInput>
               </IonItem>
             </IonCol>
@@ -100,24 +93,20 @@ const Signup = () => {
             <IonCol>
               <IonItem>
                 <IonInput
-                  label="Password"
-                  labelPlacement="floating"
+                  value={confirmPassword || ''}
+                  onIonChange={e => setConfirmPassword(e.detail.value || '')}
+                  placeholder="Confirm password"
                   type="password"
-                  placeholder="Repeat password"
                 ></IonInput>
               </IonItem>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonButton
-              expand="block"
-                onClick={() => {
-                  history.push("/signin");
-                }}
-              >
-                Sign up
+              <IonButton expand="block" onClick={handleSignUp} disabled={loading}>
+                Sign Up
               </IonButton>
+              {error && <p>{error}</p>}
             </IonCol>
           </IonRow>
         </IonGrid>
@@ -126,4 +115,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default SignUp;

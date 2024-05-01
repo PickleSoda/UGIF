@@ -5,7 +5,7 @@ export type HomeItem = {
 
 export type Task = {
   id: string;
-  status?: string; // Additional attributes like status can be added here
+  status?: 'processing' | 'completed' | 'failed'; // Additional attributes like status can be added here
 };
 
 export type NotificationItem = {

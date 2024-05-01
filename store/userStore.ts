@@ -3,15 +3,23 @@ import { Store as PullStateStore } from "pullstate";
 import { Preferences } from '@capacitor/preferences';
 import { createPullstateCore } from "pullstate";
 
+interface IGif {
+   src: string;
+}
+
 export interface IUser {
   isAuth: boolean;
   username: string;
   email: string; // Add an array of Habit objects
+  token: string;
+  gifs:IGif[],
 }
 const initialState: IUser = {
   isAuth: false,
   username: "",
   email: "",
+  token: "",
+  gifs:[],
 };
 
 const userStore = new PullStateStore(initialState);
@@ -24,7 +32,13 @@ const setUsername = (username: string) =>
   userStore.update((state) => ({ ...state, username }));
 const setEmail = (email: string) =>
   userStore.update((state) => ({ ...state, email }));
-
+const addGif = (gif: IGif) =>
+  userStore.update((state) => ({ ...state, gifs: [...state.gifs, gif] }));
+const removeGif = (id: string) =>
+  userStore.update((state) => ({
+    ...state,
+    gifs: state.gifs.filter((gif) => gif.src !== id),
+  }));
 // New actions for managing habits
 
     export async function initializeUserState  ()  {
@@ -54,4 +68,6 @@ export {
   setAuth,
   setUsername,
   setEmail,
+  addGif,
+  removeGif
 };

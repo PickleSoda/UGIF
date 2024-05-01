@@ -14,10 +14,10 @@ import { useState } from 'react'; // Import useState
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
 import Store from '../../store';
 import GifCard from '../ui/GifCard';
-import axios from 'axios';
 import { close } from 'ionicons/icons';
 import { addTask } from '../../store/actions';
 import NanCard from '../ui/NanCard';
+import { request } from "../../lib/axios";
 
 const GifDetailModal = ({
   open,
@@ -48,19 +48,26 @@ const GifDetailModal = ({
       message: 'Dismissing after 3 seconds...',
       duration: 10000,
     });
-
-    axios.post('https://proxy.unclothed.com/gen_video', {
-      image: base64Photo,
-      video_id: id
+    request({
+      url: "/videos/generate",
+      method: "post",
+      data: {
+        image: base64Photo,
+        video_id: id
+      }
     })
       .then(response => {
         dismiss();
-        
+
         router.push('/my-gifs', 'forward', 'replace')
         console.log('Response:', response.data.task_id);
-        addTask(response.data.task_id);
-      }
-      )
+        addTask(
+          {
+            id: response.data.task_id,
+            status: 'processing'
+          }
+        );
+      })
       .catch(error => {
         dismiss();
         presentAlert({
