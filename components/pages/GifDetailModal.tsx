@@ -39,9 +39,14 @@ const GifDetailModal = ({
 
   // Function to handle the button click
   const handleTakePhoto = async () => {
-    const photoData = await takePhoto();
-    console.log('Photo taken:', photoData);
-    setPhoto(photoData.webviewPath);
+    try {
+      const photoData = await takePhoto();
+      console.log('Photo taken:', photoData);
+      setPhoto(photoData?.webviewPath);
+    } catch (error) {
+      console.error('Error taking photo:', error);
+      // Handle the error here
+    }
   };
   const handleGenerateGif = async () => {
     if (!photo) return; // Ensure there's a photo to process

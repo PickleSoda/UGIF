@@ -18,6 +18,7 @@ module.exports = {
     ],
     unoptimized: true,
   },
+  output: 'export',
   reactStrictMode: true,
   swcMinify: true,
   transpilePackages: [

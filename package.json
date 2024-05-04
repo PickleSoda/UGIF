@@ -1,6 +1,6 @@
 {
-  "name": "nextjs-tailwind-ionic-capacitor-starter",
-  "version": "5.0.0",
+  "name": "you-gif",
+  "version": "1.0.0",
   "private": true,
   "engines": {
     "node": ">=18.17"
@@ -17,6 +17,7 @@
     "presync": "npm run build",
     "sync": "npx cap sync",
     "android": "npx cap run android",
+    "android:live": " ionic capacitor run android -l --external",
     "ios": "npx cap run ios"
   },
   "dependencies": {

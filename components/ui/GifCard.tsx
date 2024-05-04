@@ -13,7 +13,8 @@ const GifCard = ({  src }: FeedCardProps) => (
           fill
         />
       </div>
-    <div ></div>
+    <div >
+    </div>
   </Card>
 );
 

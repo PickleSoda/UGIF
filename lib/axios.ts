@@ -19,7 +19,7 @@ import axios, {
     baseURL: process.env.REACT_APP_API || "https://gifs.unclothed.com",
   });
   
-  let accessToken: string | null = null;
+  let accessToken: string | null = userStore.getRawState().token;
   
   const onRequest = (
     config: InternalAxiosRequestConfig

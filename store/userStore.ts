@@ -17,7 +17,6 @@ const userStore = new PullStateStore(initialState);
 export async function initializeUserState() {
   console.log('Initializing user state');
   const savedState = await Preferences.get({ key: 'userState' });
-  console.log(savedState);
   if (savedState && typeof savedState.value === 'string') {
     const parsedState = JSON.parse(savedState.value);
     userStore.update(state => ({
