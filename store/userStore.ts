@@ -2,7 +2,6 @@ import { Store as PullStateStore } from 'pullstate';
 import { Preferences } from '@capacitor/preferences';
 import { IUser } from '../mock';
 
-
 const initialState: IUser = {
   isAuth: false,
   username: '',
@@ -12,7 +11,6 @@ const initialState: IUser = {
 };
 
 const userStore = new PullStateStore(initialState);
-
 
 export async function initializeUserState() {
   console.log('Initializing user state');
@@ -33,6 +31,4 @@ userStore.createReaction(
   },
 );
 // Export the store and actions
-export {
-  userStore,
-};
+export { userStore };

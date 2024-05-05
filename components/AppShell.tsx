@@ -8,7 +8,7 @@ import { Route } from 'react-router-dom';
 import usePollTasks from '../hooks/usePollTasks';
 import Tabs from './pages/Tabs';
 import { initializeUserState, userStore } from '../store/userStore';
-import { useStoreState } from "pullstate";
+import { useStoreState } from 'pullstate';
 import Auth from './pages/auth/Auth';
 
 setupIonicReact({});
@@ -17,7 +17,7 @@ defineCustomElements(window);
 const AppShell = () => {
   const [initialized, setInitialized] = useState(false);
   usePollTasks();
-  const isAuthorized = useStoreState(userStore, (state) => state.isAuth);
+  const isAuthorized = useStoreState(userStore, state => state.isAuth);
 
   useEffect(() => {
     const init = async () => {
@@ -40,7 +40,7 @@ const AppShell = () => {
     });
 
   if (!initialized) {
-    return <div>Loading...</div>;  // Show loading indicator or a splash screen
+    return <div>Loading...</div>; // Show loading indicator or a splash screen
   }
 
   return (

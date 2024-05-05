@@ -1,4 +1,4 @@
-import { useState, useEffect,useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   Camera,
   CameraResultType,
@@ -6,7 +6,7 @@ import {
   Photo,
 } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Capacitor} from '@capacitor/core';
+import { Capacitor } from '@capacitor/core';
 interface UserPhoto {
   filepath: string;
   webviewPath?: string;
@@ -20,11 +20,11 @@ export function usePhotoGallery() {
     if (Capacitor.isNativePlatform()) {
       const cameraPermission = await Camera.checkPermissions();
       if (cameraPermission.camera !== 'granted') {
-      await Camera.requestPermissions();
-      throw new Error('Camera permission not granted');
+        await Camera.requestPermissions();
+        throw new Error('Camera permission not granted');
       }
     }
-    
+
     try {
       // Now, camera permission is granted, proceed to take photo
       const photo = await Camera.getPhoto({
@@ -32,7 +32,7 @@ export function usePhotoGallery() {
         source: CameraSource.Camera,
         quality: 100,
       });
-  
+
       const savedImageFile = await savePicture(photo);
       const newPhotos = [...photos, savedImageFile];
       setPhotos(newPhotos);

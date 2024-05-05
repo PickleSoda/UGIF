@@ -5,8 +5,7 @@ import Store from '../store'; // Import your store and actions
 import { removeTask } from '../store/actions';
 import { userStore } from '../store/userStore';
 
-import { addGif,updateGif } from '../store/actions';
-import { update } from 'pullstate';
+import { updateGif } from '../store/actions';
 const usePollTasks = () => {
   useEffect(() => {
     const pollTasks = () => {

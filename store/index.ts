@@ -1,24 +1,26 @@
 import { Store as PullStateStore } from 'pullstate';
 
-import { lists,  notifications, settings, HomeItem, NotificationItem, Settings, Task } from '../mock';
-
-
-
-
-
+import {
+  notifications,
+  settings,
+  HomeItem,
+  NotificationItem,
+  Settings,
+  Task,
+} from '../mock';
 
 type StoreProps = {
   homeItems: HomeItem[];
   notifications: NotificationItem[];
   settings: Settings;
-  tasks: Task[]; 
-}
+  tasks: Task[];
+};
 
 const Store = new PullStateStore<StoreProps>({
   homeItems: [],
   notifications,
   settings,
-  tasks: [], 
+  tasks: [],
 });
 
 export default Store;

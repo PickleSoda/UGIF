@@ -35,38 +35,6 @@ export type TodoListItem = {
 };
 
 // Some fake lists
-export const lists: TodoListItem[] = [
-  {
-    name: 'Groceries',
-    id: '01HRCYTYED31N83MJ0WK97WC02',
-    items: [
-      { name: 'Apples' },
-      { name: 'Bananas' },
-      { name: 'Milk' },
-      { name: 'Ice Cream' },
-    ],
-  },
-  {
-    name: 'Hardware Store',
-    id: '01HRCYV2KPNJQJ43Y7X526BHVX',
-    items: [
-      { name: 'Circular Saw' },
-      { name: 'Tack Cloth' },
-      { name: 'Drywall' },
-      { name: 'Router' },
-    ],
-  },
-  {
-    name: 'Work',
-    id: '01HRCYV6C3YWAJRF2ZE7AZ17K7',
-    items: [{ name: 'TPS Report' }, { name: 'Set up email' }],
-  },
-  {
-    name: 'Reminders',
-    id: '01HRCYVADRPCM5SYV5BH98C7HS',
-    items: [{ name: 'Get car inspection', done: true }],
-  },
-];
 
 export type Settings = {
   enableNotifications: boolean;
