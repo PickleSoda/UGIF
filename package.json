@@ -11,7 +11,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint . --ext .ts,.tsx --fix",
-    "prettify": "prettier --write **/*.tsx",
+    "prettify": "prettier --write **/*.tsx ./components/**/*.{js,ts,jsx,tsx}",
     "preserve": "npm run build",
     "serve": "npx serve out",
     "presync": "npm run build",

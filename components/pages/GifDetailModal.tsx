@@ -10,10 +10,13 @@ import {
   useIonAlert,
   useIonRouter,
 } from '@ionic/react';
-import { close, radioButtonOnOutline, checkmarkCircleOutline } from 'ionicons/icons';
+import {
+  close,
+  radioButtonOnOutline,
+  checkmarkCircleOutline,
+} from 'ionicons/icons';
 
-
-import { request } from "../../lib/axios";
+import { request } from '../../lib/axios';
 import Store from '../../store';
 import { addGifTask } from '../../store/actions';
 
@@ -25,17 +28,17 @@ import NanCard from '../ui/NanCard';
 const GifDetailModal = ({
   open,
   onDidDismiss,
-  id
+  id,
 }: {
   id: string;
   open: boolean;
   onDidDismiss: () => void;
 }) => {
   const items = Store.useState(s => s.homeItems);
-  const loadedList = items?.find((l) => l.id === id);
+  const loadedList = items?.find(l => l.id === id);
   const { takePhoto, getPhotoAsBase64 } = usePhotoGallery();
   const [photo, setPhoto] = useState<string | undefined>(undefined);
-  const router = useIonRouter()
+  const router = useIonRouter();
 
   // Function to handle the button click
   const handleTakePhoto = async () => {
@@ -57,24 +60,22 @@ const GifDetailModal = ({
       duration: 10000,
     });
     request({
-      url: "/videos/generate",
-      method: "post",
+      url: '/videos/generate',
+      method: 'post',
       data: {
         image: base64Photo,
-        video_id: id
-      }
+        video_id: id,
+      },
     })
       .then(response => {
         dismiss();
 
         console.log('Response:', response.data.task_id);
-        addGifTask(
-          {
-            id: response.data.task_id,
-            status: 'processing'
-          }
-        );
-        router.push('/my-gifs', 'root', 'push')
+        addGifTask({
+          id: response.data.task_id,
+          status: 'processing',
+        });
+        router.push('/my-gifs', 'root', 'push');
       })
       .catch(error => {
         dismiss();
@@ -98,17 +99,18 @@ const GifDetailModal = ({
               },
             },
           ],
-        })
+        });
         console.error(error);
       });
-
   };
   const [present, dismiss] = useIonLoading();
   const [presentAlert] = useIonAlert();
   return (
     <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
       <IonHeader>
-        <IonToolbar style={{backgroundColor: 'var(--ion-background-color, #fff)'}}>
+        <IonToolbar
+          style={{ backgroundColor: 'var(--ion-background-color, #fff)' }}
+        >
           <IonTitle>Upload your image</IonTitle>
           <IonButton
             slot="end"
@@ -122,21 +124,31 @@ const GifDetailModal = ({
       </IonHeader>
       <IonContent fullscreen scrollY={false}>
         {loadedList && <GifCard {...loadedList} />}
-        {photo ?
-          <div onClick={handleTakePhoto} >
-            <GifCard  src={photo} />
-          </div> :
+        {photo ? (
+          <div onClick={handleTakePhoto}>
+            <GifCard src={photo} />
+          </div>
+        ) : (
           <NanCard spinner={false} />
-        }
-        <div className='absolute bottom-0 w-full' style={{backgroundColor: 'var(--ion-background-color, #fff)'}}>
-          <div className='flex flex-col items-center justify-center '>
-
-          {
-            photo ?
-            <IonIcon className='h-20 w-20' icon={checkmarkCircleOutline} onClick={handleGenerateGif} />
-            :
-            <IonIcon className='h-20 w-20' icon={radioButtonOnOutline} onClick={handleTakePhoto} />
-          }
+        )}
+        <div
+          className="absolute bottom-0 w-full"
+          style={{ backgroundColor: 'var(--ion-background-color, #fff)' }}
+        >
+          <div className="flex flex-col items-center justify-center ">
+            {photo ? (
+              <IonIcon
+                className="h-20 w-20"
+                icon={checkmarkCircleOutline}
+                onClick={handleGenerateGif}
+              />
+            ) : (
+              <IonIcon
+                className="h-20 w-20"
+                icon={radioButtonOnOutline}
+                onClick={handleTakePhoto}
+              />
+            )}
           </div>
         </div>
       </IonContent>

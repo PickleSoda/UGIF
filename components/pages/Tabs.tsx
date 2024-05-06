@@ -32,7 +32,7 @@ const Tabs = () => {
           <IonIcon icon={flash} />
           <IonLabel>GIFs</IonLabel>
         </IonTabButton>
-        
+
         <IonTabButton tab="tab2" href="/my-gifs">
           <IonIcon icon={albumsOutline} />
           <IonLabel>My GIFs</IonLabel>

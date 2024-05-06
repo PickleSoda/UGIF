@@ -10,7 +10,7 @@ import {
   IonInput,
   useIonRouter,
 } from '@ionic/react';
-import { request } from "../../../lib/axios";
+import { request } from '../../../lib/axios';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -29,16 +29,15 @@ const SignUp = () => {
 
     setLoading(true);
     try {
-      const response = await
-        request({
-          url: "/auth/register",
-          method: "post",
-          data: {
-            username: username,
-            email: email,
-            password: password,
-          }
-        });
+      const response = await request({
+        url: '/auth/register',
+        method: 'post',
+        data: {
+          username: username,
+          email: email,
+          password: password,
+        },
+      });
       // Process the response here
       console.log(response);
       router.push('/login', 'forward', 'replace'); // Redirect to login on successful sign-up
@@ -103,7 +102,11 @@ const SignUp = () => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonButton expand="block" onClick={handleSignUp} disabled={loading}>
+              <IonButton
+                expand="block"
+                onClick={handleSignUp}
+                disabled={loading}
+              >
                 Sign Up
               </IonButton>
               {error && <p>{error}</p>}

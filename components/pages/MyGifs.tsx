@@ -1,4 +1,3 @@
-
 import {
   IonPage,
   IonHeader,
@@ -22,40 +21,24 @@ const MyGifs = () => {
 
   return (
     <IonPage>
-
-      <IonContent fullscreen  >
-
-        <Virtuoso className="ion-content-scroll-host" style={{ height: '100%' }}
+      <IonContent fullscreen>
+        <Virtuoso
+          className="ion-content-scroll-host"
+          style={{ height: '100%' }}
           data={[...gifs].reverse() || []}
           itemContent={(index, gif) => {
             switch (gif.status) {
               case 'completed':
-                return (
-                  <GifCard
-                    key={index}
-                    src={gif.src}
-                  />
-                );
+                return <GifCard key={index} src={gif.src} />;
               case 'processing':
-                return (
-                  <NanCard
-                    spinner={true}
-                    key={index}
-                  />
-                );
+                return <NanCard spinner={true} key={index} />;
               case 'failed':
-                return (
-                  <NanCard
-                    key={index}
-                    spinner={false}
-                  />
-                );
+                return <NanCard key={index} spinner={false} />;
               default:
                 return null;
             }
           }}
         />
-
       </IonContent>
     </IonPage>
   );

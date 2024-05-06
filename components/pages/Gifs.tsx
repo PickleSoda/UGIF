@@ -1,4 +1,3 @@
-
 import {
   IonPage,
   IonHeader,
@@ -11,10 +10,13 @@ import {
   IonSearchbar,
   IonInfiniteScrollContent,
   IonInfiniteScroll,
+  IonRefresher,
+  IonRefresherContent,
+  RefresherEventDetail,
 } from '@ionic/react';
 import { Virtuoso } from 'react-virtuoso';
 import Notifications from './Notifications';
-import { useState, } from 'react';
+import { useState } from 'react';
 import { notificationsOutline } from 'ionicons/icons';
 import GifDetailModal from './GifDetailModal';
 import GifCard from '../ui/GifCard';
@@ -24,29 +26,47 @@ const Gifs = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showGifDetail, setShowGifDetail] = useState(false);
   const [selectedGif, setSelectedGif] = useState('');
-
+  function handleRefresh(event: CustomEvent<RefresherEventDetail>) {
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.detail.complete();
+    }, 2000);
+  }
   const openGifDetails = (id: string) => {
     setShowGifDetail(true);
     setSelectedGif(id);
-  }
+  };
 
   return (
     <IonPage>
       <IonHeader>
-        <IonSearchbar debounce={1000} onIonInput={(ev) => handleInput(ev)} className='custom-searchbar p-4' showCancelButton="focus"></IonSearchbar>
-
+        <IonSearchbar
+          debounce={1000}
+          onIonInput={ev => handleInput(ev)}
+          className="custom-searchbar p-4"
+          showCancelButton="focus"
+        ></IonSearchbar>
       </IonHeader>
-      <IonContent  fullscreen>
-        <GifDetailModal open={showGifDetail} onDidDismiss={() => setShowGifDetail(false)} id={selectedGif} />
-        <Virtuoso className="ion-content-scroll-host" style={{ height: '100%', overflow: 'auto', width: '100%'}}
+      <IonContent fullscreen>
+        <GifDetailModal
+          open={showGifDetail}
+          onDidDismiss={() => setShowGifDetail(false)}
+          id={selectedGif}
+        />
+        {/* <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher> */}
+        <Virtuoso
+          className="ion-content-scroll-host"
+          style={{ height: '100%', overflow: 'auto', width: '100%' }}
           data={homeItems}
-          itemContent={(index, Item) =>
-            <div onClick={() => openGifDetails(Item.id)} key={index} >
+          itemContent={(index, Item) => (
+            <div onClick={() => openGifDetails(Item.id)} key={index}>
               <GifCard {...Item} />
-            </div>}
+            </div>
+          )}
           components={{ Footer }}
         />
-
       </IonContent>
     </IonPage>
   );
@@ -54,14 +74,18 @@ const Gifs = () => {
 const Footer = () => {
   const { fetchGifs } = useGifs();
   return (
-    <IonInfiniteScroll onIonInfinite={
-      (ev) => {
+    <IonInfiniteScroll
+      onIonInfinite={ev => {
         console.log('yoi', ev);
         fetchGifs();
         setTimeout(() => ev.target.complete(), 500);
-      }}>
-      <IonInfiniteScrollContent loadingText="Please wait..." loadingSpinner="bubbles" ></IonInfiniteScrollContent>
+      }}
+    >
+      <IonInfiniteScrollContent
+        loadingText="Please wait..."
+        loadingSpinner="bubbles"
+      ></IonInfiniteScrollContent>
     </IonInfiniteScroll>
-  )
-}
+  );
+};
 export default Gifs;

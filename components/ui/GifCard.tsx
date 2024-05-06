@@ -15,8 +15,7 @@ const GifCard = ({ src }: FeedCardProps) => (
         style={{ backgroundColor: 'var(--ion-background-color, #fff)' }}
       />
     </div>
-    <div >
-    </div>
+    <div></div>
   </Card>
 );
 

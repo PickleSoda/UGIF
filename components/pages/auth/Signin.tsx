@@ -11,7 +11,7 @@ import {
   useIonRouter,
 } from '@ionic/react';
 import { loginUser } from '../../../store/actions';
-import { request } from "../../../lib/axios";
+import { request } from '../../../lib/axios';
 const SignIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -22,19 +22,18 @@ const SignIn = () => {
   const handleSignIn = async () => {
     setLoading(true);
     try {
-      const response = await
-        request({
-          url: "/auth/login",
-          method: "post",
-          data: {
-            username: username, // Assuming username and email are the same
-            password: password,
-          }
-        });
+      const response = await request({
+        url: '/auth/login',
+        method: 'post',
+        data: {
+          username: username, // Assuming username and email are the same
+          password: password,
+        },
+      });
       // Process the response here
       console.log(response);
       loginUser({ username, password, token: response.data.token }); // Update the user state
-      router.push('/', 'none', 'push')
+      router.push('/', 'none', 'push');
     } catch (err: any) {
       setError(err.message || 'Failed to login');
     } finally {
@@ -72,7 +71,11 @@ const SignIn = () => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonButton expand="block" onClick={handleSignIn} disabled={loading}>
+              <IonButton
+                expand="block"
+                onClick={handleSignIn}
+                disabled={loading}
+              >
                 Sign In
               </IonButton>
               {error && <p>{error}</p>}
