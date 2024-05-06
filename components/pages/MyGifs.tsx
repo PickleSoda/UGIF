@@ -22,24 +22,9 @@ const MyGifs = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonButtons slot="end">
-            <IonButton onClick={() => setShowNotifications(true)}>
-              <IonIcon icon={notificationsOutline} />
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent className="ion-padding" fullscreen  >
-        <Notifications
-          open={showNotifications}
-          onDidDismiss={() => setShowNotifications(false)}
-        />
-        
+
+      <IonContent fullscreen  >
+
         <Virtuoso className="ion-content-scroll-host" style={{ height: '100%' }}
           data={[...gifs].reverse() || []}
           itemContent={(index, gif) => {

@@ -33,25 +33,12 @@ const Gifs = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonButtons slot="end">
-            <IonButton onClick={() => setShowNotifications(true)}>
-              <IonIcon icon={notificationsOutline} />
-            </IonButton>
-          </IonButtons>
-          <IonSearchbar debounce={1000} onIonInput={(ev) => handleInput(ev)} className='p-0'></IonSearchbar>
-        </IonToolbar>
+        <IonSearchbar debounce={1000} onIonInput={(ev) => handleInput(ev)} className='custom-searchbar p-4' showCancelButton="focus"></IonSearchbar>
+
       </IonHeader>
-      <IonContent className="ion-padding" fullscreen>
-        <Notifications
-          open={showNotifications}
-          onDidDismiss={() => setShowNotifications(false)}
-        />
+      <IonContent  fullscreen>
         <GifDetailModal open={showGifDetail} onDidDismiss={() => setShowGifDetail(false)} id={selectedGif} />
-        <Virtuoso className="ion-content-scroll-host" style={{ height: '100%' }}
+        <Virtuoso className="ion-content-scroll-host" style={{ height: '100%', overflow: 'auto', width: '100%'}}
           data={homeItems}
           itemContent={(index, Item) =>
             <div onClick={() => openGifDetails(Item.id)} key={index} >

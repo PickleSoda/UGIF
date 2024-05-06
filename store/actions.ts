@@ -67,3 +67,10 @@ export const logoutUser = () => {
     s.token = '';
   });
 };
+
+
+export const updateUserBalance = (newBalance: number) => {
+  userStore.update(s => {
+      s.balance = newBalance;
+  });
+};

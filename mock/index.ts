@@ -55,4 +55,5 @@ export interface IUser {
   email: string; // Add an array of Habit objects
   token: string;
   gifs: IGif[];
+  balance: number;
 }

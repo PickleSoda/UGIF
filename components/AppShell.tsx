@@ -6,6 +6,7 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route } from 'react-router-dom';
 import usePollTasks from '../hooks/usePollTasks';
+import useBalance from '../hooks/useBalance';
 import Tabs from './pages/Tabs';
 import { initializeUserState, userStore } from '../store/userStore';
 import { useStoreState } from 'pullstate';
@@ -15,8 +16,9 @@ setupIonicReact({});
 defineCustomElements(window);
 
 const AppShell = () => {
-  const [initialized, setInitialized] = useState(false);
   usePollTasks();
+  useBalance();
+  const [initialized, setInitialized] = useState(false);
   const isAuthorized = useStoreState(userStore, state => state.isAuth);
 
   useEffect(() => {
@@ -36,7 +38,7 @@ const AppShell = () => {
         await StatusBar.setStyle({
           style: status.matches ? Style.Dark : Style.Light,
         });
-      } catch { }
+      } catch {}
     });
 
   if (!initialized) {

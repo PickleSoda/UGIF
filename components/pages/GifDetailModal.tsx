@@ -10,7 +10,7 @@ import {
   useIonAlert,
   useIonRouter,
 } from '@ionic/react';
-import { close } from 'ionicons/icons';
+import { close, radioButtonOnOutline, checkmarkCircleOutline } from 'ionicons/icons';
 
 
 import { request } from "../../lib/axios";
@@ -108,8 +108,8 @@ const GifDetailModal = ({
   return (
     <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
       <IonHeader>
-        <IonToolbar>
-          <IonTitle>Create Your GIF</IonTitle>
+        <IonToolbar style={{backgroundColor: 'var(--ion-background-color, #fff)'}}>
+          <IonTitle>Upload your image</IonTitle>
           <IonButton
             slot="end"
             fill="clear"
@@ -120,19 +120,24 @@ const GifDetailModal = ({
           </IonButton>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent fullscreen scrollY={false}>
         {loadedList && <GifCard {...loadedList} />}
-        {photo ? <>
-          <GifCard src={photo} />
-        </> :
-          <NanCard spinner={false} />}
-        <div className='flex flex-col items-center justify-center'>
+        {photo ?
+          <div onClick={handleTakePhoto} >
+            <GifCard  src={photo} />
+          </div> :
+          <NanCard spinner={false} />
+        }
+        <div className='absolute bottom-0 w-full' style={{backgroundColor: 'var(--ion-background-color, #fff)'}}>
+          <div className='flex flex-col items-center justify-center '>
 
-          <IonButton onClick={handleTakePhoto}>{photo ? 'Retake photo' : 'Take Photo'}</IonButton>
           {
-            // Display the 'Generate GIF' button only if there's a photo
-            photo && <IonButton onClick={handleGenerateGif}>Generate GIF</IonButton>
+            photo ?
+            <IonIcon className='h-20 w-20' icon={checkmarkCircleOutline} onClick={handleGenerateGif} />
+            :
+            <IonIcon className='h-20 w-20' icon={radioButtonOnOutline} onClick={handleTakePhoto} />
           }
+          </div>
         </div>
       </IonContent>
     </IonModal>

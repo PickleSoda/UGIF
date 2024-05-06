@@ -8,6 +8,7 @@ const initialState: IUser = {
   email: '',
   token: '',
   gifs: [],
+  balance: 0,
 };
 
 const userStore = new PullStateStore(initialState);
