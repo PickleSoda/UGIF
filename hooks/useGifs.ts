@@ -43,7 +43,21 @@ const useGifs = (initialPage = 1, perPage = 10) => {
         loadedGifs.filter(d => d.id.toLowerCase().indexOf(query) > -1),
       );
   };
+  const handleRefresh = (event: CustomEvent) => {
+    setHasMore(true);
+    setPage(1);
+    setHomeItems([]);
+    Store.update(s => {
+      s.homeItems = [];
+    });
+    setTimeout(() => {
+      // Any calls to load data go here
+      event.detail.complete();
+    }, 2000);
+    console.log('refreshed:');
+  };
   return {
+    handleRefresh,
     handleInput,
     homeItems,
     fetchGifs,
