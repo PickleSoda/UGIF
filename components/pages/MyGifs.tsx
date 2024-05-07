@@ -1,23 +1,19 @@
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonButtons,
-  IonButton,
-  IonIcon,
-  IonContent,
-  IonMenuButton,
-} from '@ionic/react';
+import { IonPage, IonContent } from '@ionic/react';
 import { Virtuoso } from 'react-virtuoso';
-import Notifications from './Notifications';
 import { useState, useEffect } from 'react';
-import { notificationsOutline } from 'ionicons/icons';
-import GifCard from '../ui/GifCard';
 import { userStore } from '../../store/userStore';
+import GifCard from '../ui/GifCard';
 import NanCard from '../ui/NanCard';
+import ShareGifModal from '../modals/ShareGifModal';
+import { IGif } from '../../mock';
 const MyGifs = () => {
-  const [showNotifications, setShowNotifications] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [selectedGif, setSelectedGif] = useState<IGif | null>(null);
   const gifs = userStore.useState(s => s.gifs);
+  const openShareModal = (gif: IGif) => {
+    setShowShareModal(true);
+    setSelectedGif(gif);
+  };
 
   return (
     <IonPage>
@@ -29,7 +25,11 @@ const MyGifs = () => {
           itemContent={(index, gif) => {
             switch (gif.status) {
               case 'completed':
-                return <GifCard key={index} src={gif.src} />;
+                return (
+                  <div onClick={() => openShareModal(gif)} key={index}>
+                    <GifCard key={index} src={gif.src} />
+                  </div>
+                );
               case 'processing':
                 return <NanCard spinner={true} key={index} />;
               case 'failed':
@@ -39,6 +39,11 @@ const MyGifs = () => {
             }
           }}
         />
+        <ShareGifModal
+          gif={selectedGif}
+          open={showShareModal}
+          onDidDismiss={() => setShowShareModal(false)}
+        ></ShareGifModal>
       </IonContent>
     </IonPage>
   );

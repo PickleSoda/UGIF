@@ -12,6 +12,10 @@
 		"classpath": "com.capacitorjs.plugins.filesystem.FilesystemPlugin"
 	},
 	{
+		"pkg": "@capacitor/http",
+		"classpath": "com.getcapacitor.plugin.http.Http"
+	},
+	{
 		"pkg": "@capacitor/keyboard",
 		"classpath": "com.capacitorjs.plugins.keyboard.KeyboardPlugin"
 	},

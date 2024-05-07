@@ -1,29 +1,19 @@
 import {
   IonPage,
   IonHeader,
-  IonToolbar,
-  IonButtons,
-  IonButton,
-  IonIcon,
   IonContent,
-  IonMenuButton,
   IonSearchbar,
   IonInfiniteScrollContent,
   IonInfiniteScroll,
-  IonRefresher,
-  IonRefresherContent,
   RefresherEventDetail,
 } from '@ionic/react';
 import { Virtuoso } from 'react-virtuoso';
-import Notifications from './Notifications';
 import { useState } from 'react';
-import { notificationsOutline } from 'ionicons/icons';
-import GifDetailModal from './GifDetailModal';
+import GifDetailModal from '../modals/GifDetailModal';
 import GifCard from '../ui/GifCard';
 import useGifs from '../../hooks/useGifs';
 const Gifs = () => {
   const { handleInput, homeItems } = useGifs();
-  const [showNotifications, setShowNotifications] = useState(false);
   const [showGifDetail, setShowGifDetail] = useState(false);
   const [selectedGif, setSelectedGif] = useState('');
   function handleRefresh(event: CustomEvent<RefresherEventDetail>) {

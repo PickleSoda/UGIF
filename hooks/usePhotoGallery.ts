@@ -1,8 +1,13 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Media } from '@capacitor-community/media';
 import { Capacitor } from '@capacitor/core';
-
 interface UserPhoto {
   filepath: string;
   webviewPath?: string;
@@ -10,41 +15,43 @@ interface UserPhoto {
 
 export function usePhotoGallery() {
   const [photos, setPhotos] = useState<UserPhoto[]>([]);
-  type ResizeImage = (url: string, maxWidth: number, maxHeight: number) => Promise<string>;
-
+  type ResizeImage = (
+    url: string,
+    maxWidth: number,
+    maxHeight: number,
+  ) => Promise<string>;
 
   const takePhoto = async () => {
     if (Capacitor.isNativePlatform()) {
       const cameraPermission = await Camera.checkPermissions();
-      
+
       // Check if the camera permission is not granted
       if (cameraPermission.camera !== 'granted') {
         const requestedPermission = await Camera.requestPermissions();
-        
+
         // Re-check if permissions have been granted after requesting
         if (requestedPermission.camera !== 'granted') {
           throw new Error('Camera permission not granted');
         }
       }
     }
-  
+
     try {
       const photo = await Camera.getPhoto({
         resultType: CameraResultType.Uri,
         source: CameraSource.Camera,
         quality: 100,
       });
-  
+
       const savedImageFile = await savePicture(photo);
       const newPhotos = [...photos, savedImageFile];
       setPhotos(newPhotos);
       return savedImageFile;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw error;
     }
   };
-
 
   const savePicture = async (photo: Photo) => {
     try {
@@ -60,7 +67,7 @@ export function usePhotoGallery() {
         webviewPath: photo.webPath,
       };
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw error;
     }
   };
@@ -95,13 +102,102 @@ export function usePhotoGallery() {
     }
   }, []);
 
+  async function downloadAndSaveFile(url: string, fileName: string) {
+    try {
+      // Fetch the file as a blob
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const blob = await response.blob();
+
+      // Convert blob to base64
+      const reader = new FileReader();
+      reader.readAsDataURL(blob);
+      await new Promise(resolve => {
+        reader.onloadend = resolve;
+      });
+
+      // Save the file using Filesystem API
+      if (reader.result) {
+        const base64Data = reader.result.toString().split(',')[1];
+        const savedFile = await Filesystem.writeFile({
+          path: fileName,
+          data: base64Data,
+          directory: Directory.Data,
+        });
+
+        console.log('File downloaded to:', savedFile.uri);
+        return savedFile.uri;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      return null;
+    }
+  }
+
+  const ensureDemoAlbum = async () => {
+    const { albums } = await Media.getAlbums();
+    let demoAlbum = undefined;
+    if (Capacitor.getPlatform() === 'android') {
+      const albumsPath = (await Media.getAlbumsPath()).path;
+      demoAlbum = albums.find(
+        a =>
+          a.name === 'You Gifs' && a.identifier.startsWith(albumsPath),
+      );
+      console.log(demoAlbum);
+    } else {
+      demoAlbum = albums.find(a => a.name === 'You Gifs');
+    }
+
+    if (!demoAlbum) {
+      demoAlbum = await Media.createAlbum({ name: 'You Gifs' });
+      console.log(
+        `Demo album does not exist; create it first using the "Create Demo Album" button above.`,
+      );
+    }
+
+    return demoAlbum?.identifier;
+  };
+
+  const saveMedia = async (url: string, fileName: string) => {
+    try {
+      const albumIdentifier = await ensureDemoAlbum();
+      let opts = {
+        path: url,
+        albumIdentifier: await ensureDemoAlbum(),
+        fileName: fileName,
+      };
+      const savedMedia = await Media.savePhoto(opts);
+      console.log('Media saved:', savedMedia);
+      return savedMedia;
+    } catch (error) {
+      console.error('Error saving media:', error);
+      return null;
+    }
+  };
+
+  const checkIfAlbumExists = async () => {
+    const { albums } = await Media.getAlbums();
+    const demoAlbum = albums.find(a => a.name === 'You Gifs');
+    if (demoAlbum) {
+      console.log('Demo album already exists!');
+      return;
+    }
+
+    await Media.createAlbum({ name: 'You Gifs' });
+    console.log('Created demo album');
+    console;
+  };
+
   const resizeImage: ResizeImage = (url, maxWidth, maxHeight) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => {
         let width = img.width;
         let height = img.height;
-  
+
         // Calculate the new dimensions based on aspect ratio
         if (width > height) {
           if (width > maxWidth) {
@@ -114,7 +210,7 @@ export function usePhotoGallery() {
             height = maxHeight;
           }
         }
-  
+
         // Resize the image using Canvas
         const canvas = document.createElement('canvas');
         canvas.width = width;
@@ -125,14 +221,13 @@ export function usePhotoGallery() {
           const dataUrl = canvas.toDataURL('image/jpeg');
           resolve(dataUrl);
         } else {
-          reject(new Error("Failed to get canvas context"));
+          reject(new Error('Failed to get canvas context'));
         }
       };
       img.onerror = reject;
       img.src = url;
     });
   };
-  
 
   function b64toBlob(
     b64Data: string,
@@ -170,10 +265,10 @@ export function usePhotoGallery() {
     });
   };
   type GetPhotoAsBase64 = (photoUri: string) => Promise<string>;
-  const getPhotoAsBase64: GetPhotoAsBase64 = async (photoUri) => {
+  const getPhotoAsBase64: GetPhotoAsBase64 = async photoUri => {
     try {
-      const resizedDataUrl: string = await resizeImage(photoUri, 800, 600);  // Resize to max 800x600 pixels
-      const base64Data = resizedDataUrl.split(',')[1];  // Remove the data URL part
+      const resizedDataUrl: string = await resizeImage(photoUri, 800, 600); // Resize to max 800x600 pixels
+      const base64Data = resizedDataUrl.split(',')[1]; // Remove the data URL part
       return base64Data;
     } catch (error) {
       console.error('Error resizing and encoding image:', error);
@@ -190,5 +285,6 @@ export function usePhotoGallery() {
     savePicture,
     loadSaved,
     getPhotoAsBase64,
+    downloadAndSaveFile,
   };
 }
