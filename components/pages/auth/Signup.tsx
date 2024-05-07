@@ -47,11 +47,13 @@ const SignUp = () => {
       setLoading(false);
     }
   };
-
+  const handleSignIn = () => {
+    router.push('/signin', 'none', 'push');
+  };
   return (
     <IonPage>
-      <IonContent className="char-bg content-div">
-        <IonGrid>
+      <IonContent>
+        <IonGrid className="absolute top-1/2 w-full -translate-y-1/2">
           <IonRow>
             <IonCol>
               <IonItem>
@@ -103,11 +105,27 @@ const SignUp = () => {
           <IonRow>
             <IonCol>
               <IonButton
+                mode="ios"
                 expand="block"
+                shape="round"
                 onClick={handleSignUp}
                 disabled={loading}
               >
                 Sign Up
+              </IonButton>
+              {error && <p>{error}</p>}
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonButton
+                mode="ios"
+                color={'secondary'}
+                expand="block"
+                shape="round"
+                onClick={handleSignIn}
+              >
+                Sign in
               </IonButton>
               {error && <p>{error}</p>}
             </IonCol>

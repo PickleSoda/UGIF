@@ -6,15 +6,14 @@ import {
   IonTitle,
   IonContent,
   IonList,
-  IonToggle,
-  IonButton,
+  IonRippleEffect,
   useIonAlert,
 } from '@ionic/react';
 
 import Store from '../../store';
 import { logoutUser } from '../../store/actions';
 import { userStore } from '../../store/userStore';
-
+import NanCard from '../ui/NanCard';
 const Settings = () => {
   const [presentAlert] = useIonAlert();
   const alert = useIonAlert();
@@ -42,7 +41,7 @@ const Settings = () => {
   };
   const handleLogout = () => {
     presentAlert({
-      header: 'Buy Credits',
+      header: 'Log Out',
       buttons: [
         {
           text: 'Cancel',
@@ -72,15 +71,18 @@ const Settings = () => {
       <IonContent>
         <IonList>
           <IonItem>
-            <h3>
+            <h4>
               BALANCE: <span className="text-blue-600">{balance}</span>
-            </h3>
+            </h4>
+            <IonRippleEffect></IonRippleEffect>
           </IonItem>
           <IonItem onClick={() => TopUpBalance()}>
-            <h3>Top Up</h3>
+            <h4>Top Up</h4>
+            <IonRippleEffect></IonRippleEffect>
           </IonItem>
           <IonItem onClick={() => handleLogout()}>
-            <h3>Logout</h3>
+            <h4>Logout</h4>
+            <IonRippleEffect></IonRippleEffect>
           </IonItem>
         </IonList>
       </IonContent>

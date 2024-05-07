@@ -57,3 +57,11 @@ export interface IUser {
   gifs: IGif[];
   balance: number;
 }
+
+
+export const colors = ['#ae2012', '#f9844a', '#f9c74f', '#43aa8b', '#577590']; // Array of hex color codes
+
+
+export const generateRandomColor = () => {
+  return colors[Math.floor(Math.random() * colors.length)];
+};
