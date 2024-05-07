@@ -11,6 +11,9 @@
 	},
 	"cordova": {},
 	"packageClassList": [
+		"MediaPlugin",
+		"MediaPlugin",
+		"CAPBrowserPlugin",
 		"CAPCameraPlugin",
 		"ClipboardPlugin",
 		"FilesystemPlugin",

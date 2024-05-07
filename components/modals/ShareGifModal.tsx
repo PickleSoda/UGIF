@@ -24,7 +24,6 @@ const ShareGifModal = ({
   open: boolean;
   onDidDismiss: () => void;
 }) => {
-  const router = useIonRouter();
   const buttonData = [
     {
       title: 'Share',

@@ -10,21 +10,39 @@ import {
   useIonAlert,
 } from '@ionic/react';
 
+import { Browser } from '@capacitor/browser';
 import Store from '../../store';
 import { logoutUser } from '../../store/actions';
 import { userStore } from '../../store/userStore';
-import NanCard from '../ui/NanCard';
+import { request } from '../../lib/axios';
 const Settings = () => {
   const [presentAlert] = useIonAlert();
   const alert = useIonAlert();
   const settings = Store.useState(s => s.settings);
   const balance = userStore.useState(s => s.balance);
+  const handlePayment = async (selectedValue: string) => {
+    try {
+      const { data } = await request({
+        url: '/payment/create_invoice',
+        method: 'post',
+        data: { amount: selectedValue },
+      });
+      console.log(data);
+      data.status === 200 && (await Browser.open({ url: data.link }));
+    } catch (e) {
+      console.log(e);
+      await Browser.open({
+        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+      });
+    }
+  };
   const TopUpBalance = () => {
-    presentAlert({
+    const alert = presentAlert({
       header: 'Buy Credits',
+      subHeader: 'A Sub Header Is Optional',
       buttons: [
         {
-          text: 'Exit',
+          text: 'Close',
           htmlAttributes: {
             'aria-label': 'close',
           },
@@ -34,6 +52,47 @@ const Settings = () => {
           htmlAttributes: {
             'aria-label': 'close',
           },
+          handler: async selectedValue => {
+            handlePayment(selectedValue);
+            console.log('Alert confirmed', selectedValue);
+          },
+        },
+      ],
+      inputs: [
+        {
+          label: '4.99 - 5 Credits',
+          type: 'radio',
+          value: 5,
+        },
+        {
+          label: '14.99 - 20 Credits',
+          type: 'radio',
+          value: 20,
+        },
+        {
+          label: '29.99 - 50 Credits',
+          type: 'radio',
+          value: 50,
+        },
+        {
+          label: '49.99 - 100 Credits',
+          type: 'radio',
+          value: 100,
+        },
+        {
+          label: '99.99 - 200 Credits',
+          type: 'radio',
+          value: 200,
+        },
+        {
+          label: '399.99 - 1000 Credits',
+          type: 'radio',
+          value: 1000,
+        },
+        {
+          label: '499.99 - 2500 Credits',
+          type: 'radio',
+          value: 2500,
         },
       ],
     });
