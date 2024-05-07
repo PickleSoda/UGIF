@@ -9,7 +9,7 @@ export const useBalance = () => {
   // Wrap fetchBalance with useCallback to prevent unnecessary re-creations
   const fetchBalance = useCallback(async () => {
     if (!token) return; // Ensure there is a token before fetching
-    console.log('token',token)
+    console.log('token', token);
     try {
       const response = await request({
         url: '/user/balance',
@@ -25,7 +25,7 @@ export const useBalance = () => {
 
   useEffect(() => {
     fetchBalance();
-  }, [token, gifs.length, fetchBalance]); // Depend on token, gifs.length, and fetchBalance
+  }, [token, gifs?.length, fetchBalance]); // Use optional chaining on gifs
 
   return null; // Since this hook does not return content, we return null
 };

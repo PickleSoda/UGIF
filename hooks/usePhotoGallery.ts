@@ -1,12 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
-import {
-  Camera,
-  CameraResultType,
-  CameraSource,
-  Photo,
-} from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Capacitor } from '@capacitor/core';
+
 interface UserPhoto {
   filepath: string;
   webviewPath?: string;
@@ -14,47 +10,72 @@ interface UserPhoto {
 
 export function usePhotoGallery() {
   const [photos, setPhotos] = useState<UserPhoto[]>([]);
+  const [debug, setDebug] = useState<string>("Ready");
+  type ResizeImage = (url: string, maxWidth: number, maxHeight: number) => Promise<string>;
+
+
+  const updateDebug = (message: string) => {
+    setDebug(message); // Update debug message on screen
+    console.log(message); // Optionally log to console if possible
+  };
+
 
   const takePhoto = async () => {
-    // Request camera permissions
     if (Capacitor.isNativePlatform()) {
       const cameraPermission = await Camera.checkPermissions();
+      updateDebug(`Camera permission status: ${cameraPermission.camera}`);
+      
+      // Check if the camera permission is not granted
       if (cameraPermission.camera !== 'granted') {
-        await Camera.requestPermissions();
-        throw new Error('Camera permission not granted');
+        const requestedPermission = await Camera.requestPermissions();
+        updateDebug(`Requested camera permissions: ${requestedPermission.camera}`);
+        
+        // Re-check if permissions have been granted after requesting
+        if (requestedPermission.camera !== 'granted') {
+          updateDebug("Camera permission not granted.");
+          throw new Error('Camera permission not granted');
+        }
       }
     }
-
+  
     try {
-      // Now, camera permission is granted, proceed to take photo
+      updateDebug("Taking photo...");
       const photo = await Camera.getPhoto({
         resultType: CameraResultType.Uri,
         source: CameraSource.Camera,
         quality: 100,
       });
-
+  
+      updateDebug("Photo taken, saving...");
       const savedImageFile = await savePicture(photo);
       const newPhotos = [...photos, savedImageFile];
       setPhotos(newPhotos);
+      updateDebug("Photo saved successfully.");
       return savedImageFile;
     } catch (error) {
-      console.error('Error taking photo:', error);
-      // Handle error appropriately
+      updateDebug(`Error taking photo: ${error}`);
     }
   };
 
+
   const savePicture = async (photo: Photo) => {
-    const base64Data = await base64FromPath(photo.webPath!);
-    const fileName = new Date().getTime() + '.jpeg';
-    const savedFile = await Filesystem.writeFile({
-      path: fileName,
-      data: base64Data,
-      directory: Directory.Data,
-    });
-    return {
-      filepath: fileName,
-      webviewPath: photo.webPath, // This should now be a correct URL
-    };
+    try {
+      const base64Data = await base64FromPath(photo.webPath!);
+      const fileName = new Date().getTime() + '.jpeg';
+      const savedFile = await Filesystem.writeFile({
+        path: fileName,
+        data: base64Data,
+        directory: Directory.Data,
+      });
+      updateDebug("Picture saved.");
+      return {
+        filepath: fileName,
+        webviewPath: photo.webPath,
+      };
+    } catch (error) {
+      updateDebug(`Error saving picture: ${error}`);
+      throw error; // Ensure the error is thrown after logging it
+    }
   };
 
   const loadSaved = useCallback(async () => {
@@ -71,7 +92,6 @@ export function usePhotoGallery() {
           });
           const blob = b64toBlob(readFileResult.data.toString(), 'image/jpeg');
 
-          // Create a blob URL for the image
           const webviewPath = URL.createObjectURL(blob);
           const photo: UserPhoto = {
             filepath: FileInfo.name,
@@ -87,6 +107,45 @@ export function usePhotoGallery() {
       return [];
     }
   }, []);
+
+  const resizeImage: ResizeImage = (url, maxWidth, maxHeight) => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+  
+        // Calculate the new dimensions based on aspect ratio
+        if (width > height) {
+          if (width > maxWidth) {
+            height = height * (maxWidth / width);
+            width = maxWidth;
+          }
+        } else {
+          if (height > maxHeight) {
+            width = width * (maxHeight / height);
+            height = maxHeight;
+          }
+        }
+  
+        // Resize the image using Canvas
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg');
+          resolve(dataUrl);
+        } else {
+          reject(new Error("Failed to get canvas context"));
+        }
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
+  };
+  
 
   function b64toBlob(
     b64Data: string,
@@ -123,20 +182,19 @@ export function usePhotoGallery() {
       reader.readAsDataURL(blob);
     });
   };
-  const getPhotoAsBase64 = async (photoUri: string) => {
-    const response = await fetch(photoUri);
-    const blob = await response.blob();
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = () => {
-        let base64Data = reader.result as string;
-        resolve(base64Data.split(',')[1]); // Remove the data URL part
-      };
-      reader.readAsDataURL(blob);
-    });
+  type GetPhotoAsBase64 = (photoUri: string) => Promise<string>;
+  const getPhotoAsBase64: GetPhotoAsBase64 = async (photoUri) => {
+    try {
+      const resizedDataUrl: string = await resizeImage(photoUri, 800, 600);  // Resize to max 800x600 pixels
+      const base64Data = resizedDataUrl.split(',')[1];  // Remove the data URL part
+      return base64Data;
+    } catch (error) {
+      console.error('Error resizing and encoding image:', error);
+      throw error;
+    }
   };
   useEffect(() => {
+    updateDebug("Loading saved photos...");
     (async () => setPhotos(await loadSaved()))();
   }, [loadSaved]);
 
@@ -146,5 +204,6 @@ export function usePhotoGallery() {
     savePicture,
     loadSaved,
     getPhotoAsBase64,
+    debug, // Expose debug state for displaying in the component
   };
 }

@@ -16,8 +16,8 @@ const useGifs = (initialPage = 1, perPage = 10) => {
       const response = await axios.post(
         'https://gifs.unclothed.com/gifs/fetch',
         data,
-      ); // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint and provide the request body as needed
-      console.log(response.data); // Assuming the data you need is directly in the response body
+      );
+      console.log(response.data);
       Store.update(s => {
         s.homeItems = [...loadedGifs, ...response.data.gifs];
       });

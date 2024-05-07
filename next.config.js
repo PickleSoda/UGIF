@@ -1,4 +1,5 @@
 module.exports = {
+  output: 'export',
   basePath: '',
   webpack: (config, { isServer, dev }) => {
     // Enable source maps in production
