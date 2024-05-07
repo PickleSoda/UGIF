@@ -10,50 +10,38 @@ interface UserPhoto {
 
 export function usePhotoGallery() {
   const [photos, setPhotos] = useState<UserPhoto[]>([]);
-  const [debug, setDebug] = useState<string>("Ready");
   type ResizeImage = (url: string, maxWidth: number, maxHeight: number) => Promise<string>;
-
-
-  const updateDebug = (message: string) => {
-    setDebug(message); // Update debug message on screen
-    console.log(message); // Optionally log to console if possible
-  };
 
 
   const takePhoto = async () => {
     if (Capacitor.isNativePlatform()) {
       const cameraPermission = await Camera.checkPermissions();
-      updateDebug(`Camera permission status: ${cameraPermission.camera}`);
       
       // Check if the camera permission is not granted
       if (cameraPermission.camera !== 'granted') {
         const requestedPermission = await Camera.requestPermissions();
-        updateDebug(`Requested camera permissions: ${requestedPermission.camera}`);
         
         // Re-check if permissions have been granted after requesting
         if (requestedPermission.camera !== 'granted') {
-          updateDebug("Camera permission not granted.");
           throw new Error('Camera permission not granted');
         }
       }
     }
   
     try {
-      updateDebug("Taking photo...");
       const photo = await Camera.getPhoto({
         resultType: CameraResultType.Uri,
         source: CameraSource.Camera,
         quality: 100,
       });
   
-      updateDebug("Photo taken, saving...");
       const savedImageFile = await savePicture(photo);
       const newPhotos = [...photos, savedImageFile];
       setPhotos(newPhotos);
-      updateDebug("Photo saved successfully.");
       return savedImageFile;
     } catch (error) {
-      updateDebug(`Error taking photo: ${error}`);
+      console.log(error)
+      throw error;
     }
   };
 
@@ -67,14 +55,13 @@ export function usePhotoGallery() {
         data: base64Data,
         directory: Directory.Data,
       });
-      updateDebug("Picture saved.");
       return {
         filepath: fileName,
         webviewPath: photo.webPath,
       };
     } catch (error) {
-      updateDebug(`Error saving picture: ${error}`);
-      throw error; // Ensure the error is thrown after logging it
+      console.log(error)
+      throw error;
     }
   };
 
@@ -194,7 +181,6 @@ export function usePhotoGallery() {
     }
   };
   useEffect(() => {
-    updateDebug("Loading saved photos...");
     (async () => setPhotos(await loadSaved()))();
   }, [loadSaved]);
 
@@ -204,6 +190,5 @@ export function usePhotoGallery() {
     savePicture,
     loadSaved,
     getPhotoAsBase64,
-    debug, // Expose debug state for displaying in the component
   };
 }
