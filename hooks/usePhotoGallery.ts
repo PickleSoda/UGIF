@@ -137,22 +137,21 @@ export function usePhotoGallery() {
     }
   }
 
-  const ensureDemoAlbum = async () => {
+  const ensureAlbumExists = async (album: string = 'You Gifs') => {
     const { albums } = await Media.getAlbums();
     let demoAlbum = undefined;
     if (Capacitor.getPlatform() === 'android') {
       const albumsPath = (await Media.getAlbumsPath()).path;
       demoAlbum = albums.find(
-        a =>
-          a.name === 'You Gifs' && a.identifier.startsWith(albumsPath),
+        a => a.name === album && a.identifier.startsWith(albumsPath),
       );
       console.log(demoAlbum);
     } else {
-      demoAlbum = albums.find(a => a.name === 'You Gifs');
+      demoAlbum = albums.find(a => a.name === album);
     }
 
     if (!demoAlbum) {
-      demoAlbum = await Media.createAlbum({ name: 'You Gifs' });
+      demoAlbum = await Media.createAlbum({ name: album });
       console.log(
         `Demo album does not exist; create it first using the "Create Demo Album" button above.`,
       );
@@ -161,14 +160,24 @@ export function usePhotoGallery() {
     return demoAlbum?.identifier;
   };
 
-  const saveMedia = async (url: string, fileName: string) => {
+  const saveToMedia = async (url: string, fileName: string) => {
     try {
-      const albumIdentifier = await ensureDemoAlbum();
+      // Extract the file extension from the URL
+      const urlParts = url.split('.');
+      const extension = urlParts[urlParts.length - 1];
+
+      // Check if fileName already ends with the extracted extension, if not, append it
+      if (!fileName.endsWith(extension)) {
+        fileName += '.' + extension;
+      }
+
+      const albumIdentifier = await ensureAlbumExists();
       let opts = {
         path: url,
-        albumIdentifier: await ensureDemoAlbum(),
+        albumIdentifier: albumIdentifier,
         fileName: fileName,
       };
+
       const savedMedia = await Media.savePhoto(opts);
       console.log('Media saved:', savedMedia);
       return savedMedia;
@@ -176,19 +185,6 @@ export function usePhotoGallery() {
       console.error('Error saving media:', error);
       return null;
     }
-  };
-
-  const checkIfAlbumExists = async () => {
-    const { albums } = await Media.getAlbums();
-    const demoAlbum = albums.find(a => a.name === 'You Gifs');
-    if (demoAlbum) {
-      console.log('Demo album already exists!');
-      return;
-    }
-
-    await Media.createAlbum({ name: 'You Gifs' });
-    console.log('Created demo album');
-    console;
   };
 
   const resizeImage: ResizeImage = (url, maxWidth, maxHeight) => {
@@ -286,5 +282,6 @@ export function usePhotoGallery() {
     loadSaved,
     getPhotoAsBase64,
     downloadAndSaveFile,
+    saveToMedia,
   };
 }

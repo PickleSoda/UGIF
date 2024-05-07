@@ -14,6 +14,8 @@ import { IGif } from '../../mock';
 import { shareOutline, downloadOutline, copyOutline } from 'ionicons/icons';
 import { Clipboard } from '@capacitor/clipboard';
 import { Capacitor } from '@capacitor/core';
+import { Share } from '@capacitor/share';
+import { usePhotoGallery } from '../../hooks/usePhotoGallery';
 
 const ShareGifModal = ({
   open,
@@ -24,12 +26,18 @@ const ShareGifModal = ({
   open: boolean;
   onDidDismiss: () => void;
 }) => {
+
+  const { saveToMedia } = usePhotoGallery();
   const buttonData = [
     {
       title: 'Share',
       icon: shareOutline,
       color: 'primary', // Set the color for the button; assuming Ionic color names are used
-      handler: () => {
+      handler: async (gif: IGif) => {
+
+        await Share.share({
+          url: gif.src,
+        });
         console.log('Share button clicked');
         // Add your share functionality here
       },
@@ -38,24 +46,25 @@ const ShareGifModal = ({
       title: 'Copy',
       icon: copyOutline,
       color: 'secondary',
-      handler: async (src: string) => {
+      handler: async (gif: IGif) => {
         if (Capacitor.isNativePlatform()) {
           await Clipboard.write({
-            image: src,
+            image: gif.src,
           });
         } else {
           await Clipboard.write({
-            string: src,
+            string: gif.src,
           });
         }
-        console.log(src);
+        console.log(gif.src);
       },
     },
     {
       title: 'Save',
       icon: downloadOutline,
       color: 'tertiary',
-      handler: () => {
+      handler: (gif: IGif) => {
+        saveToMedia(gif.src, gif.id);
         console.log('Save button clicked');
         // Add your save functionality here
       },
@@ -86,7 +95,7 @@ const ShareGifModal = ({
                         size="default"
                         shape="round"
                         color={button.color}
-                        onClick={() => button.handler(gif.src)}
+                        onClick={() => button.handler(gif)}
                       >
                         <IonIcon
                           slot="icon-only"

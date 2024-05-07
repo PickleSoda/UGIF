@@ -17,10 +17,9 @@
 		"CAPCameraPlugin",
 		"ClipboardPlugin",
 		"FilesystemPlugin",
-		"CAPHttpPlugin",
-		"CAPHttpPlugin",
 		"KeyboardPlugin",
 		"PreferencesPlugin",
+		"SharePlugin",
 		"SplashScreenPlugin",
 		"StatusBarPlugin"
 	]
