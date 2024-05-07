@@ -26,7 +26,6 @@ const ShareGifModal = ({
   open: boolean;
   onDidDismiss: () => void;
 }) => {
-
   const { saveToMedia } = usePhotoGallery();
   const buttonData = [
     {
@@ -34,7 +33,6 @@ const ShareGifModal = ({
       icon: shareOutline,
       color: 'primary', // Set the color for the button; assuming Ionic color names are used
       handler: async (gif: IGif) => {
-
         await Share.share({
           url: gif.src,
         });

@@ -124,23 +124,24 @@ const Settings = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Settings</IonTitle>
+          <IonTitle> Settings</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <IonList>
           <IonItem>
-            <h4>
-              BALANCE: <span className="text-blue-600">{balance}</span>
-            </h4>
+            <h5>
+              Available Credits:{' '}
+              <span className="px-1 text-blue-600"> {balance} </span>
+            </h5>
             <IonRippleEffect></IonRippleEffect>
           </IonItem>
           <IonItem onClick={() => TopUpBalance()}>
-            <h4>Top Up</h4>
+            <h5>Top Up</h5>
             <IonRippleEffect></IonRippleEffect>
           </IonItem>
           <IonItem onClick={() => handleLogout()}>
-            <h4>Logout</h4>
+            <h5>Logout</h5>
             <IonRippleEffect></IonRippleEffect>
           </IonItem>
         </IonList>

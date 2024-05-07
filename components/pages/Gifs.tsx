@@ -52,18 +52,20 @@ const Gifs = () => {
             </div>
           )}
           components={{
-            Footer: () => <IonInfiniteScroll
-              onIonInfinite={ev => {
-                console.log('yoi', ev);
-                fetchGifs();
-                setTimeout(() => ev.target.complete(), 500);
-              }}
-            >
-              <IonInfiniteScrollContent
-                loadingText="Please wait..."
-                loadingSpinner="bubbles"
-              ></IonInfiniteScrollContent>
-            </IonInfiniteScroll>
+            Footer: () => (
+              <IonInfiniteScroll
+                onIonInfinite={ev => {
+                  console.log('yoi', ev);
+                  fetchGifs();
+                  setTimeout(() => ev.target.complete(), 500);
+                }}
+              >
+                <IonInfiniteScrollContent
+                  loadingText="Please wait..."
+                  loadingSpinner="bubbles"
+                ></IonInfiniteScrollContent>
+              </IonInfiniteScroll>
+            ),
           }}
         />
       </IonContent>

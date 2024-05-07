@@ -14,6 +14,8 @@ import {
   close,
   radioButtonOnOutline,
   checkmarkCircleOutline,
+  refreshOutline,
+  closeOutline,
 } from 'ionicons/icons';
 
 import { request } from '../../lib/axios';
@@ -111,7 +113,6 @@ const GifDetailModal = ({
         <IonToolbar
           style={{ backgroundColor: 'var(--ion-background-color, #fff)' }}
         >
-          <IonTitle>Upload your image</IonTitle>
           <IonButton
             slot="end"
             fill="clear"
@@ -123,11 +124,27 @@ const GifDetailModal = ({
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen scrollY={false}>
-        {loadedList && <GifCard {...loadedList} />}
+        <div className="h-10 text-center font-bold">
+          <h1>Upload your image</h1>
+        </div>
         {photo ? (
-          <div onClick={handleTakePhoto}>
+          <div>
             <GifCard src={photo} />
+            <div className="flex justify-between">
+              <IonIcon
+                className="h-10 w-20"
+                icon={closeOutline}
+                onClick={() => setPhoto(undefined)}
+              />
+              <IonIcon
+                className="h-10 w-20"
+                icon={refreshOutline}
+                onClick={handleTakePhoto}
+              />
+            </div>
           </div>
+        ) : loadedList ? (
+          <GifCard {...loadedList} />
         ) : (
           <NanCard spinner={false} />
         )}
