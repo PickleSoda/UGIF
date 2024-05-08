@@ -24,9 +24,7 @@ const useAlerts = () => {
                 method: 'post',
                 data: { amount: selectedValue },
               });
-              if (data.status === 200) {
-                await Browser.open({ url: data.link });
-              }
+              await Browser.open({ url: data.link });
             } catch (error) {
               console.error(error);
               await Browser.open({
