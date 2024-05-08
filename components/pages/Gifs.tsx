@@ -5,9 +5,10 @@ import {
   IonSearchbar,
   IonInfiniteScrollContent,
   IonInfiniteScroll,
-  RefresherEventDetail,
+  IonText,
   IonRefresher,
   IonRefresherContent,
+  IonSpinner,
 } from '@ionic/react';
 import { Virtuoso } from 'react-virtuoso';
 import { useState } from 'react';

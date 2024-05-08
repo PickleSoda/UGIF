@@ -1,4 +1,4 @@
-import { IonPage, IonContent } from '@ionic/react';
+import { IonPage, IonContent, IonText } from '@ionic/react';
 import { Virtuoso } from 'react-virtuoso';
 import { useState, useEffect } from 'react';
 import { userStore } from '../../store/userStore';
@@ -18,6 +18,13 @@ const MyGifs = () => {
   return (
     <IonPage>
       <IonContent fullscreen>
+        {
+          gifs.length === 0 && (
+            <IonText className="ion-text-center ion-padding absolute w-full top-1/2 -translate-y-1/2">
+              <h1>No GIFs found</h1>
+            </IonText>
+          )
+        }
         <Virtuoso
           className="ion-content-scroll-host"
           style={{ height: '100%' }}

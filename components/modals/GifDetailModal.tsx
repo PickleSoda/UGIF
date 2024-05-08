@@ -21,7 +21,7 @@ import {
 import { request } from '../../lib/axios';
 import Store from '../../store';
 import { addGifTask } from '../../store/actions';
-
+import useAlerts from '../../hooks/useAlerts';
 import { useState } from 'react'; // Import useState
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
 import GifCard from '../ui/GifCard';
@@ -42,7 +42,7 @@ const GifDetailModal = ({
   const [photo, setPhoto] = useState<string | undefined>(undefined);
   const router = useIonRouter();
 
-  // Function to handle the button click
+  const { showPaymentAlert, showErrorAlert } = useAlerts();
   const handleTakePhoto = async () => {
     try {
       const photoData = await takePhoto();
@@ -81,27 +81,15 @@ const GifDetailModal = ({
       })
       .catch(error => {
         dismiss();
-        presentAlert({
-          header: 'Error!',
-          subHeader: 'Something went wrong.',
-          // message: 'A message should be a short, complete sentence.',
-          buttons: [
-            {
-              text: 'Cancel',
-              role: 'cancel',
-              handler: () => {
-                console.log('Alert canceled');
-              },
-            },
-            {
-              text: 'OK',
-              role: 'confirm',
-              handler: () => {
-                console.log('Alert confirmed');
-              },
-            },
-          ],
-        });
+        if (error.response && error.response.status === 402) {
+          // Call the special function for 402 error
+          showPaymentAlert();
+        }
+        else {
+
+          showErrorAlert();
+        }
+
         console.error(error);
       });
   };

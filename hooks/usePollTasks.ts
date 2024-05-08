@@ -36,7 +36,9 @@ const usePollTasks = () => {
               updateGif(task.id, 'completed', response.data.src);
             }
           })
-          .catch(error => console.error('Request error:', error));
+          .catch(error => {
+            console.error('Request error:', error);
+          });
       });
     };
 
