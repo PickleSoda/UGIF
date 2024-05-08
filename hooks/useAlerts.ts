@@ -17,7 +17,7 @@ const useAlerts = () => {
         },
         {
           text: 'Buy',
-          handler: async (selectedValue: number) => {
+          handler: async (selectedValue: number = 5) => {
             try {
               const { data } = await request({
                 url: '/payment/create_invoice',
