@@ -68,28 +68,28 @@ const useAlerts = () => {
   };
   const showLogoutAlert = async () => {
     presentAlert({
-        header: 'Log Out',
-        buttons: [
-          {
-            text: 'Cancel',
-            htmlAttributes: {
-              'aria-label': 'close',
-            },
+      header: 'Log Out',
+      buttons: [
+        {
+          text: 'Cancel',
+          htmlAttributes: {
+            'aria-label': 'close',
           },
-          {
-            text: 'Log Out',
-            htmlAttributes: {
-              'aria-label': 'logout',
-            },
-            handler: () => {
-              logoutUser();
-            },
+        },
+        {
+          text: 'Log Out',
+          htmlAttributes: {
+            'aria-label': 'logout',
           },
-        ],
-      });
-    };
+          handler: () => {
+            logoutUser();
+          },
+        },
+      ],
+    });
+  };
 
-  return { showPaymentAlert, showErrorAlert,showLogoutAlert };
+  return { showPaymentAlert, showErrorAlert, showLogoutAlert };
 };
 
 export default useAlerts;

@@ -68,7 +68,9 @@ const SignIn = () => {
                   onIonChange={e => setPassword(e.detail.value || '')}
                   placeholder="Enter password"
                   type="password"
-                ></IonInput>
+                >
+                  {' '}
+                </IonInput>
               </IonItem>
             </IonCol>
           </IonRow>
@@ -98,7 +100,6 @@ const SignIn = () => {
               >
                 Sign up
               </IonButton>
-              {error && <p>{error}</p>}
             </IonCol>
           </IonRow>
         </IonGrid>

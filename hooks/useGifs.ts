@@ -53,7 +53,7 @@ const useGifs = (initialPage = 1, perPage = 10) => {
     setTimeout(() => {
       // Any calls to load data go here
       event.detail.complete();
-    }, 2000);
+    }, 1000);
     console.log('refreshed:');
   };
   return {

@@ -8,37 +8,31 @@ import {
   IonList,
   IonRippleEffect,
   useIonAlert,
+  IonRefresher,
+  IonRefresherContent,
 } from '@ionic/react';
-
-import { Browser } from '@capacitor/browser';
+import PaymentModal from '../modals/PaymentModal';
 import Store from '../../store';
-import { logoutUser } from '../../store/actions';
 import { userStore } from '../../store/userStore';
-import { request } from '../../lib/axios';
+import useBalance from '../../hooks/useBalance';
 import useAlerts from '../../hooks/useAlerts';
+import { useState } from 'react'; // Import useState
 const Settings = () => {
-  const { showPaymentAlert, showLogoutAlert } = useAlerts();
-  const alert = useIonAlert();
-  const settings = Store.useState(s => s.settings);
-  const balance = userStore.useState(s => s.balance);
-  const handlePayment = async (selectedValue: string) => {
-    try {
-      const { data } = await request({
-        url: '/payment/create_invoice',
-        method: 'post',
-        data: { amount: selectedValue },
-      });
-      console.log(data);
-      data.status === 200 && (await Browser.open({ url: data.link }));
-    } catch (e) {
-      console.log(e);
-      await Browser.open({
-        url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-      });
-    }
+  const { showLogoutAlert } = useAlerts();
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const { fetchBalance } = useBalance();
+  const handleRefresh = (event: CustomEvent) => {
+    fetchBalance();
+    setTimeout(() => {
+      // Any calls to load data go here
+      console.log('refresh');
+      event.detail.complete();
+    }, 1000);
   };
+  const balance = userStore.useState(s => s.balance);
+
   const TopUpBalance = () => {
-    showPaymentAlert();
+    setShowPaymentModal(true);
     console.log('yoi');
   };
   const handleLogout = () => {
@@ -52,6 +46,9 @@ const Settings = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
         <IonList>
           <IonItem>
             <h5>
@@ -69,6 +66,10 @@ const Settings = () => {
             <IonRippleEffect></IonRippleEffect>
           </IonItem>
         </IonList>
+        <PaymentModal
+          open={showPaymentModal}
+          onDidDismiss={() => setShowPaymentModal(false)}
+        ></PaymentModal>
       </IonContent>
     </IonPage>
   );

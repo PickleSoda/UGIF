@@ -84,9 +84,7 @@ const GifDetailModal = ({
         if (error.response && error.response.status === 402) {
           // Call the special function for 402 error
           showPaymentAlert();
-        }
-        else {
-
+        } else {
           showErrorAlert();
         }
 

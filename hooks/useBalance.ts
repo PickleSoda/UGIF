@@ -16,6 +16,7 @@ export const useBalance = () => {
         method: 'post',
       });
       if (response.status === 200) {
+        console.log('Balance:', response.data.balance);
         updateUserBalance(response.data.balance);
       }
     } catch (error) {
@@ -27,7 +28,7 @@ export const useBalance = () => {
     fetchBalance();
   }, [token, gifs?.length, fetchBalance]); // Use optional chaining on gifs
 
-  return null; // Since this hook does not return content, we return null
+  return { fetchBalance }; // Since this hook does not return content, we return null
 };
 
 export default useBalance;
