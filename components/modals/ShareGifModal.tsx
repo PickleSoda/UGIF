@@ -64,7 +64,6 @@ const ShareGifModal = ({
       handler: (gif: IGif) => {
         saveToMedia(gif.src, gif.id);
         console.log('Save button clicked');
-        // Add your save functionality here
       },
     },
   ];

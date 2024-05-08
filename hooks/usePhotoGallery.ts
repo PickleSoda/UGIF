@@ -12,14 +12,10 @@ interface UserPhoto {
   filepath: string;
   webviewPath?: string;
 }
+type ResizeImage = (url: string, maxWidth: number, maxHeight: number) => Promise<string>;
 
 export function usePhotoGallery() {
   const [photos, setPhotos] = useState<UserPhoto[]>([]);
-  type ResizeImage = (
-    url: string,
-    maxWidth: number,
-    maxHeight: number,
-  ) => Promise<string>;
 
   const takePhoto = async () => {
     if (Capacitor.isNativePlatform()) {
