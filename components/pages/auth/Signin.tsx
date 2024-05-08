@@ -13,7 +13,7 @@ import {
 import { loginUser } from '../../../store/actions';
 import { request } from '../../../lib/axios';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-
+import { authenticateWithFirebase } from '../../../lib/firebase/auth';
 const SignIn = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -34,7 +34,7 @@ const SignIn = () => {
       });
       // Process the response here
       console.log(response);
-      loginUser({ username,  token: response.data.token }); // Update the user state
+      loginUser({ username, token: response.data.token }); // Update the user state
       router.push('/', 'none', 'push');
     } catch (err: any) {
       setError(err.message || 'Failed to login');
@@ -45,14 +45,15 @@ const SignIn = () => {
   const handleSignUp = () => {
     router.push('/signup', 'none', 'push');
   };
-  const googleSignIn = async() =>  {
+  const googleSignIn = async () => {
     const result = await GoogleAuth.signIn();
     console.info('result', result);
+    const token = await authenticateWithFirebase(result.authentication.idToken);
     const response = await request({
       url: '/auth/google_signin',
       method: 'post',
       data: {
-        id_token: result.authentication.idToken,
+        id_token: token,
       },
     });
     console.info('response', response);
@@ -60,7 +61,7 @@ const SignIn = () => {
     if (result) {
       router.push('/', 'none', 'push');
     }
-  }
+  };
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -85,8 +86,7 @@ const SignIn = () => {
                   onIonChange={e => setPassword(e.detail.value || '')}
                   placeholder="Enter password"
                   type="password"
-                >
-                </IonInput>
+                ></IonInput>
               </IonItem>
             </IonCol>
           </IonRow>
@@ -120,10 +120,17 @@ const SignIn = () => {
           </IonRow>
           <IonRow>
             <IonCol>
-
-            <IonButton className="login-button" onClick={() => googleSignIn()} expand="block" fill="solid" color="danger">
-            Login with Google
-        </IonButton>
+              <IonButton
+                mode="ios"
+                shape="round"
+                className="login-button"
+                onClick={() => googleSignIn()}
+                expand="block"
+                fill="solid"
+                color="danger"
+              >
+                Login with Google
+              </IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>

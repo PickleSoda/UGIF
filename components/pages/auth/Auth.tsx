@@ -7,7 +7,8 @@ import SingIn from './Signin';
 
 const Intro = () => {
   GoogleAuth.initialize({
-    clientId: '929769570343-o9f1b8bukao98ft2ios2037s8n5qd5s4.apps.googleusercontent.com',
+    clientId:
+      '929769570343-o9f1b8bukao98ft2ios2037s8n5qd5s4.apps.googleusercontent.com',
     scopes: ['profile', 'email'],
     grantOfflineAccess: true,
   });
