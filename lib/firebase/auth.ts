@@ -1,4 +1,4 @@
-import firebase_app from "./config.js";
+import firebase_app from "./config";
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword, getAuth , signInWithPopup,GoogleAuthProvider } from "firebase/auth";
 
 const auth = getAuth(firebase_app);
@@ -29,25 +29,36 @@ export default async function signIn(email:string, password:string) {
 }
 
 export const signInWithGoogle = async () => {
-    signInWithPopup(auth, new GoogleAuthProvider)
-  .then((result) => {
-    console.log(result)
-    return result;
-    // This gives you a Google Access Token. You can use it to access the Google API.
+  try {
+    // Attempt to sign in with popup and Google provider
+    const result = await signInWithPopup(auth, new GoogleAuthProvider());
+
+    // Retrieve the ID token
+    const token = await result.user.getIdToken();
+    console.log(token); // Log the ID token
+
+    // Retrieve the access token from the Google Auth provider
     const credential = GoogleAuthProvider.credentialFromResult(result);
-    const token = credential?.accessToken;
-    // The signed-in user info.
+    const accessToken = credential?.accessToken;
+
+    // Retrieve the signed-in user info
     const user = result.user;
-    // IdP data available using getAdditionalUserInfo(result)
-    // ...
-  }).catch((error) => {
-    // Handle Errors here.
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // The email of the user's account used.
-    const email = error.customData.email;
-    // The AuthCredential type that was used.
-    const credential = GoogleAuthProvider.credentialFromError(error);
-    // ...
-  });
-}
+
+    // Optionally, access additional identity provider data
+    // const additionalUserInfo = getAdditionalUserInfo(result);
+
+    // Return a summary of the user login
+    return {
+      user,
+      token,
+      accessToken,
+      // additionalUserInfo,
+    };
+  } catch (error) {
+    // Handle errors here
+    console.error('Error during Google sign-in:', error);
+    return {
+      error
+    };
+  }
+};

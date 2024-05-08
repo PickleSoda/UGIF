@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
-import firebase_app from '../../../lib/firebase/config';
-import {signInWithGoogle} from '../../../lib/firebase/auth';
+// import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
+// import firebase_app from '../../../lib/firebase/config';
+import { signInWithGoogle } from '../../../lib/firebase/auth';
 import {
   IonPage,
   IonContent,
@@ -17,7 +17,6 @@ import { loginUser } from '../../../store/actions';
 import { request } from '../../../lib/axios';
 
 const SignIn = () => {
-  firebase_app;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -37,7 +36,7 @@ const SignIn = () => {
       });
       // Process the response here
       console.log(response);
-      loginUser({ username,  token: response.data.token }); // Update the user state
+      loginUser({ username, token: response.data.token }); // Update the user state
       router.push('/', 'none', 'push');
     } catch (err: any) {
       setError(err.message || 'Failed to login');
@@ -50,23 +49,23 @@ const SignIn = () => {
   };
   const hanldeGoogleSignin = async () => {
 
-      // signInWithGoogle()
-      const result = await FirebaseAuthentication.signInWithGoogle();
-      console.info('result', result);
-      
-    
-      const response = await request({
-        url: '/auth/google_signin',
-        method: 'post',
-        data: {
-          id_token: result.credential?.idToken,
-        },
-      });
-      console.info('response', response);
-      loginUser({ username: result.user?.email||'', token: response.data.token });
-      if (result) {
-        router.push('/', 'none', 'push');
-      }
+    const result = await signInWithGoogle()
+    // const result = await FirebaseAuthentication.signInWithGoogle();
+    // console.info('result', result.user.getIdToken());
+
+    console.log('result', result.user?.email, result.token)
+    const response = await request({
+      url: '/auth/google_signin',
+      method: 'post',
+      data: {
+        id_token: result.token,
+      },
+    });
+    console.info('response', response);
+    loginUser({ username: result.user?.email || '', token: response.data.token });
+    if (result) {
+      router.push('/', 'none', 'push');
+    }
   };
   return (
     <IonPage>
@@ -127,10 +126,15 @@ const SignIn = () => {
           </IonRow>
           <IonRow>
             <IonCol>
-
-            <IonButton className="login-button" onClick={() => hanldeGoogleSignin()} expand="block" fill="solid" color="danger">
-            Login with Google
-        </IonButton>
+              <IonButton
+                mode="ios"
+                color="danger"
+                expand="block"
+                shape='round'
+                onClick={() => hanldeGoogleSignin()}
+                >
+                Login with Google
+              </IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>

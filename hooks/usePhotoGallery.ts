@@ -133,7 +133,7 @@ export function usePhotoGallery() {
     }
   }
 
-  const ensureAlbumExists = async (album: string = 'You Gifs') => {
+  const ensureAlbumExists = async (album: string = 'star swaps') => {
     const { albums } = await Media.getAlbums();
     let demoAlbum = undefined;
     if (Capacitor.getPlatform() === 'android') {
