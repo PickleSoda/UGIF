@@ -7,6 +7,13 @@
 	"plugins": {
 		"SplashScreen": {
 			"launchShowDuration": 0
+		},
+		"GoogleAuth": {
+			"scopes": [
+				"profile",
+				"email"
+			],
+			"serverClientId": "929769570343-o9f1b8bukao98ft2ios2037s8n5qd5s4.apps.googleusercontent.com"
 		}
 	},
 	"cordova": {},
@@ -21,6 +28,8 @@
 		"PreferencesPlugin",
 		"SharePlugin",
 		"SplashScreenPlugin",
-		"StatusBarPlugin"
+		"StatusBarPlugin",
+		"GoogleAuth",
+		"GoogleAuth"
 	]
 }
