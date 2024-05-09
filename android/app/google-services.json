@@ -29,6 +29,13 @@
             {
               "client_id": "929769570343-o9f1b8bukao98ft2ios2037s8n5qd5s4.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "929769570343-qdt8fh5u4ncm4d4pv5592p9puq0t9qa1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.starswap.gif"
+              }
             }
           ]
         }
