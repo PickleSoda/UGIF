@@ -39,8 +39,7 @@ const PaymentModal = ({
       await Browser.open({
         url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
       });
-    }
-    finally {
+    } finally {
       dismiss();
     }
   };

@@ -27,7 +27,7 @@ export const addGif = (gif: IGif) =>
 export const removeGif = (id: string) =>
   userStore.update(state => ({
     ...state,
-    gifs: state.gifs.filter(gif => gif.src !== id),
+    gifs: state.gifs.filter(gif => gif.id !== id),
   }));
   
   export const updateGif = (id: string, status: IGif['status'], src: string) =>
@@ -61,6 +61,9 @@ export const logoutUser = () => {
     s.isAuth = false;
     s.username = '';
     s.token = '';
+    s.gifs = [];
+    s.tasks = [];
+    s.balance = 1;
   });
 };
 

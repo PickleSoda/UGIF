@@ -55,8 +55,6 @@ const GifDetailModal = ({
   };
   const handleGenerateGif = async () => {
     if (!base64Photo) return;
-
-    console.log('Photo as base64:', base64Photo, id);
     present({
       message: 'Requesting GIF generation...',
       duration: 10000,

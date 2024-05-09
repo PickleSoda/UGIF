@@ -17,6 +17,11 @@
 		}
 	},
 	"cordova": {},
+	"server": {
+		"allowNavigation": [
+			"videos.unclothed.com"
+		]
+	},
 	"packageClassList": [
 		"MediaPlugin",
 		"MediaPlugin",

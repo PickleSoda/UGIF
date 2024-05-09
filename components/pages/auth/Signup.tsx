@@ -52,54 +52,66 @@ const SignUp = () => {
   };
   return (
     <IonPage>
-      <IonContent>
-        <IonGrid className="absolute top-1/2 w-full -translate-y-1/2">
+      <IonContent >
+        <div className="bg-gradient-to-r from-purple-700 to-blue-700 h-full w-full"></div>
+        <div className='absolute top-1/4 -translate-y-3/4 p-4 w-full max-w-xl translate-x-1/2 right-1/2'>
+          <div className='text-white text-3xl font-bold text-start'>
+            Welcome to <br /><span className='text-5xl'>STAR</span> <span className='text-5xl'>Swap</span>
+          </div>
+
+        </div>
+        <IonGrid className="absolute bottom-1/4 w-full max-w-xl translate-y-1/4 translate-x-1/2 right-1/2 font-semibold bg-gradient-to-r from-purple-700 to-blue-700">
           <IonRow>
             <IonCol>
-              <IonItem>
+              <div className='bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full'>
                 <IonInput
                   value={username || ''}
                   onIonChange={e => setUsername(e.detail.value || '')}
                   placeholder="Enter username"
                   type="text"
+                  name="username"
+                  mode="md"
                 ></IonInput>
-              </IonItem>
+              </div>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonItem>
+              <div className='bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full'>
                 <IonInput
                   value={email || ''}
                   onIonChange={e => setEmail(e.detail.value || '')}
                   placeholder="Enter email"
                   type="email"
+                  mode="md"
                 ></IonInput>
-              </IonItem>
+              </div>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonItem>
+              <div className='bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full'>
                 <IonInput
                   value={password || ''}
                   onIonChange={e => setPassword(e.detail.value || '')}
                   placeholder="Enter password"
                   type="password"
+                  mode='md'
                 ></IonInput>
-              </IonItem>
+              </div>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonItem>
+              <div className='bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full'>
                 <IonInput
                   value={confirmPassword || ''}
                   onIonChange={e => setConfirmPassword(e.detail.value || '')}
                   placeholder="Confirm password"
                   type="password"
+                  mode="md"
                 ></IonInput>
-              </IonItem>
+              </div>
             </IonCol>
           </IonRow>
           <IonRow>
@@ -107,13 +119,31 @@ const SignUp = () => {
               <IonButton
                 mode="ios"
                 expand="block"
-                shape="round"
+                shape='round'
                 onClick={handleSignUp}
                 disabled={loading}
               >
-                Sign Up
+                <p className='font-bold'>
+
+                  Sign Up
+                </p>
               </IonButton>
               {error && <p>{error}</p>}
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <div className='text-sm text-center flex px-8 opacity-50'>
+                <div className='w-full h-0.5 bg-white mt-2'>
+                </div>
+                <p className='px-1'>
+
+                  OR
+                </p>
+                <div className='w-full h-0.5 bg-white mt-2'>
+
+                </div>
+              </div>
             </IonCol>
           </IonRow>
           <IonRow>
@@ -122,10 +152,11 @@ const SignUp = () => {
                 mode="ios"
                 color={'secondary'}
                 expand="block"
-                shape="round"
                 onClick={handleSignIn}
               >
-                Sign in
+                <p className='font-bold'>
+                  Sign in
+                </p>
               </IonButton>
               {error && <p>{error}</p>}
             </IonCol>
