@@ -66,3 +66,40 @@ export const generateRandomColor = () => {
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
+export const points = [
+  {
+    label: '4.99 - 5 Credits',
+    type: 'radio',
+    value: 5,
+  },
+  {
+    label: '14.99 - 20 Credits',
+    type: 'radio',
+    value: 20,
+  },
+  {
+    label: '29.99 - 50 Credits',
+    type: 'radio',
+    value: 50,
+  },
+  {
+    label: '49.99 - 100 Credits',
+    type: 'radio',
+    value: 100,
+  },
+  {
+    label: '99.99 - 200 Credits',
+    type: 'radio',
+    value: 200,
+  },
+  {
+    label: '399.99 - 1000 Credits',
+    type: 'radio',
+    value: 1000,
+  },
+  {
+    label: '499.99 - 2500 Credits',
+    type: 'radio',
+    value: 2500,
+  },
+];

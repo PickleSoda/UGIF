@@ -9,6 +9,7 @@ import {
   IonItem,
   IonInput,
   useIonRouter,
+  useIonLoading,
 } from '@ionic/react';
 import { loginUser } from '../../../store/actions';
 import { request } from '../../../lib/axios';
@@ -19,6 +20,7 @@ const SignIn = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [present, dismiss] = useIonLoading();
   const router = useIonRouter();
 
   const handleSignIn = async () => {
@@ -46,22 +48,35 @@ const SignIn = () => {
     router.push('/signup', 'none', 'push');
   };
   const googleSignIn = async () => {
-    const result = await GoogleAuth.signIn();
-    console.info('result', result);
-    const token = await authenticateWithFirebase(result.authentication.idToken);
-    const response = await request({
-      url: '/auth/google_signin',
-      method: 'post',
-      data: {
-        id_token: token,
-      },
-    });
-    console.info('response', response);
-    loginUser({ username: result.email, token: response.data.token });
-    if (result) {
-      router.push('/', 'none', 'push');
+    try {
+      const result = await GoogleAuth.signIn();
+      present({
+        message: 'Signing in...',
+        duration: 10000,
+      });
+      console.info('result', result);
+      const token = await authenticateWithFirebase(result.authentication.idToken);
+      const response = await request({
+        url: '/auth/google_signin',
+        method: 'post',
+        data: {
+          id_token: token,
+        },
+      });
+      console.info('response', response);
+      loginUser({ username: result.email, token: response.data.token });
+      if (result) {
+        router.push('/', 'none', 'push');
+      }
+
     }
-  };
+    catch (error) {
+      console.error('Error during Google sign-in:', error);
+    }
+    finally {
+      dismiss();
+    };
+  }
   return (
     <IonPage>
       <IonContent fullscreen>
@@ -113,6 +128,7 @@ const SignIn = () => {
                 expand="block"
                 shape="round"
                 onClick={handleSignUp}
+                disabled={loading}
               >
                 Sign up
               </IonButton>
@@ -128,6 +144,7 @@ const SignIn = () => {
                 expand="block"
                 fill="solid"
                 color="danger"
+                disabled={loading}
               >
                 Login with Google
               </IonButton>

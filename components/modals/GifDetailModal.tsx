@@ -3,11 +3,9 @@ import {
   IonContent,
   IonHeader,
   IonModal,
-  IonTitle,
   IonToolbar,
   IonButton,
   useIonLoading,
-  useIonAlert,
   useIonRouter,
 } from '@ionic/react';
 import {
@@ -92,7 +90,6 @@ const GifDetailModal = ({
       });
   };
   const [present, dismiss] = useIonLoading();
-  const [presentAlert] = useIonAlert();
   return (
     <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
       <IonHeader>
