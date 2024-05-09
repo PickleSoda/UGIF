@@ -37,6 +37,7 @@ const GifDetailModal = ({
   const items = Store.useState(s => s.homeItems);
   const loadedList = items?.find(l => l.id === id);
   const { takePhoto, getPhotoAsBase64 } = usePhotoGallery();
+  const [base64Photo, setBase64Photo] = useState<string | undefined>(undefined);
   const [photo, setPhoto] = useState<string | undefined>(undefined);
   const router = useIonRouter();
 
@@ -45,15 +46,16 @@ const GifDetailModal = ({
     try {
       const photoData = await takePhoto();
       console.log('Photo taken:', photoData);
-      setPhoto(photoData?.webviewPath);
+      setPhoto(photoData.photo.webPath);
+      setBase64Photo(photoData.base64Data);
     } catch (error) {
       console.error('Error taking photo:', error);
       // Handle the error here
     }
   };
   const handleGenerateGif = async () => {
-    if (!photo) return; // Ensure there's a photo to process
-    const base64Photo = await getPhotoAsBase64(photo);
+    if (!base64Photo) return;
+
     console.log('Photo as base64:', base64Photo, id);
     present({
       message: 'Requesting GIF generation...',

@@ -52,10 +52,11 @@ export interface IGif {
 export interface IUser {
   isAuth: boolean;
   username: string;
-  email: string; // Add an array of Habit objects
+  email: string; 
   token: string;
   gifs: IGif[];
   balance: number;
+  tasks: Task[];  
 }
 
 
