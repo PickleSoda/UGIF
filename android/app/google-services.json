@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "929769570343",
+    "project_id": "starswap-91cd8",
+    "storage_bucket": "starswap-91cd8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929769570343:android:f0a6f0c6d6866e9a4c0e02",
+        "android_client_info": {
+          "package_name": "com.starswap.gif"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929769570343-o9f1b8bukao98ft2ios2037s8n5qd5s4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiEUTtXFQARa37fLizOz6QKdMMN9NpvS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929769570343-o9f1b8bukao98ft2ios2037s8n5qd5s4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "929769570343-qdt8fh5u4ncm4d4pv5592p9puq0t9qa1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.starswap.gif"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
