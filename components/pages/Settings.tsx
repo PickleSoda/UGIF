@@ -6,83 +6,70 @@ import {
   IonTitle,
   IonContent,
   IonList,
-  IonToggle,
-  IonButton,
+  IonRippleEffect,
   useIonAlert,
+  IonRefresher,
+  IonRefresherContent,
 } from '@ionic/react';
-
+import PaymentModal from '../modals/PaymentModal';
 import Store from '../../store';
-import { logoutUser } from '../../store/actions';
 import { userStore } from '../../store/userStore';
-
+import useBalance from '../../hooks/useBalance';
+import useAlerts from '../../hooks/useAlerts';
+import { useState } from 'react'; // Import useState
 const Settings = () => {
-  const [presentAlert] = useIonAlert();
-  const alert = useIonAlert();
-  const settings = Store.useState(s => s.settings);
+  const { showLogoutAlert } = useAlerts();
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const { fetchBalance } = useBalance();
+  const handleRefresh = (event: CustomEvent) => {
+    fetchBalance();
+    setTimeout(() => {
+      // Any calls to load data go here
+      console.log('refresh');
+      event.detail.complete();
+    }, 1000);
+  };
   const balance = userStore.useState(s => s.balance);
+
   const TopUpBalance = () => {
-    presentAlert({
-      header: 'Buy Credits',
-      buttons: [
-        {
-          text: 'Exit',
-          htmlAttributes: {
-            'aria-label': 'close',
-          },
-        },
-        {
-          text: 'Buy',
-          htmlAttributes: {
-            'aria-label': 'close',
-          },
-        },
-      ],
-    });
+    setShowPaymentModal(true);
     console.log('yoi');
   };
   const handleLogout = () => {
-    presentAlert({
-      header: 'Buy Credits',
-      buttons: [
-        {
-          text: 'Cancel',
-          htmlAttributes: {
-            'aria-label': 'close',
-          },
-        },
-        {
-          text: 'Log Out',
-          htmlAttributes: {
-            'aria-label': 'logout',
-          },
-          handler: () => {
-            logoutUser();
-          },
-        },
-      ],
-    });
+    showLogoutAlert();
   };
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Settings</IonTitle>
+          <IonTitle> Settings</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
+        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+          <IonRefresherContent></IonRefresherContent>
+        </IonRefresher>
         <IonList>
           <IonItem>
-            <h3>
-              BALANCE: <span className="text-blue-600">{balance}</span>
-            </h3>
+            <h5>
+              Available Credits:{' '}
+              <span className="px-1 text-blue-600"> {balance} </span>
+            </h5>
+            <IonRippleEffect></IonRippleEffect>
           </IonItem>
           <IonItem onClick={() => TopUpBalance()}>
-            <h3>Top Up</h3>
+            <h5>Top Up</h5>
+            <IonRippleEffect></IonRippleEffect>
           </IonItem>
           <IonItem onClick={() => handleLogout()}>
-            <h3>Logout</h3>
+            <h5>Logout</h5>
+            <IonRippleEffect></IonRippleEffect>
           </IonItem>
         </IonList>
+        <PaymentModal
+          open={showPaymentModal}
+          onDidDismiss={() => setShowPaymentModal(false)}
+        ></PaymentModal>
       </IonContent>
     </IonPage>
   );

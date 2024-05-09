@@ -14,12 +14,14 @@ import {
   close,
   radioButtonOnOutline,
   checkmarkCircleOutline,
+  refreshOutline,
+  closeOutline,
 } from 'ionicons/icons';
 
 import { request } from '../../lib/axios';
 import Store from '../../store';
 import { addGifTask } from '../../store/actions';
-
+import useAlerts from '../../hooks/useAlerts';
 import { useState } from 'react'; // Import useState
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
 import GifCard from '../ui/GifCard';
@@ -40,7 +42,7 @@ const GifDetailModal = ({
   const [photo, setPhoto] = useState<string | undefined>(undefined);
   const router = useIonRouter();
 
-  // Function to handle the button click
+  const { showPaymentAlert, showErrorAlert } = useAlerts();
   const handleTakePhoto = async () => {
     try {
       const photoData = await takePhoto();
@@ -79,27 +81,13 @@ const GifDetailModal = ({
       })
       .catch(error => {
         dismiss();
-        presentAlert({
-          header: 'Error!',
-          subHeader: 'Something went wrong.',
-          // message: 'A message should be a short, complete sentence.',
-          buttons: [
-            {
-              text: 'Cancel',
-              role: 'cancel',
-              handler: () => {
-                console.log('Alert canceled');
-              },
-            },
-            {
-              text: 'OK',
-              role: 'confirm',
-              handler: () => {
-                console.log('Alert confirmed');
-              },
-            },
-          ],
-        });
+        if (error.response && error.response.status === 402) {
+          // Call the special function for 402 error
+          showPaymentAlert();
+        } else {
+          showErrorAlert();
+        }
+
         console.error(error);
       });
   };
@@ -111,7 +99,6 @@ const GifDetailModal = ({
         <IonToolbar
           style={{ backgroundColor: 'var(--ion-background-color, #fff)' }}
         >
-          <IonTitle>Upload your image</IonTitle>
           <IonButton
             slot="end"
             fill="clear"
@@ -123,11 +110,27 @@ const GifDetailModal = ({
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen scrollY={false}>
-        {loadedList && <GifCard {...loadedList} />}
+        <div className="h-10 text-center font-bold">
+          <h1>Upload your image</h1>
+        </div>
         {photo ? (
-          <div onClick={handleTakePhoto}>
+          <div>
             <GifCard src={photo} />
+            <div className="flex justify-between">
+              <IonIcon
+                className="h-10 w-20"
+                icon={closeOutline}
+                onClick={() => setPhoto(undefined)}
+              />
+              <IonIcon
+                className="h-10 w-20"
+                icon={refreshOutline}
+                onClick={handleTakePhoto}
+              />
+            </div>
           </div>
+        ) : loadedList ? (
+          <GifCard {...loadedList} />
         ) : (
           <NanCard spinner={false} />
         )}

@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Side Kick</string>
-    <string name="title_activity_main">Side Kick</string>
-    <string name="package_name">com.example.app</string>
-    <string name="custom_url_scheme">com.example.app</string>
+    <string name="app_name">star swap</string>
+    <string name="title_activity_main">star swap</string>
+    <string name="package_name">com.starswap.gif</string>
+    <string name="custom_url_scheme">com.starswap.gif</string>
+    <string name="server_client_id">AIzaSyCiEUTtXFQARa37fLizOz6QKdMMN9NpvS0</string>
 </resources>

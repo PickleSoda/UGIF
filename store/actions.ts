@@ -44,17 +44,14 @@ export const updateGif = (id: string, status: IGif['status'], src: string) =>
 
 export const loginUser = ({
   username,
-  password,
   token,
 }: {
   username: string;
-  password: string;
   token: string;
 }) => {
   userStore.update(s => {
     s.isAuth = true;
     s.username = username;
-    s.email = password;
     s.token = token;
   });
 };
@@ -63,7 +60,6 @@ export const logoutUser = () => {
   userStore.update(s => {
     s.isAuth = false;
     s.username = '';
-    s.email = '';
     s.token = '';
   });
 };

@@ -1,4 +1,4 @@
-package com.example.app;
+package com.starswap.gif;
 
 import com.getcapacitor.BridgeActivity;
 
