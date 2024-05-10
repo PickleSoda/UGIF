@@ -145,7 +145,7 @@ const SignIn = () => {
             <IonCol>
               <div className="text-sm text-center flex px-8 py-6 my-1 opacity-50">
                 <div className="w-full h-0.5 bg-white mt-2"></div>
-                <p className="px-1">OR</p>
+                <p className="px-1 text-white">OR</p>
                 <div className="w-full h-0.5 bg-white mt-2"></div>
               </div>
             </IonCol>
