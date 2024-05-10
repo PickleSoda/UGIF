@@ -158,7 +158,7 @@ export function usePhotoGallery() {
       return savedMedia;
     } catch (error) {
       console.error('Error saving media:', error);
-      return null;
+      throw error;
     }
   };
 

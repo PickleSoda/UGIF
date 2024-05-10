@@ -52,18 +52,19 @@ const SignUp = () => {
   };
   return (
     <IonPage>
-      <IonContent >
+      <IonContent>
         <div className="bg-gradient-to-r from-purple-700 to-blue-700 h-full w-full"></div>
-        <div className='absolute top-1/4 -translate-y-3/4 p-4 w-full max-w-xl translate-x-1/2 right-1/2'>
-          <div className='text-white text-3xl font-bold text-start'>
-            Welcome to <br /><span className='text-5xl'>STAR</span> <span className='text-5xl'>Swap</span>
+        <div className="absolute top-1/4 -translate-y-3/4 p-4 w-full max-w-xl translate-x-1/2 right-1/2">
+          <div className="text-white text-3xl font-bold text-start">
+            Welcome to <br />
+            <span className="text-5xl">STAR</span>{' '}
+            <span className="text-5xl">Swap</span>
           </div>
-
         </div>
         <IonGrid className="absolute bottom-1/4 w-full max-w-xl translate-y-1/4 translate-x-1/2 right-1/2 font-semibold bg-gradient-to-r from-purple-700 to-blue-700">
           <IonRow>
             <IonCol>
-              <div className='bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full'>
+              <div className="bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full">
                 <IonInput
                   value={username || ''}
                   onIonChange={e => setUsername(e.detail.value || '')}
@@ -77,7 +78,7 @@ const SignUp = () => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <div className='bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full'>
+              <div className="bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full">
                 <IonInput
                   value={email || ''}
                   onIonChange={e => setEmail(e.detail.value || '')}
@@ -90,20 +91,20 @@ const SignUp = () => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <div className='bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full'>
+              <div className="bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full">
                 <IonInput
                   value={password || ''}
                   onIonChange={e => setPassword(e.detail.value || '')}
                   placeholder="Enter password"
                   type="password"
-                  mode='md'
+                  mode="md"
                 ></IonInput>
               </div>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <div className='bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full'>
+              <div className="bg-gray-100 text-black  shadow-inner  py-1 px-10 rounded-full">
                 <IonInput
                   value={confirmPassword || ''}
                   onIonChange={e => setConfirmPassword(e.detail.value || '')}
@@ -119,30 +120,21 @@ const SignUp = () => {
               <IonButton
                 mode="ios"
                 expand="block"
-                shape='round'
+                shape="round"
                 onClick={handleSignUp}
                 disabled={loading}
               >
-                <p className='font-bold'>
-
-                  Sign Up
-                </p>
+                <p className="font-bold">Sign Up</p>
               </IonButton>
               {error && <p>{error}</p>}
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <div className='text-sm text-center flex px-8 opacity-50'>
-                <div className='w-full h-0.5 bg-white mt-2'>
-                </div>
-                <p className='px-1'>
-
-                  OR
-                </p>
-                <div className='w-full h-0.5 bg-white mt-2'>
-
-                </div>
+              <div className="text-sm text-center flex px-8 opacity-50">
+                <div className="w-full h-0.5 bg-white mt-2"></div>
+                <p className="px-1">OR</p>
+                <div className="w-full h-0.5 bg-white mt-2"></div>
               </div>
             </IonCol>
           </IonRow>
@@ -154,9 +146,7 @@ const SignUp = () => {
                 expand="block"
                 onClick={handleSignIn}
               >
-                <p className='font-bold'>
-                  Sign in
-                </p>
+                <p className="font-bold">Sign in</p>
               </IonButton>
               {error && <p>{error}</p>}
             </IonCol>
