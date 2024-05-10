@@ -36,7 +36,7 @@ const SignIn = () => {
       const { username, password } = formData;
       present({
         message: 'Signing in...',
-        duration: 10000,
+        duration: 3000,
       });
       const response = await request({
         url: '/auth/login',
@@ -49,6 +49,7 @@ const SignIn = () => {
     } catch (err: any) {
       setError(err.message || 'Failed to login');
     } finally {
+      dismiss();
       setLoading(false);
     }
   };
