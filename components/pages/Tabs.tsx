@@ -17,12 +17,6 @@ const Tabs = () => {
     <IonTabs>
       <IonRouterOutlet>
         <Route path="/gifs" render={() => <Gifs />} exact={true} />
-        {/* <Route path="/lists" render={() => <Lists />} exact={true} />
-        <Route
-          path="/lists/:listId"
-          render={() => <ListDetail />}
-          exact={true}
-        /> */}
         <Route path="/my-gifs" render={() => <MyGifs />} exact={true} />
         <Route path="/settings" render={() => <Settings />} exact={true} />
         <Route path="" render={() => <Redirect to="/gifs" />} exact={true} />

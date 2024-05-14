@@ -85,7 +85,7 @@ export function usePhotoGallery() {
   async function downloadAndSaveFile(url: string, fileName: string) {
       console.log('Downloading file:', url);
       // Fetch the file as a blob
-      const response = await fetch(url);
+      const response = await fetch(url,{ mode: 'no-cors'});
       console.error(`response: ${response}`);
 
       const blob = await response.blob();

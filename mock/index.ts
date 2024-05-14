@@ -69,37 +69,37 @@ export const generateRandomColor = () => {
 
 export const points = [
   {
-    label: '4.99 - 5 Credits',
+    label: '$4.99 - 5 Credits',
     type: 'radio',
     value: 5,
   },
   {
-    label: '14.99 - 20 Credits',
+    label: '$14.99 - 20 Credits',
     type: 'radio',
     value: 20,
   },
   {
-    label: '29.99 - 50 Credits',
+    label: '$29.99 - 50 Credits',
     type: 'radio',
     value: 50,
   },
   {
-    label: '49.99 - 100 Credits',
+    label: '$49.99 - 100 Credits',
     type: 'radio',
     value: 100,
   },
   {
-    label: '99.99 - 200 Credits',
+    label: '$99.99 - 200 Credits',
     type: 'radio',
     value: 200,
   },
   {
-    label: '399.99 - 1000 Credits',
+    label: '$399.99 - 1000 Credits',
     type: 'radio',
     value: 1000,
   },
   {
-    label: '499.99 - 2500 Credits',
+    label: '$499.99 - 2500 Credits',
     type: 'radio',
     value: 2500,
   },

@@ -29,7 +29,22 @@ const SignIn = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = () => {
+    const { username,  password, } = formData;
+    if (!username || !password) {
+      setError('All fields are required.');
+      return false;
+    }
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return false;
+    }
+    setError('');
+    return true;
+  };
+
   const handleSignIn = async (e: any) => {
+    if (!validateForm()) return;
     e.preventDefault(); // Prevent default form submission
     setLoading(true);
     try {
@@ -87,7 +102,7 @@ const SignIn = () => {
   };
   return (
     <IonPage>
-      <IonContent fullscreen>
+      <IonContent fullscreen scroll-y={false}>
         <div className="bg-gradient-to-r from-purple-700 to-blue-700 h-full w-full"></div>
         <div className="absolute top-1/4 -translate-y-3/4 p-4 w-full max-w-xl translate-x-1/2 right-1/2">
           <div className="text-white text-3xl font-bold text-start">
@@ -138,7 +153,7 @@ const SignIn = () => {
               >
                 <p className="font-bold">Sign In</p>
               </IonButton>
-              {error && <p>{error}</p>}
+              {error && <p className="text-red-500 text-center mt-2">{error}</p>}
             </IonCol>
           </IonRow>
           <IonRow>

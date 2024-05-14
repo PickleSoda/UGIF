@@ -36,7 +36,7 @@ const GifDetailModal = ({
 }) => {
   const items = Store.useState(s => s.homeItems);
   const loadedList = items?.find(l => l.id === id);
-  const { takePhoto, getPhotoAsBase64 } = usePhotoGallery();
+  const { takePhoto } = usePhotoGallery();
   const [base64Photo, setBase64Photo] = useState<string | undefined>(undefined);
   const [photo, setPhoto] = useState<string | undefined>(undefined);
   const router = useIonRouter();
@@ -135,7 +135,7 @@ const GifDetailModal = ({
           className="absolute bottom-0 w-full"
           style={{ backgroundColor: 'var(--ion-background-color, #fff)' }}
         >
-          <div className="flex flex-col items-center justify-center ">
+          <div className="flex flex-col items-center justify-center mb-8">
             {photo ? (
               <IonIcon
                 className="h-20 w-20"
