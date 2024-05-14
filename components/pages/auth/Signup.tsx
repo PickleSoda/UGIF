@@ -17,7 +17,7 @@ const SignUp = () => {
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -62,7 +62,7 @@ const SignUp = () => {
       });
       console.log(response);
       router.push('/login', 'forward', 'replace'); // Redirect to login on successful sign-up
-    } catch (err:any) {
+    } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to sign up');
     } finally {
       setLoading(false);
@@ -74,7 +74,7 @@ const SignUp = () => {
   };
 
   return (
-    <IonPage >
+    <IonPage>
       <IonContent scroll-y={false} fullscreen>
         <div className="bg-gradient-to-r from-purple-700 to-blue-700 h-full w-full"></div>
         <div className="absolute top-1/4 -translate-y-3/4 p-4 w-full max-w-xl translate-x-1/2 right-1/2">
@@ -152,7 +152,9 @@ const SignUp = () => {
               >
                 <p className="font-bold">Sign Up</p>
               </IonButton>
-              {error && <p className="text-red-500 text-center mt-2">{error}</p>}
+              {error && (
+                <p className="text-red-500 text-center mt-2">{error}</p>
+              )}
             </IonCol>
           </IonRow>
           <IonRow>

@@ -30,7 +30,7 @@ const SignIn = () => {
   };
 
   const validateForm = () => {
-    const { username,  password, } = formData;
+    const { username, password } = formData;
     if (!username || !password) {
       setError('All fields are required.');
       return false;
@@ -153,7 +153,9 @@ const SignIn = () => {
               >
                 <p className="font-bold">Sign In</p>
               </IonButton>
-              {error && <p className="text-red-500 text-center mt-2">{error}</p>}
+              {error && (
+                <p className="text-red-500 text-center mt-2">{error}</p>
+              )}
             </IonCol>
           </IonRow>
           <IonRow>
