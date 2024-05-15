@@ -47,8 +47,8 @@ export interface IGif {
   id: string;
   status: TaskStatus;
   src: string;
-  origin: string;
-  localPath: string;
+  // origin: string;
+  // localPath: string;
 }
 
 export interface IUser {
