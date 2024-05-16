@@ -189,7 +189,6 @@ const SignIn = () => {
             onClick={() => googleSignIn()}
             disabled={loading}
           >
-            <IonIcon slot="start" name="logo-google" />
             Sign in with Google
             <IonIcon className="pl-1" slot="end" icon={logoGoogle}></IonIcon>
           </IonButton>
