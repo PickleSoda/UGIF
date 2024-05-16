@@ -9,21 +9,17 @@ export const setSettings = (settings: Settings) => {
 };
 
 export const addTask = (task: Task) => {
-  Store.update(s => {
+  userStore.update(s => {
     s.tasks.push(task);
   });
 };
 
 export const removeTask = (taskId: string) => {
-  Store.update(s => {
+  userStore.update(s => {
     s.tasks = s.tasks.filter(t => t.id !== taskId);
   });
 };
 
-export const addGifTask = (task: Task) => {
-  addTask(task);
-  addGif({ id: task.id, status: task.status, src: '' });
-};
 
 export const addGif = (gif: IGif) =>
   userStore.update(state => ({ ...state, gifs: [...state.gifs, gif] }));
@@ -31,17 +27,21 @@ export const addGif = (gif: IGif) =>
 export const removeGif = (id: string) =>
   userStore.update(state => ({
     ...state,
-    gifs: state.gifs.filter(gif => gif.src !== id),
+    gifs: state.gifs.filter(gif => gif.id !== id),
   }));
-
-export const updateGif = (id: string, status: IGif['status'], src: string) =>
+  
+  export const updateGif = (id: string, status: IGif['status'], src: string) =>
   userStore.update(state => ({
     ...state,
     gifs: state.gifs.map(gif =>
       gif.id === id ? { ...gif, status, src } : gif,
     ),
   }));
-
+  export const addGifTask = (task: Task) => {
+    addTask(task);
+    addGif({ id: task.id, status: task.status, src: '' });
+  };
+  
 export const loginUser = ({
   username,
   token,
@@ -61,6 +61,9 @@ export const logoutUser = () => {
     s.isAuth = false;
     s.username = '';
     s.token = '';
+    s.gifs = [];
+    s.tasks = [];
+    s.balance = 1;
   });
 };
 

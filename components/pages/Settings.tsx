@@ -7,16 +7,18 @@ import {
   IonContent,
   IonList,
   IonRippleEffect,
-  useIonAlert,
   IonRefresher,
   IonRefresherContent,
+  IonThumbnail,
+  IonIcon,
 } from '@ionic/react';
+import { personCircleOutline } from 'ionicons/icons';
 import PaymentModal from '../modals/PaymentModal';
-import Store from '../../store';
 import { userStore } from '../../store/userStore';
 import useBalance from '../../hooks/useBalance';
 import useAlerts from '../../hooks/useAlerts';
-import { useState } from 'react'; // Import useState
+import { useState } from 'react';
+
 const Settings = () => {
   const { showLogoutAlert } = useAlerts();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -49,16 +51,23 @@ const Settings = () => {
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
-        <IonList>
+        <IonList lines="full">
           <IonItem>
-            <h5>
-              Available Credits:{' '}
-              <span className="px-1 text-blue-600"> {balance} </span>
-            </h5>
-            <IonRippleEffect></IonRippleEffect>
+            <IonThumbnail slot="start">
+              <IonIcon
+                className="w-14 h-14 opacity-45"
+                icon={personCircleOutline}
+              />
+            </IonThumbnail>
+            <div className="flex flex-col py-4 opacity-90">
+              <p>User: {userStore.useState(s => s.username)}</p>
+              <p>
+                Credits: <span className="px-1 text-blue-600"> {balance} </span>
+              </p>
+            </div>
           </IonItem>
           <IonItem onClick={() => TopUpBalance()}>
-            <h5>Top Up</h5>
+            <h5>Buy Credits</h5>
             <IonRippleEffect></IonRippleEffect>
           </IonItem>
           <IonItem onClick={() => handleLogout()}>

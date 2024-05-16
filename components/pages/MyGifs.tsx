@@ -12,6 +12,7 @@ import { userStore } from '../../store/userStore';
 import GifCard from '../ui/GifCard';
 import NanCard from '../ui/NanCard';
 import ShareGifModal from '../modals/ShareGifModal';
+import { usePhotoGallery } from '../../hooks/usePhotoGallery';
 import { IGif } from '../../mock';
 
 const MyGifs = () => {
@@ -36,6 +37,7 @@ const MyGifs = () => {
             <h1>No GIFs found</h1>
           </IonText>
         )}
+
         <Virtuoso
           className="ion-content-scroll-host"
           style={{ height: '100%' }}

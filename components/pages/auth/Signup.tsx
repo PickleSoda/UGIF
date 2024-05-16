@@ -4,7 +4,7 @@ import {
   IonContent,
   IonButton,
   IonGrid,
-  IonCol, // Add this import statement
+  IonCol,
   IonRow,
   IonItem,
   IonIcon,
@@ -20,10 +20,12 @@ import { authenticateWithFirebase } from '../../../lib/firebase/auth';
 import { loginUser } from '../../../store/actions';
 
 const SignUp = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useIonRouter();
@@ -34,24 +36,43 @@ const SignUp = () => {
   </svg>
   )
 
-  const handleSignUp = async () => {
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return;
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const validateForm = () => {
+    const { username, email, password, confirmPassword } = formData;
+    if (!username || !email || !password) {
+      setError('All fields are required.');
+      return false;
     }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return false;
+    }
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return false;
+    }
+    if (!email.includes('@')) {
+      setError('Please enter a valid email.');
+      return false;
+    }
+    setError('');
+    return true;
+  };
+
+  const handleSignUp = async () => {
+    if (!validateForm()) return;
 
     setLoading(true);
     try {
       const response = await request({
         url: '/auth/register',
         method: 'post',
-        data: {
-          username: username,
-          email: email,
-          password: password,
-        },
+        data: formData,
       });
-      // Process the response here
       console.log(response);
       router.push('/signin?signUpSuccess=true', 'forward', 'replace');
     } catch (err: any) {
@@ -60,95 +81,10 @@ const SignUp = () => {
       setLoading(false);
     }
   };
+
   const handleSignIn = () => {
     router.push('/signin', 'none', 'push');
   };
-<<<<<<< Updated upstream
-  return (
-    <IonPage>
-      <IonContent>
-        <IonGrid className="absolute top-1/2 w-full -translate-y-1/2">
-          <IonRow>
-            <IonCol>
-              <IonItem>
-                <IonInput
-                  value={username || ''}
-                  onIonChange={e => setUsername(e.detail.value || '')}
-                  placeholder="Enter username"
-                  type="text"
-                ></IonInput>
-              </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonItem>
-                <IonInput
-                  value={email || ''}
-                  onIonChange={e => setEmail(e.detail.value || '')}
-                  placeholder="Enter email"
-                  type="email"
-                ></IonInput>
-              </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonItem>
-                <IonInput
-                  value={password || ''}
-                  onIonChange={e => setPassword(e.detail.value || '')}
-                  placeholder="Enter password"
-                  type="password"
-                ></IonInput>
-              </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonItem>
-                <IonInput
-                  value={confirmPassword || ''}
-                  onIonChange={e => setConfirmPassword(e.detail.value || '')}
-                  placeholder="Confirm password"
-                  type="password"
-                ></IonInput>
-              </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButton
-                mode="ios"
-                expand="block"
-                shape="round"
-                onClick={handleSignUp}
-                disabled={loading}
-              >
-                Sign Up
-              </IonButton>
-              {error && <p>{error}</p>}
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButton
-                mode="ios"
-                color={'secondary'}
-                expand="block"
-                shape="round"
-                onClick={handleSignIn}
-              >
-                Sign in
-              </IonButton>
-              {error && <p>{error}</p>}
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-    </IonPage>
-=======
-
   const googleSignIn = async () => {
     try {
       const result = await GoogleAuth.signIn();
@@ -264,7 +200,6 @@ const SignUp = () => {
       </p>
     </IonContent>
   </IonPage>
->>>>>>> Stashed changes
   );
 };  
 

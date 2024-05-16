@@ -7,27 +7,24 @@ import {
   IonLabel,
   IonRow,
   IonItem,
+  IonIcon,
   IonInput,
   useIonRouter,
+  useIonLoading,
 } from '@ionic/react';
 import { loginUser } from '../../../store/actions';
 import { request } from '../../../lib/axios';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { authenticateWithFirebase } from '../../../lib/firebase/auth';
-<<<<<<< Updated upstream
-=======
 import { logoGoogle } from 'ionicons/icons';
 import { useLocation } from 'react-router-dom';
 
->>>>>>> Stashed changes
 const SignIn = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [present, dismiss] = useIonLoading();
   const router = useIonRouter();
-
-<<<<<<< Updated upstream
   const handleSignIn = async () => {
 =======
   // Sign up check
@@ -39,7 +36,7 @@ const SignIn = () => {
   <path d="M23 0L23.823 3.36707C25.109 8.62855 25.752 11.2593 27.1233 13.3821C28.336 15.2593 29.9527 16.8418 31.8554 18.0139C34.0071 19.3395 36.651 19.926 41.9388 21.0991L46 22L41.9388 22.9009C36.651 24.074 34.0071 24.6605 31.8554 25.9861C29.9527 27.1582 28.336 28.7407 27.1233 30.6179C25.752 32.7407 25.109 35.3714 23.823 40.6329L23 44L22.177 40.6329C20.891 35.3714 20.248 32.7407 18.8767 30.6179C17.664 28.7407 16.0473 27.1582 14.1446 25.9861C11.9929 24.6605 9.34898 24.074 4.06116 22.9009L0 22L4.06116 21.0991C9.34897 19.926 11.9929 19.3395 14.1446 18.0139C16.0473 16.8418 17.664 15.2593 18.8767 13.3821C20.248 11.2593 20.891 8.62855 22.177 3.36707L23 0Z" fill="black"/>
   </svg>
   )
-
+  
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -64,24 +61,25 @@ const SignIn = () => {
   const handleSignIn = async (e: any) => {
     if (!validateForm()) return;
     e.preventDefault();
->>>>>>> Stashed changes
     setLoading(true);
     try {
+      const { username, password } = formData;
+      present({
+        message: 'Signing in...',
+        duration: 3000,
+      });
       const response = await request({
         url: '/auth/login',
         method: 'post',
-        data: {
-          username: username, // Assuming username and email are the same
-          password: password,
-        },
+        data: { username, password },
       });
-      // Process the response here
       console.log(response);
-      loginUser({ username, token: response.data.token }); // Update the user state
+      loginUser({ username, token: response.data.token });
       router.push('/', 'none', 'push');
     } catch (err: any) {
       setError('Username or password is incorrect');
     } finally {
+      dismiss();
       setLoading(false);
     }
   };
@@ -89,98 +87,36 @@ const SignIn = () => {
     router.push('/signup', 'none', 'push');
   };
   const googleSignIn = async () => {
-    const result = await GoogleAuth.signIn();
-    console.info('result', result);
-    const token = await authenticateWithFirebase(result.authentication.idToken);
-    const response = await request({
-      url: '/auth/google_signin',
-      method: 'post',
-      data: {
-        id_token: token,
-      },
-    });
-    console.info('response', response);
-    loginUser({ username: result.email, token: response.data.token });
-    if (result) {
-      router.push('/', 'none', 'push');
+    try {
+      const result = await GoogleAuth.signIn();
+      present({
+        message: 'Signing in...',
+        duration: 10000,
+      });
+      console.info('result', result);
+      const token = await authenticateWithFirebase(
+        result.authentication.idToken,
+      );
+      const response = await request({
+        url: '/auth/google_signin',
+        method: 'post',
+        data: {
+          id_token: token,
+        },
+      });
+      console.info('response', response);
+      loginUser({ username: result.email, token: response.data.token });
+      if (result) {
+        router.push('/', 'none', 'push');
+      }
+    } catch (error) {
+      console.error('Error during Google sign-in:', error);
+    } finally {
+      dismiss();
     }
   };
   return (
     <IonPage>
-<<<<<<< Updated upstream
-      <IonContent fullscreen>
-        <IonGrid className="absolute top-1/2 w-full -translate-y-1/2">
-          <IonRow>
-            <IonCol>
-              <IonItem>
-                <IonInput
-                  value={username || ''}
-                  onIonChange={e => setUsername(e.detail.value || '')}
-                  placeholder="Enter username"
-                  type="text"
-                ></IonInput>
-              </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonItem>
-                <IonInput
-                  value={password || ''}
-                  onIonChange={e => setPassword(e.detail.value || '')}
-                  placeholder="Enter password"
-                  type="password"
-                ></IonInput>
-              </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButton
-                mode="ios"
-                className="AuthButton"
-                shape="round"
-                expand="block"
-                onClick={handleSignIn}
-                disabled={loading}
-              >
-                Sign In
-              </IonButton>
-              {error && <p>{error}</p>}
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButton
-                mode="ios"
-                color={'secondary'}
-                expand="block"
-                shape="round"
-                onClick={handleSignUp}
-              >
-                Sign up
-              </IonButton>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButton
-                mode="ios"
-                shape="round"
-                className="login-button"
-                onClick={() => googleSignIn()}
-                expand="block"
-                fill="solid"
-                color="danger"
-              >
-                Login with Google
-              </IonButton>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-    </IonPage>
-=======
     <IonContent fullscreen scrollY={false} className="bg-white flex flex-col items-center justify-center">
       <div className="star-svg-container">
         {star_svg}
@@ -242,7 +178,6 @@ const SignIn = () => {
       </p>
     </IonContent>
   </IonPage>
->>>>>>> Stashed changes
   );
 };  
 

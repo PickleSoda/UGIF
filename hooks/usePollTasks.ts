@@ -1,17 +1,14 @@
 // usePollTasks.js
 import { useEffect } from 'react';
-import axios from 'axios';
-import Store from '../store'; // Import your store and actions
-import { removeTask } from '../store/actions';
+import axios from 'axios'; // Import your store and actions
 import { userStore } from '../store/userStore';
-
-import { updateGif } from '../store/actions';
+import { updateGif, removeGif, removeTask } from '../store/actions';
 const usePollTasks = () => {
   useEffect(() => {
     const pollTasks = () => {
       // Accessing the current tasks directly from the store
-      const currentTasks = Store.getRawState().tasks;
-
+      const currentTasks = userStore.getRawState()?.tasks;
+      if (!currentTasks) return;
       currentTasks.forEach(task => {
         console.log('Polling task:', task);
         axios
@@ -38,6 +35,10 @@ const usePollTasks = () => {
           })
           .catch(error => {
             console.error('Request error:', error);
+            if (error.response.status === 403) {
+              removeTask(task.id);
+              updateGif(task.id, 'failed', '');
+            }
           });
       });
     };

@@ -5,7 +5,7 @@ import {
   IonSearchbar,
   IonInfiniteScrollContent,
   IonInfiniteScroll,
-  IonText,
+  IonToolbar,
   IonRefresher,
   IonRefresherContent,
   IonSpinner,
@@ -28,12 +28,14 @@ const Gifs = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonSearchbar
-          debounce={1000}
-          onIonInput={ev => handleInput(ev)}
-          className="custom-searchbar p-4"
-          showCancelButton="focus"
-        ></IonSearchbar>
+        <IonToolbar className="pb-2">
+          <IonSearchbar
+            debounce={1000}
+            onIonInput={ev => handleInput(ev)}
+            className="custom-searchbar mt-3 "
+            showCancelButton="focus"
+          ></IonSearchbar>
+        </IonToolbar>
       </IonHeader>
       <IonContent scrollY={false}>
         <GifDetailModal

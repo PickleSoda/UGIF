@@ -3,11 +3,9 @@ import {
   IonContent,
   IonHeader,
   IonModal,
-  IonTitle,
   IonToolbar,
   IonButton,
   useIonLoading,
-  useIonAlert,
   useIonRouter,
 } from '@ionic/react';
 import {
@@ -38,7 +36,8 @@ const GifDetailModal = ({
 }) => {
   const items = Store.useState(s => s.homeItems);
   const loadedList = items?.find(l => l.id === id);
-  const { takePhoto, getPhotoAsBase64 } = usePhotoGallery();
+  const { takePhoto } = usePhotoGallery();
+  const [base64Photo, setBase64Photo] = useState<string | undefined>(undefined);
   const [photo, setPhoto] = useState<string | undefined>(undefined);
   const router = useIonRouter();
 
@@ -47,16 +46,15 @@ const GifDetailModal = ({
     try {
       const photoData = await takePhoto();
       console.log('Photo taken:', photoData);
-      setPhoto(photoData?.webviewPath);
+      setPhoto(photoData.photo.webPath);
+      setBase64Photo(photoData.base64Data);
     } catch (error) {
       console.error('Error taking photo:', error);
       // Handle the error here
     }
   };
   const handleGenerateGif = async () => {
-    if (!photo) return; // Ensure there's a photo to process
-    const base64Photo = await getPhotoAsBase64(photo);
-    console.log('Photo as base64:', base64Photo, id);
+    if (!base64Photo) return;
     present({
       message: 'Requesting GIF generation...',
       duration: 10000,
@@ -92,7 +90,6 @@ const GifDetailModal = ({
       });
   };
   const [present, dismiss] = useIonLoading();
-  const [presentAlert] = useIonAlert();
   return (
     <IonModal isOpen={open} onDidDismiss={onDidDismiss}>
       <IonHeader>
@@ -138,7 +135,7 @@ const GifDetailModal = ({
           className="absolute bottom-0 w-full"
           style={{ backgroundColor: 'var(--ion-background-color, #fff)' }}
         >
-          <div className="flex flex-col items-center justify-center ">
+          <div className="flex flex-col items-center justify-center mb-8">
             {photo ? (
               <IonIcon
                 className="h-20 w-20"

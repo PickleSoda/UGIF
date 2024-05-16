@@ -12,10 +12,13 @@ interface UserPhoto {
   filepath: string;
   webviewPath?: string;
 }
-type ResizeImage = (url: string, maxWidth: number, maxHeight: number) => Promise<string>;
+type ResizeImage = (
+  url: string,
+  maxWidth: number,
+  maxHeight: number,
+) => Promise<string>;
 
 export function usePhotoGallery() {
-  const [photos, setPhotos] = useState<UserPhoto[]>([]);
 
   const takePhoto = async () => {
     if (Capacitor.isNativePlatform()) {
@@ -38,50 +41,31 @@ export function usePhotoGallery() {
         source: CameraSource.Camera,
         quality: 100,
       });
-
-      const savedImageFile = await savePicture(photo);
-      const newPhotos = [...photos, savedImageFile];
-      setPhotos(newPhotos);
-      return savedImageFile;
+      console.log('Photo taken:', photo);
+      const base64Data = await getPhotoAsBase64(photo.webPath!);
+      console.log('Base64:', base64Data);
+      return {photo,base64Data};
     } catch (error) {
       console.log(error);
       throw error;
     }
   };
 
-  const savePicture = async (photo: Photo) => {
-    try {
-      const base64Data = await base64FromPath(photo.webPath!);
-      const fileName = new Date().getTime() + '.jpeg';
-      const savedFile = await Filesystem.writeFile({
-        path: fileName,
-        data: base64Data,
-        directory: Directory.Data,
-      });
-      return {
-        filepath: fileName,
-        webviewPath: photo.webPath,
-      };
-    } catch (error) {
-      console.log(error);
-      throw error;
-    }
-  };
 
-  const loadSaved = useCallback(async () => {
+  const loadSavedFolder = useCallback(async (pathName: string = '') => {
     try {
       const fileList = await Filesystem.readdir({
         directory: Directory.Data,
-        path: '',
+        path: pathName,
       });
-      const photos = await Promise.all(
+      const Files = await Promise.all(
         fileList.files.map(async FileInfo => {
           const readFileResult = await Filesystem.readFile({
             path: FileInfo.name,
             directory: Directory.Data,
           });
-          const blob = b64toBlob(readFileResult.data.toString(), 'image/jpeg');
-
+          const blob = getBase64AsBlob(readFileResult.data.toString(), 'image/jpeg');
+          console.log('blob', blob, FileInfo);
           const webviewPath = URL.createObjectURL(blob);
           const photo: UserPhoto = {
             filepath: FileInfo.name,
@@ -91,7 +75,7 @@ export function usePhotoGallery() {
         }),
       );
 
-      return photos;
+      return Files;
     } catch (error) {
       console.error('Error loading saved photos:', error);
       return [];
@@ -99,13 +83,13 @@ export function usePhotoGallery() {
   }, []);
 
   async function downloadAndSaveFile(url: string, fileName: string) {
-    try {
+      console.log('Downloading file:', url);
       // Fetch the file as a blob
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
+      const response = await fetch(url,{ mode: 'no-cors'});
+      console.error(`response: ${response}`);
+
       const blob = await response.blob();
+      console.log('Blob:', blob);
 
       // Convert blob to base64
       const reader = new FileReader();
@@ -113,23 +97,18 @@ export function usePhotoGallery() {
       await new Promise(resolve => {
         reader.onloadend = resolve;
       });
+      console.log('File downloaded:', reader.result);
 
       // Save the file using Filesystem API
       if (reader.result) {
         const base64Data = reader.result.toString().split(',')[1];
+        console.log('Base64:', base64Data);
         const savedFile = await Filesystem.writeFile({
           path: fileName,
           data: base64Data,
           directory: Directory.Data,
         });
-
-        console.log('File downloaded to:', savedFile.uri);
-        return savedFile.uri;
-      }
-      return null;
-    } catch (error) {
-      console.error('Error downloading file:', error);
-      return null;
+      console.log('File downloaded to:', savedFile);
     }
   }
 
@@ -179,7 +158,7 @@ export function usePhotoGallery() {
       return savedMedia;
     } catch (error) {
       console.error('Error saving media:', error);
-      return null;
+      throw error;
     }
   };
 
@@ -221,11 +200,7 @@ export function usePhotoGallery() {
     });
   };
 
-  function b64toBlob(
-    b64Data: string,
-    contentType = 'image/jpeg',
-    sliceSize = 512,
-  ) {
+  function getBase64AsBlob(b64Data: string, contentType = '', sliceSize = 512) {
     const byteCharacters = atob(b64Data);
     const byteArrays = [];
 
@@ -243,19 +218,6 @@ export function usePhotoGallery() {
     return blob;
   }
 
-  const base64FromPath = async (path: string) => {
-    const response = await fetch(path);
-    const blob = await response.blob();
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result as string;
-        resolve(base64.split(',')[1]);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(blob);
-    });
-  };
   type GetPhotoAsBase64 = (photoUri: string) => Promise<string>;
   const getPhotoAsBase64: GetPhotoAsBase64 = async photoUri => {
     try {
@@ -267,15 +229,10 @@ export function usePhotoGallery() {
       throw error;
     }
   };
-  useEffect(() => {
-    (async () => setPhotos(await loadSaved()))();
-  }, [loadSaved]);
 
   return {
-    photos,
     takePhoto,
-    savePicture,
-    loadSaved,
+    loadSavedFolder,
     getPhotoAsBase64,
     downloadAndSaveFile,
     saveToMedia,

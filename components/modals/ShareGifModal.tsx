@@ -8,6 +8,7 @@ import {
   IonGrid,
   IonCol,
   IonRow,
+  useIonLoading,
 } from '@ionic/react';
 import GifCard from '../ui/GifCard';
 import { IGif } from '../../mock';
@@ -27,6 +28,7 @@ const ShareGifModal = ({
   onDidDismiss: () => void;
 }) => {
   const { saveToMedia } = usePhotoGallery();
+  const [present, dismiss] = useIonLoading();
   const buttonData = [
     {
       title: 'Share',
@@ -61,9 +63,21 @@ const ShareGifModal = ({
       title: 'Save',
       icon: downloadOutline,
       color: 'tertiary',
-      handler: (gif: IGif) => {
-        saveToMedia(gif.src, gif.id);
+      handler: async (gif: IGif) => {
         console.log('Save button clicked');
+        present({
+          message: 'Saving...',
+          duration: 200,
+        });
+        try {
+          await saveToMedia(gif.src, gif.id);
+        } catch (e) {
+          present({
+            message: 'Error saving gif...',
+            duration: 300,
+          });
+          console.error('Error saving media:', e);
+        }
       },
     },
   ];

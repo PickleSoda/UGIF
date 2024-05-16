@@ -29,7 +29,7 @@ const onRequest = (
       config.headers = {} as AxiosRequestHeaders;
     }
     client.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    console.log("token init")
+    console.log("token init", accessToken)
   }
   return config;
 };
