@@ -5,7 +5,7 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 import Signup from './Signup';
 import SingIn from './Signin';
-import Home  from './Home';
+import Home from './Home';
 
 const Intro = () => {
   GoogleAuth.initialize({
