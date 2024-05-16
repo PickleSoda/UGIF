@@ -6,11 +6,12 @@ const App = dynamic(() => import('../../components/AppShell'), {
 
 export async function generateStaticParams() {
   return [
-    {all: ['gifs'] },
+    { all: ['gifs'] },
     { all: ['my-gifs'] },
     { all: ['settings'] },
     { all: ['signin'] },
     { all: ['signup'] },
+    { all: ['home'] },
   ];
 }
 
