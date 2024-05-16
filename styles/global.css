@@ -428,8 +428,6 @@ ion-searchbar.ios .custom-searchbar {
 
 .custom-toolbar {
   --background: transparent; /* Remove background color */
-  padding-top: 8px; /* Adjust the gap from the top */
-  padding-bottom: 8px; /* Adjust the gap from the bottom */
 }
 
 .star-svg-container {
@@ -437,4 +435,5 @@ ion-searchbar.ios .custom-searchbar {
   align-items: center;
   justify-content: flex-end; /* Align start on the right */
   padding-right: 8px;
+  padding-top: 8px;
 }
