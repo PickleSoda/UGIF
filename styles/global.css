@@ -427,7 +427,8 @@ ion-searchbar.ios .custom-searchbar {
 }
 
 .custom-toolbar {
-  --background: transparent; /* Remove background color */
+  --background: transparent;
+  --border-style: none;
 }
 
 .star-svg-container {

@@ -13,6 +13,7 @@ import {
   useIonLoading,
   useIonRouter,
   IonToolbar,
+  IonHeader
 } from '@ionic/react';
 import { Keyboard } from '@capacitor/keyboard';
 import { request } from '../../../lib/axios';
@@ -142,14 +143,16 @@ const SignUp = () => {
 
   return (
     <IonPage>
+      <IonHeader>
+      <IonToolbar className="custom-toolbar">
+            <div className="star-svg-container">{star_svg}</div>
+          </IonToolbar>
+      </IonHeader>
       <IonContent
         fullscreen
         scrollY={false}
         className="bg-white flex flex-col items-center justify-center"
       >
-        <IonToolbar className="custom-toolbar">
-          <div className="star-svg-container">{star_svg}</div>
-        </IonToolbar>
 
         <h1 className="login-title">Sign up</h1>
 
