@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonPage,
   IonContent,
@@ -12,7 +12,9 @@ import {
   IonLabel,
   useIonLoading,
   useIonRouter,
+  IonToolbar,
 } from '@ionic/react';
+import { Keyboard } from '@capacitor/keyboard';
 import { request } from '../../../lib/axios';
 import { logoGoogle } from 'ionicons/icons';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
@@ -30,6 +32,19 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const router = useIonRouter();
   const [present, dismiss] = useIonLoading();
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
+
+  useEffect(() => {
+    const showHandler = () => setKeyboardVisible(true);
+    const hideHandler = () => setKeyboardVisible(false);
+
+    Keyboard.addListener('keyboardWillShow', showHandler);
+    Keyboard.addListener('keyboardWillHide', hideHandler);
+
+    return () => {
+      Keyboard.removeAllListeners();
+    };
+  }, []);
 
   const star_svg = (
     <svg
@@ -132,7 +147,9 @@ const SignUp = () => {
         scrollY={false}
         className="bg-white flex flex-col items-center justify-center"
       >
-        <div className="star-svg-container">{star_svg}</div>
+        <IonToolbar className="custom-toolbar">
+          <div className="star-svg-container">{star_svg}</div>
+        </IonToolbar>
 
         <h1 className="login-title">Sign up</h1>
 
@@ -219,7 +236,7 @@ const SignUp = () => {
           </IonButton>
         </div>
 
-        <p className="register-link">
+        <p className={`register-link ${keyboardVisible ? 'hidden' : ''}`}>
           Already have an account?{' '}
           <span onClick={handleSignIn} className="signup-span">
             Sign In

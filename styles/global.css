@@ -324,7 +324,7 @@ ion-searchbar.ios .custom-searchbar {
   text-align: left;
   width: 100%;
   padding-left: 20px;
-  padding-top: 145px;
+  padding-top: 80px;
 }
 
 .input-container {
@@ -426,11 +426,15 @@ ion-searchbar.ios .custom-searchbar {
   margin-bottom: 10px;
 }
 
-.star-svg-container {
-  position: absolute;
-  top: 20px;
-  right: 40px;
-  width: 24px;
-  height: 24px;
+.custom-toolbar {
+  --background: transparent; /* Remove background color */
+  padding-top: 8px; /* Adjust the gap from the top */
+  padding-bottom: 8px; /* Adjust the gap from the bottom */
+}
 
+.star-svg-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Align start on the right */
+  padding-right: 8px;
 }

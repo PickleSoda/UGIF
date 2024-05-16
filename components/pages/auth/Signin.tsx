@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonPage,
   IonContent,
@@ -7,11 +7,13 @@ import {
   IonLabel,
   IonRow,
   IonItem,
+  IonToolbar,
   IonIcon,
   IonInput,
   useIonRouter,
   useIonLoading,
 } from '@ionic/react';
+import { Keyboard } from '@capacitor/keyboard';
 import { loginUser } from '../../../store/actions';
 import { request } from '../../../lib/axios';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
@@ -24,11 +26,24 @@ const SignIn = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [present, dismiss] = useIonLoading();
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
   const router = useIonRouter();
   // Sign up check
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const signUpSuccess = queryParams.get('signUpSuccess') === 'true';
+
+  useEffect(() => {
+    const showHandler = () => setKeyboardVisible(true);
+    const hideHandler = () => setKeyboardVisible(false);
+
+    Keyboard.addListener('keyboardWillShow', showHandler);
+    Keyboard.addListener('keyboardWillHide', hideHandler);
+
+    return () => {
+      Keyboard.removeAllListeners();
+    };
+  }, []);
 
   const star_svg = (
     <svg
@@ -130,7 +145,9 @@ const SignIn = () => {
         scrollY={false}
         className="bg-white flex flex-col items-center justify-center"
       >
-        <div className="star-svg-container">{star_svg}</div>
+        <IonToolbar className="custom-toolbar">
+          <div className="star-svg-container">{star_svg}</div>
+        </IonToolbar>
 
         <h1 className="login-title">Log in</h1>
 
@@ -194,7 +211,7 @@ const SignIn = () => {
           </IonButton>
         </div>
 
-        <p className="register-link">
+        <p className={`register-link ${keyboardVisible ? 'hidden' : ''}`}>
           Don&apos;t have an account?{' '}
           <span onClick={handleSignUp} className="signup-span">
             Sign Up
