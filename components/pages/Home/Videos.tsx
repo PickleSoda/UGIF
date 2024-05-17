@@ -1,19 +1,12 @@
 import {
-  IonPage,
-  IonHeader,
-  IonContent,
-  IonSearchbar,
   IonInfiniteScrollContent,
   IonInfiniteScroll,
-  IonToolbar,
   IonRefresher,
   IonRefresherContent,
-  IonSpinner,
-  IonSegment,
-  IonSegmentButton,
   IonLabel,
+  IonButton,
 } from '@ionic/react';
-import GifDetailModal from '../../modals/GifDetailModal';
+import VideoDetailModal from '../../modals/VideoDetailModal';
 import useVideos from '../../../hooks/useVideos';
 import React, { forwardRef, useState } from 'react';
 import ResponsiveGrid from '../../ui/ResponsiveGrid';
@@ -24,14 +17,14 @@ const Videos = () => {
   const [showGifDetail, setShowGifDetail] = useState(false);
   const [selectedGif, setSelectedGif] = useState('');
 
-  const openGifDetails = (id: string) => {
+  const openDetails = (id: string) => {
     setShowGifDetail(true);
     setSelectedGif(id);
   };
 
   return (
     <>
-      <GifDetailModal
+      <VideoDetailModal
         open={showGifDetail}
         onDidDismiss={() => setShowGifDetail(false)}
         id={selectedGif}
@@ -39,15 +32,16 @@ const Videos = () => {
       <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
         <IonRefresherContent></IonRefresherContent>
       </IonRefresher>
-      <ResponsiveGrid>
-        {videos.slice(0, 2).map((item, index) => (
-          <div key={index} onClick={() => openGifDetails(item.id)}>
-            <video controls>
-              <source src={item.src} type="video/mp4" />
-            </video>
-          </div>
-        ))}
-      </ResponsiveGrid>
+      {videos.map((item, index) => (
+        <div key={index}>
+          <video controls>
+            <source src={item.src} type="video/mp4" />
+          </video>
+          <IonButton onClick={() => openDetails(item.id)}>
+            <IonLabel>Generate Video</IonLabel>
+          </IonButton>
+        </div>
+      ))}
       <IonInfiniteScroll
         onIonInfinite={ev => {
           console.log('yoi', ev);

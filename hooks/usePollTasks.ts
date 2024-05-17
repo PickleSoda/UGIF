@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import axios from 'axios'; // Import your store and actions
 import Store  from '../store';
-import { updateGif, removeGif, removeTask } from '../store/actions';
+import { updateGif, removeTask, updateVideo } from '../store/actions';
 import { request } from '../lib/axios';
 const usePollTasks = () => {
   useEffect(() => {
@@ -24,8 +24,9 @@ const usePollTasks = () => {
             console.log('Task response:', response.data);
             if (response.data.status === 'completed') {
               // Remove the task from the store
-              removeTask(task.id);
+              removeTask(task.id);~
               updateGif(task.id, 'completed', response.data.src);
+              updateVideo(task.id, 'completed', response.data.src);
             }
           })
           .catch(error => {
@@ -33,6 +34,7 @@ const usePollTasks = () => {
             if (error.response.status === 403) {
               removeTask(task.id);
               updateGif(task.id, 'failed', '');
+              updateVideo(task.id, 'failed', '');
             }
           });
       });

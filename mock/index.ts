@@ -57,6 +57,7 @@ export interface IUser {
   email: string; 
   token: string;
   gifs: IGif[];
+  videos: IGif[];
   balance: number;
 }
 

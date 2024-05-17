@@ -24,10 +24,18 @@ export const removeTask = (taskId: string) => {
 export const addGif = (gif: IGif) =>
   userStore.update(state => ({ ...state, gifs: [...state.gifs, gif] }));
 
+export const addVideo = (video: IGif) =>
+  userStore.update(state => ({ ...state, videos: [...state.videos, video] }));
+
 export const removeGif = (id: string) =>
   userStore.update(state => ({
     ...state,
     gifs: state.gifs.filter(gif => gif.id !== id),
+  }));
+  export const removeVideo = (id: string) =>
+  userStore.update(state => ({
+    ...state,
+    videos: state.videos.filter(video => video.id !== id),
   }));
   
   export const updateGif = (id: string, status: IGif['status'], src: string) =>
@@ -37,10 +45,23 @@ export const removeGif = (id: string) =>
       gif.id === id ? { ...gif, status, src } : gif,
     ),
   }));
+  export const updateVideo = (id: string, status: IGif['status'], src: string) =>
+  userStore.update(state => ({
+    ...state,
+    videos: state.videos.map(video =>
+      video.id === id ? { ...video, status, src } : video,
+    ),
+  }));
+
   export const addGifTask = (task: Task) => {
     addTask(task);
     addGif({ id: task.id, status: task.status, src: '' });
   };
+
+  export const addVideoTask = (task: Task) => {
+    addTask(task);
+    addVideo({ id: task.id, status: task.status, src: '' });
+  }
   
 export const loginUser = ({
   username,
