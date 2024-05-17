@@ -438,3 +438,16 @@ ion-searchbar.ios .custom-searchbar {
   padding-right: 8px;
   padding-top: 8px;
 }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50%,1fr));
+  grid-auto-rows: 5px; /* adjust as needed */
+  grid-row-gap: 5px; /* adjust as needed */
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}

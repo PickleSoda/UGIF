@@ -12,7 +12,7 @@ import {
   IonInput,
   useIonRouter,
   useIonLoading,
-  IonHeader
+  IonHeader,
 } from '@ionic/react';
 import { Keyboard } from '@capacitor/keyboard';
 import { loginUser } from '../../../store/actions';
@@ -143,16 +143,14 @@ const SignIn = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar className="custom-toolbar">
-            <div className="star-svg-container">{star_svg}</div>
-          </IonToolbar>
+          <div className="star-svg-container">{star_svg}</div>
+        </IonToolbar>
       </IonHeader>
       <IonContent
         fullscreen
         scrollY={false}
         className="bg-white flex flex-col items-center justify-center"
       >
-
-
         <h1 className="login-title">Log in</h1>
 
         <div className="input-container">

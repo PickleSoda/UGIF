@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { HomeItem } from '../mock';
 import Store from '../store';
-
+import { request } from '../lib/axios';
 const useGifs = (initialPage = 1, perPage = 10) => {
   const loadedGifs = Store.useState(s => s.homeItems);
   const [homeItems, setHomeItems] = useState<HomeItem[]>([]);
@@ -13,10 +13,12 @@ const useGifs = (initialPage = 1, perPage = 10) => {
     try {
       const data = { page: page, per_page: perPage };
       console.log('Data:', data);
-      const response = await axios.post(
-        'https://gifs.unclothed.com/gifs/fetch',
-        data,
-      );
+
+      const response = await request({
+        url: '/gifs/fetch',
+        method: 'post',
+        data: data,
+      });
       console.log(response.data);
       Store.update(s => {
         s.homeItems = [...loadedGifs, ...response.data.gifs];

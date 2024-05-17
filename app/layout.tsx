@@ -19,7 +19,6 @@ import '@ionic/react/css/text-transformation.css';
 
 import '../styles/global.css';
 import '../styles/variables.css';
-
 const montserrat = Montserrat({
   subsets: ['latin'],
   weight: '400',

@@ -9,13 +9,13 @@ export const setSettings = (settings: Settings) => {
 };
 
 export const addTask = (task: Task) => {
-  userStore.update(s => {
+  Store.update(s => {
     s.tasks.push(task);
   });
 };
 
 export const removeTask = (taskId: string) => {
-  userStore.update(s => {
+  Store.update(s => {
     s.tasks = s.tasks.filter(t => t.id !== taskId);
   });
 };
@@ -62,7 +62,6 @@ export const logoutUser = () => {
     s.username = '';
     s.token = '';
     s.gifs = [];
-    s.tasks = [];
     s.balance = 1;
   });
 };

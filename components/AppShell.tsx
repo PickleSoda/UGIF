@@ -9,6 +9,7 @@ import usePollTasks from '../hooks/usePollTasks';
 import useBalance from '../hooks/useBalance';
 import Tabs from './pages/Tabs';
 import { initializeUserState, userStore } from '../store/userStore';
+import { initializeAppState } from '../store';
 import { useStoreState } from 'pullstate';
 import Auth from './pages/auth/Auth';
 
@@ -24,6 +25,7 @@ const AppShell = () => {
   useEffect(() => {
     const init = async () => {
       await initializeUserState();
+      await initializeAppState();
       setInitialized(true);
     };
 

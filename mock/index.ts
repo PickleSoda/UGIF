@@ -58,7 +58,6 @@ export interface IUser {
   token: string;
   gifs: IGif[];
   balance: number;
-  tasks: Task[];  
 }
 
 

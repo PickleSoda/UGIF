@@ -9,7 +9,6 @@ const initialState: IUser = {
   token: '',
   gifs: [],
   balance: 0,
-  tasks: [],
 };
 
 const userStore = new PullStateStore(initialState);

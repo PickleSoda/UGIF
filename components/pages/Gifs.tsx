@@ -9,12 +9,16 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonSpinner,
+  IonSegment,
+  IonSegmentButton,
+  IonLabel,
 } from '@ionic/react';
-import { Virtuoso } from 'react-virtuoso';
-import { useState } from 'react';
 import GifDetailModal from '../modals/GifDetailModal';
 import GifCard from '../ui/GifCard';
 import useGifs from '../../hooks/useGifs';
+import React, { forwardRef, useState } from 'react';
+import ResponsiveGrid from '../ui/ResponsiveGrid';
+
 const Gifs = () => {
   const { handleInput, homeItems, handleRefresh, fetchGifs } = useGifs();
   const [showGifDetail, setShowGifDetail] = useState(false);
@@ -37,7 +41,7 @@ const Gifs = () => {
           ></IonSearchbar>
         </IonToolbar>
       </IonHeader>
-      <IonContent scrollY={false}>
+      <IonContent>
         <GifDetailModal
           open={showGifDetail}
           onDidDismiss={() => setShowGifDetail(false)}
@@ -46,31 +50,35 @@ const Gifs = () => {
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
-        <Virtuoso
-          className="ion-content-scroll-host"
-          data={homeItems}
-          itemContent={(index, Item) => (
-            <div onClick={() => openGifDetails(Item.id)} key={index}>
-              <GifCard {...Item} />
+        <div className="my-4 p-1">
+          <IonSegment mode="ios" value="GIF">
+            <IonSegmentButton mode="ios" value="GIF">
+              <IonLabel>GIF</IonLabel>
+            </IonSegmentButton>
+            <IonSegmentButton mode="ios" value="video">
+              <IonLabel>Video</IonLabel>
+            </IonSegmentButton>
+          </IonSegment>
+        </div>
+        <ResponsiveGrid>
+          {homeItems.map((item, index) => (
+            <div key={index} onClick={() => openGifDetails(item.id)}>
+              <GifCard {...item} />
             </div>
-          )}
-          components={{
-            Footer: () => (
-              <IonInfiniteScroll
-                onIonInfinite={ev => {
-                  console.log('yoi', ev);
-                  fetchGifs();
-                  setTimeout(() => ev.target.complete(), 500);
-                }}
-              >
-                <IonInfiniteScrollContent
-                  loadingText="Please wait..."
-                  loadingSpinner="bubbles"
-                ></IonInfiniteScrollContent>
-              </IonInfiniteScroll>
-            ),
+          ))}
+        </ResponsiveGrid>
+        <IonInfiniteScroll
+          onIonInfinite={ev => {
+            console.log('yoi', ev);
+            fetchGifs();
+            setTimeout(() => ev.target.complete(), 500);
           }}
-        />
+        >
+          <IonInfiniteScrollContent
+            loadingText="Please wait..."
+            loadingSpinner="bubbles"
+          ></IonInfiniteScrollContent>
+        </IonInfiniteScroll>
       </IonContent>
     </IonPage>
   );

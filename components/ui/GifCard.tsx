@@ -14,7 +14,7 @@ const GifCard = ({ src }: FeedCardProps) => {
   }, [src]); // Change color when the src changes
 
   return (
-    <Card className="my-4 mx-auto px-2 rounded-lg">
+    <Card className="p-1 rounded-lg">
       <div className="relative overflow-hidden">
         <Image
           className="object-cover w-full rounded-lg"

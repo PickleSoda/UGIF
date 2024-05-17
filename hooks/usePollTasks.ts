@@ -1,29 +1,24 @@
 // usePollTasks.js
 import { useEffect } from 'react';
 import axios from 'axios'; // Import your store and actions
-import { userStore } from '../store/userStore';
+import Store  from '../store';
 import { updateGif, removeGif, removeTask } from '../store/actions';
+import { request } from '../lib/axios';
 const usePollTasks = () => {
   useEffect(() => {
     const pollTasks = () => {
       // Accessing the current tasks directly from the store
-      const currentTasks = userStore.getRawState()?.tasks;
+      const currentTasks = Store.getRawState()?.tasks;
       if (!currentTasks) return;
       currentTasks.forEach(task => {
         console.log('Polling task:', task);
-        axios
-          .post(
-            'https://gifs.unclothed.com/videos/get',
-            {
-              task_id: task.id,
-            },
-            {
-              headers: {
-                Authorization: 'Bearer ' + userStore.getRawState().token,
-              },
-            },
-          )
-
+        request({
+          url: '/videos/get',
+          method: 'post',
+          data: {
+            task_id: task.id,
+          },
+        })
           .then(response => {
             // Handle the response
             console.log('Task response:', response.data);
