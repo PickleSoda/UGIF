@@ -32,16 +32,6 @@ const AppShell = () => {
     init();
   }, []);
 
-  // Listen for system theme changes
-  window
-    .matchMedia('(prefers-color-scheme: dark)')
-    .addEventListener('change', async status => {
-      try {
-        await StatusBar.setStyle({
-          style: status.matches ? Style.Dark : Style.Light,
-        });
-      } catch {}
-    });
 
   if (!initialized) {
     return <div>Loading...</div>; // Show loading indicator or a splash screen
