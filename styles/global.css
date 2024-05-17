@@ -265,6 +265,254 @@ ion-searchbar.ios .custom-searchbar {
 }
 
 .content-container {
+  position: absolute;
+  bottom: 0;
+  padding-bottom: 80px;
+}
+
+.title {
+  text-align: center;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.subtitle {
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 17px;
+  font-weight: 400;
+  text-align: center;
+  opacity: 70%;
+  margin-bottom: 76px;
+  padding: 0 10px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.signin-button, .create-account-button, .google-sign-in {
+  width: 20rem;
+  font-family: 'Inter', sans-serif;
+  border-radius: 0.5rem;
+  height: 3rem;
+}
+
+.create-account-button {
+  border: 1px solid #D81159;
+}
+
+@keyframes floatAnimation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+.bg-login {
+  --background: var(--ion-color-dark);
+}
+
+.welcome-svg {
+  animation: floatAnimation 3s ease-in-out infinite;
+}
+.login-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  padding-left: 20px;
+  padding-top: 80px;
+  padding-bottom: 35px;
+  color: white;
+}
+
+.input-container {
+  width: 100%;
+  padding: 0 20px;
+  padding-bottom: 22px;
+}
+
+.input-label, .IonInput {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: white;
+}
+
+.IonInput {
+  padding-left: 10px;
+}
+
+.forgot-password {
+  color: white;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  text-align: right;
+  padding-bottom: 20px;
+  padding-right: 20px;
+}
+
+.or-separator {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+  margin-top: 40px;
+  width: 100%;
+}
+
+.or-separator::before, .or-separator::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var( --ion-color-primary);
+  margin: 0 30px;
+}
+
+.or-separator span {
+  margin: 0 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+}
+
+.register-link {
+  text-align: center;
+  position: absolute;
+  bottom: 20px;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+  color: white;
+}
+
+.signin-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-item {
+  --border-radius: 0.5rem;
+  --border-color: #D8DADC;
+  --border-width: 1px;
+  --border-style: solid;
+  --padding-start: 0;
+  --inner-padding-end: 0;
+  --padding-start: 10px;
+  --padding-end: 10px;
+  --font-family: 'Inter', sans-serif;
+}
+
+
+.logins-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.signup-span {
+  font-family: 'Inter', sans-serif;
+  font-weight: bold; 
+}
+
+.error-message {
+  color: red;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 10px;
+}
+
+.success-message {
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 10px;
+}
+
+.custom-toolbar {
+  --background: transparent;
+  --border-style: none;  
+}
+
+.star-svg-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Align start on the right */
+  padding-right: 8px;
+  padding-top: 8px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(50%,1fr));
+  grid-auto-rows: 5px; /* adjust as needed */
+  grid-row-gap: 5px; /* adjust as needed */
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bg-image {
+  background-image: url('/background2.png') !important; /* Ensure the path is correct */
+  background-color: var(--ion-color-dark);
+  --background: none;
+  background-size: 110%; /* Scale the image to 120% of its original size */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-origin: content-box; /* Ensure the background position offset is from the content box */
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+.ion-content-scroll-host {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.ion-content-scroll-host::before,
+.ion-content-scroll-host::after {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  content: '';
+}
+
+.ion-content-scroll-host::before {
+  bottom: -1px;
+}
+
+.ion-content-scroll-host::after {
+  top: -1px;
+
+}
+.gif-card{
+  transition: width 0.5s ease, height 0.5s ease;
+}
+
+.content-container {
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -4,7 +4,7 @@ http://ionicframework.com/docs/theming/ */
 /** Ionic CSS Variables **/
 :root {
   /** primary **/
-  --ion-color-primary: #3880ff;
+  --ion-color-primary: #D81159;
   --ion-color-primary-rgb: 56, 128, 255;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
@@ -12,11 +12,11 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-primary-tint: #4c8dff;
 
   /** secondary **/
-  --ion-color-secondary: #5133cc;
+  --ion-color-secondary: #006BA6;
   --ion-color-secondary-rgb: 61, 194, 255;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #36abe0;
+  --ion-color-secondary-shade: #0496FF;
   --ion-color-secondary-tint: #50c8ff;
 
   /** tertiary **/
@@ -52,7 +52,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-danger-tint: #ed576b;
 
   /** dark **/
-  --ion-color-dark: #222428;
+  --ion-color-dark: #262626;
   --ion-color-dark-rgb: 34, 36, 40;
   --ion-color-dark-contrast: #ffffff;
   --ion-color-dark-contrast-rgb: 255, 255, 255;
@@ -235,4 +235,45 @@ http://ionicframework.com/docs/theming/ */
     --ion-card-background: #1e1e1e;
     --ion-font-family: var(--default-font);
   }
+}
+
+ion-button.signin-button-home, ion-button.create-account-button-home {
+  --border-radius: 0.5rem;
+  width: 80%;
+  max-width: 20rem;
+  height: 56px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+}
+
+ion-button.signin-button-home, ion-button.signin-button {
+  --background: var( --ion-color-primary);
+  --color: white;
+  height: 56px;
+}
+
+ion-button.create-account-button-home {
+  --background: transparent;
+  --color: var(--ion-color-secondary-shade);
+  --border-style: solid;
+  --border-width: 1px;
+  --border-color: var(--ion-color-secondary);
+  height: 56px;
+}
+
+ion-button.google-sign-in {
+  --background: white;
+  --color: black;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-color: black;
+  height: 56px;
+}
+
+ion-button.signin-button, ion-button.google-sign-in {
+  --border-radius: 0.5rem;
+  width: 100%;
+  padding: 0 20px;
+  font-family: 'Inter', sans-serif;
+  height: 56px;
 }

@@ -139,9 +139,10 @@ const SignIn = () => {
       dismiss();
     }
   };
+  
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader mode='ios'>
         <IonToolbar className="custom-toolbar">
           <div className="star-svg-container">{star_svg}</div>
         </IonToolbar>
@@ -149,7 +150,7 @@ const SignIn = () => {
       <IonContent
         fullscreen
         scrollY={false}
-        className="bg-white flex flex-col items-center justify-center"
+        className="bg-login flex flex-col items-center justify-center"
       >
         <h1 className="login-title">Log in</h1>
 
