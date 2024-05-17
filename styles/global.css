@@ -451,3 +451,52 @@ ion-searchbar.ios .custom-searchbar {
   flex-direction: column;
   overflow: hidden;
 }
+ion-segment {
+  background: #FF2473;
+  padding: 2px;
+}
+
+ion-segment-button{
+  background: #FF2473;
+  color: #f9f9f9;
+}
+ion-segment-button::part(indicator-background) {
+  background: #D81159
+}
+
+ion-button.signin-button-home, ion-button.create-account-button-home {
+  --border-radius: 0.5rem;
+  width: 80%;
+  max-width: 20rem;
+  height: 3rem;
+  font-family: 'Inter', sans-serif;
+}
+
+ion-button.signin-button-home, ion-button.signin-button {
+  --background: black;
+  --color: white;
+}
+
+ion-button.create-account-button-home {
+  --background: white;
+  --color: black;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-color: black;
+}
+
+ion-button.google-sign-in {
+  --background: white;
+  --color: black;
+  --border-style: solid;
+  --border-width: 1px;
+  --border-color: black;
+}
+
+ion-button.signin-button, ion-button.google-sign-in {
+  --border-radius: 0.5rem;
+  width: 100%;
+  padding: 0 20px;
+  height: 3rem;
+  font-family: 'Inter', sans-serif;
+}

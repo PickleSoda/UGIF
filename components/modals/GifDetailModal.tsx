@@ -34,7 +34,7 @@ const GifDetailModal = ({
   open: boolean;
   onDidDismiss: () => void;
 }) => {
-  const items = Store.useState(s => s.homeItems);
+  const items = Store.useState(s => s.gifs);
   const loadedList = items?.find(l => l.id === id);
   const { takePhoto } = usePhotoGallery();
   const [base64Photo, setBase64Photo] = useState<string | undefined>(undefined);

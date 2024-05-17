@@ -10,13 +10,13 @@ import {
 import { cog, flash, star } from 'ionicons/icons';
 
 import Settings from './Settings';
-import Gifs from './Gifs';
+import Home from './Home';
 import MyGifs from './MyGifs';
 const Tabs = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
-        <Route path="/gifs" render={() => <Gifs />} exact={true} />
+        <Route path="/gifs" render={() => <Home />} exact={true} />
         <Route path="/my-gifs" render={() => <MyGifs />} exact={true} />
         <Route path="/settings" render={() => <Settings />} exact={true} />
         <Route path="" render={() => <Redirect to="/gifs" />} exact={true} />

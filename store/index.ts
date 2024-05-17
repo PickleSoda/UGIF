@@ -10,17 +10,19 @@ import {
 } from '../mock';
 
 type StoreProps = {
-  homeItems: HomeItem[];
+  gifs: HomeItem[];
   notifications: NotificationItem[];
   settings: Settings;
   tasks: Task[];
+  videos: any[];
 };
 
 const Store = new PullStateStore<StoreProps>({
-  homeItems: [],
+  gifs: [],
   notifications,
   settings,
   tasks: [],
+  videos: [],
 });
 
 Store.createReaction(
@@ -42,7 +44,8 @@ export async function initializeAppState() {
   }
   Store.update(state => ({  
     ...state,
-    homeItems: [],
+    gifs: [],
+    videos: [],
   }));
 }
 

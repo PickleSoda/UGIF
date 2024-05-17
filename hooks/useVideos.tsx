@@ -3,9 +3,9 @@ import axios from 'axios';
 import { HomeItem } from '../mock';
 import Store from '../store';
 import { request } from '../lib/axios';
-const useGifs = (initialPage = 1, perPage = 10) => {
-  const loadedGifs = Store.useState(s => s.gifs);
-  const [gifs, setgifs] = useState<HomeItem[]>([]);
+const useVideos = (initialPage = 1, perPage = 10) => {
+  const loadedGifs = Store.useState(s => s.videos);
+  const [videos, setvideos] = useState<any[]>([]);
   const [page, setPage] = useState(initialPage);
   const [hasMore, setHasMore] = useState(true);
 
@@ -15,24 +15,24 @@ const useGifs = (initialPage = 1, perPage = 10) => {
       console.log('Data:', data);
 
       const response = await request({
-        url: '/gifs/fetch',
+        url: '/movies/fetch',
         method: 'post',
         data: data,
       });
       console.log(response.data);
       Store.update(s => {
-        s.gifs = [...loadedGifs, ...response.data.gifs];
+        s.videos = [...loadedGifs, ...response.data.gifs];
       });
       setPage(page + 1);
       console.log('Page:', page);
-      setgifs(loadedGifs);
+      setvideos(loadedGifs);
     } catch (error) {
       console.error('Failed to fetch GIFs:', error);
     }
-  }, [loadedGifs, setgifs, page, perPage]);
+  }, [loadedGifs, setvideos, page, perPage]);
 
   useEffect(() => {
-    loadedGifs.length === 0 ? fetchGifs() : setgifs(loadedGifs);
+    loadedGifs.length === 0 ? fetchGifs() : setvideos(loadedGifs);
   }, [loadedGifs, fetchGifs]);
 
   const handleInput = (ev: Event) => {
@@ -40,17 +40,15 @@ const useGifs = (initialPage = 1, perPage = 10) => {
     const target = ev.target as HTMLIonSearchbarElement;
     if (target) query = target.value!.toLowerCase();
 
-    gifs &&
-      setgifs(
-        loadedGifs.filter(d => d.id.toLowerCase().indexOf(query) > -1),
-      );
+    videos &&
+      setvideos(loadedGifs.filter(d => d.id.toLowerCase().indexOf(query) > -1));
   };
   const handleRefresh = (event: CustomEvent) => {
     setHasMore(true);
     setPage(1);
-    setgifs([]);
+    setvideos([]);
     Store.update(s => {
-      s.gifs = [];
+      s.videos = [];
     });
     setTimeout(() => {
       // Any calls to load data go here
@@ -61,11 +59,11 @@ const useGifs = (initialPage = 1, perPage = 10) => {
   return {
     handleRefresh,
     handleInput,
-    gifs,
+    videos,
     fetchGifs,
     hasMore,
     reset: () => setPage(1),
   };
 };
 
-export default useGifs;
+export default useVideos;
