@@ -756,7 +756,7 @@ ion-button.signin-button, ion-button.google-sign-in {
   position: absolute;
   top: -10px;
   left: -10px; 
-  width: 200px;
+  width: 180px;
   height: auto;
   transform: rotate(-7deg); 
 }
