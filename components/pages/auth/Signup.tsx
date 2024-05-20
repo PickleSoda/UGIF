@@ -273,24 +273,25 @@ const SignUp = () => {
             <span>OR</span>
           </div>
 
-          <IonButton
-            expand="block"
-            className="google-sign-in"
-            onClick={() => googleSignIn()}
-            disabled={loading}
-          >
-            Sign up with Google
-            <IonIcon className="pl-1" slot="end" icon={logoGoogle}></IonIcon>
-          </IonButton>
-          {showAppleSignIn && (
+          {showAppleSignIn ? (
             <IonButton
               expand="block"
-              className="apple-sign-in"
+              className="google-sign-in"
               onClick={() => appleSignIn()}
               disabled={loading}
             >
               Sign up with Apple
               <IonIcon className="pl-1" slot="end" icon={logoApple}></IonIcon>
+            </IonButton>
+          ) : (
+            <IonButton
+              expand="block"
+              className="google-sign-in"
+              onClick={() => googleSignIn()}
+              disabled={loading}
+            >
+              Sign up with Google
+              <IonIcon className="pl-1" slot="end" icon={logoGoogle}></IonIcon>
             </IonButton>
           )}
         </div>

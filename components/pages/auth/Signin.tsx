@@ -15,12 +15,13 @@ import {
   useIonLoading,
   IonHeader,
 } from '@ionic/react';
+import { Device } from '@capacitor/device';
 import { Keyboard } from '@capacitor/keyboard';
 import { loginUser } from '../../../store/actions';
 import { request } from '../../../lib/axios';
+import { logoGoogle, logoApple } from 'ionicons/icons';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { authenticateWithFirebase } from '../../../lib/firebase/auth';
-import { logoGoogle } from 'ionicons/icons';
+import { SignInWithApple } from '@capacitor-community/apple-sign-in';import { authenticateWithFirebase } from '../../../lib/firebase/auth';
 import { useLocation } from 'react-router-dom';
 
 const SignIn = () => {
@@ -34,14 +35,22 @@ const SignIn = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const signUpSuccess = queryParams.get('signUpSuccess') === 'true';
+  const [showAppleSignIn, setShowAppleSignIn] = useState(false);
 
   useEffect(() => {
     const showHandler = () => setKeyboardVisible(true);
     const hideHandler = () => setKeyboardVisible(false);
-
+  
     Keyboard.addListener('keyboardWillShow', showHandler);
     Keyboard.addListener('keyboardWillHide', hideHandler);
-
+  
+    const checkPlatform = async () => {
+      const device = await Device.getInfo();
+      setShowAppleSignIn(device.platform === 'ios');
+    };
+  
+    checkPlatform();
+  
     return () => {
       Keyboard.removeAllListeners();
     };
@@ -141,6 +150,39 @@ const SignIn = () => {
     }
   };
   
+  const appleSignIn = async () => {
+    try {
+      const result = await SignInWithApple.authorize();
+      present({
+        message: 'Signing in...',
+        duration: 10000,
+      });
+      console.info('result', result);
+      const token = await authenticateWithFirebase(
+        result.response.identityToken,
+      );
+      const response = await request({
+        url: '/auth/apple_signin',
+        method: 'post',
+        data: {
+          id_token: token,
+        },
+      });
+      console.info('response', response);
+  
+      const email = result.response.email ?? 'unknown@example.com';
+      loginUser({ username: email, token: response.data.token });
+      
+      if (result) {
+        router.push('/', 'none', 'push');
+      }
+    } catch (error) {
+      console.error('Error during Apple sign-in:', error);
+    } finally {
+      dismiss();
+    }
+  };
+
   return (
     <IonPage>
       <IonHeader mode='ios' className='container'>
@@ -206,15 +248,27 @@ const SignIn = () => {
             <span>OR</span>
           </div>
 
-          <IonButton
-            expand="block"
-            className="google-sign-in"
-            onClick={() => googleSignIn()}
-            disabled={loading}
-          >
-            Sign in with Google
-            <IonIcon className="pl-1" slot="end" icon={logoGoogle}></IonIcon>
-          </IonButton>
+          {showAppleSignIn ? (
+            <IonButton
+              expand="block"
+              className="google-sign-in"
+              onClick={() => appleSignIn()}
+              disabled={loading}
+            >
+              Sign up with Apple
+              <IonIcon className="pl-1" slot="end" icon={logoApple}></IonIcon>
+            </IonButton>
+          ) : (
+            <IonButton
+              expand="block"
+              className="google-sign-in"
+              onClick={() => googleSignIn()}
+              disabled={loading}
+            >
+              Sign up with Google
+              <IonIcon className="pl-1" slot="end" icon={logoGoogle}></IonIcon>
+            </IonButton>
+          )}
         </div>
 
         <IonImg src='rect-log2.png' className="custom-logo-bottom" />
