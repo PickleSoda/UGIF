@@ -48,7 +48,7 @@ const SignUp = () => {
   
     const checkPlatform = async () => {
       const device = await Device.getInfo();
-      setShowAppleSignIn(device.platform === 'android');
+      setShowAppleSignIn(device.platform === 'ios');
     };
   
     checkPlatform();

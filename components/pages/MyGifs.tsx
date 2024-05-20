@@ -32,12 +32,9 @@ const MyGifs = () => {
 
   return (
     <IonPage>
-      <IonHeader mode='ios' className='container'>
-        <IonToolbar className="custom-toolbar p-2 mt-2">
-          <IonTitle> My gifs</IonTitle>
-        </IonToolbar>
+      <IonHeader>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent fullscreen className='bg-color'>
         <div className="my-4 p-1">
           <IonSegment
             mode="ios"
@@ -57,7 +54,7 @@ const MyGifs = () => {
         </div>
         {((gifs.length === 0 && selectedSegment === 'GIF') ||
           (videos.length === 0 && selectedSegment === 'Video')) && (
-          <IonText className="ion-text-center ion-padding absolute w-full top-1/2 -translate-y-1/2">
+          <IonText className="ion-text-center ion-padding absolute w-full top-1/2 -translate-y-1/2" color="light">
             <h1>Media not found</h1>
           </IonText>
         )}
