@@ -18,15 +18,16 @@ import GifCard from '../../ui/GifCard';
 import useGifs from '../../../hooks/useGifs';
 import React, { forwardRef, useState } from 'react';
 import ResponsiveGrid from '../../ui/ResponsiveGrid';
-
+import SpringModal from '../../modals/GifModal';
 const Gifs = () => {
   const { handleInput, gifs, handleRefresh, fetchGifs } = useGifs();
 
   const [showGifDetail, setShowGifDetail] = useState(false);
   const [selectedGif, setSelectedGif] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
 
   const openGifDetails = (id: string) => {
-    setShowGifDetail(true);
+    setIsOpen(true);
     setSelectedGif(id);
   };
 
@@ -37,6 +38,7 @@ const Gifs = () => {
         onDidDismiss={() => setShowGifDetail(false)}
         id={selectedGif}
       />
+      <SpringModal isOpen={isOpen} setIsOpen={setIsOpen} id={selectedGif} />
       <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
         <IonRefresherContent></IonRefresherContent>
       </IonRefresher>
@@ -60,6 +62,19 @@ const Gifs = () => {
         ></IonInfiniteScrollContent>
       </IonInfiniteScroll>
     </>
+  );
+};
+const ExampleWrapper = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <div >
+      <button
+        onClick={() => setIsOpen(true)}
+        className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-medium px-4 py-2 rounded hover:opacity-90 transition-opacity"
+      >
+        Open Modal
+      </button>
+    </div>
   );
 };
 export default Gifs;

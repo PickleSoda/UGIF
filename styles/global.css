@@ -862,9 +862,24 @@ ion-button.signin-button, ion-button.google-sign-in, ion-button.forgot-button {
   border-radius: 16px !important;
   background: transparent;
   --color: white;
-  --color-selected: var(--ion-color-primary);
+  --color-selected: var(--ion-color-primary-shade);
 }
 
 ion-page {
   --background: var(--ion-color-dark);
+}
+
+.profile-card{
+  background-color: var(--ion-color-primary-shade);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.settings-card{
+  background-color: var(--ion-color-dark-shade);
+  border-radius: 20px;
+  padding: 6px;
 }

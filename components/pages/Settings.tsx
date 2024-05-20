@@ -11,8 +11,11 @@ import {
   IonRefresherContent,
   IonThumbnail,
   IonIcon,
+  IonAvatar,
+  IonButton,
 } from '@ionic/react';
 import { personCircleOutline } from 'ionicons/icons';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import PaymentModal from '../modals/PaymentModal';
 import { userStore } from '../../store/userStore';
 import useBalance from '../../hooks/useBalance';
@@ -32,6 +35,7 @@ const Settings = () => {
     }, 1000);
   };
   const balance = userStore.useState(s => s.balance);
+  const username = userStore.useState(s => s.username);
 
   const TopUpBalance = () => {
     setShowPaymentModal(true);
@@ -41,40 +45,67 @@ const Settings = () => {
     showLogoutAlert();
   };
   return (
-    <IonPage>
-      <IonHeader mode='ios' className='container'>
-        <IonToolbar className="custom-toolbar p-2 mt-2">
-          <IonTitle> Settings</IonTitle>
-        </IonToolbar>
-      </IonHeader>
+    <IonPage className=' font-extrabold'>
       <IonContent>
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
-        <IonList lines="full">
-          <IonItem>
-            <IonThumbnail slot="start">
-              <IonIcon
-                className="w-14 h-14 opacity-45"
-                icon={personCircleOutline}
-              />
-            </IonThumbnail>
-            <div className="flex flex-col py-4 opacity-90">
-              <p>User: {userStore.useState(s => s.username)}</p>
-              <p>
-                Credits: <span className="px-1 text-blue-600"> {balance} </span>
+        <div className='profile-card'>
+          <IonAvatar className='h-20 w-20'>
+            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </IonAvatar>
+          <p className="text-xl pt-1">{username}</p>
+        </div>
+        <div className='container p-6 space-y-3'>
+
+          <div className="settings-card">
+            <div className='flex flex-between justify-between'>
+              <p className="text-bae font-semibold my-auto px-4" >
+                Credits: <span className="px-1 font-bold"> {balance} </span>
               </p>
+              <IonButton
+                mode='ios'
+                shape='round'
+                size='small'
+                onClick={() => TopUpBalance()}
+              >
+                <p className='font-bold text-base'>
+                  Buy
+                </p>
+              </IonButton>
             </div>
-          </IonItem>
-          <IonItem onClick={() => TopUpBalance()}>
-            <h5>Buy Credits</h5>
-            <IonRippleEffect></IonRippleEffect>
-          </IonItem>
-          <IonItem onClick={() => handleLogout()}>
-            <h5>Logout</h5>
-            <IonRippleEffect></IonRippleEffect>
-          </IonItem>
-        </IonList>
+          </div>
+          <div className="settings-card">
+            <p className="text-bae font-semibold my-auto px-4">
+              Swap materials
+            </p>
+            <div className='w-full'>
+              <Swiper
+              className='w-full'
+                spaceBetween={50}
+                slidesPerView={1}
+                onSlideChange={() => console.log('slide change')}
+                onSwiper={(swiper) => console.log(swiper)}
+              >
+                <SwiperSlide>Slide 1</SwiperSlide>
+                <SwiperSlide>Slide 2</SwiperSlide>
+                <SwiperSlide>Slide 3</SwiperSlide>
+                <SwiperSlide>Slide 4</SwiperSlide>
+              </Swiper>
+            </div>
+          </div>
+          <IonList lines="full">
+            <IonItem onClick={() => handleLogout()}>
+              <h5>Logout</h5>
+              <IonRippleEffect></IonRippleEffect>
+            </IonItem>
+            <IonItem>
+              <h5>Terms and Conditions</h5>
+              <IonRippleEffect></IonRippleEffect>
+            </IonItem>
+          </IonList>
+        </div>
+
         <PaymentModal
           open={showPaymentModal}
           onDidDismiss={() => setShowPaymentModal(false)}
@@ -83,5 +114,4 @@ const Settings = () => {
     </IonPage>
   );
 };
-
 export default Settings;
