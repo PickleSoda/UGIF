@@ -11,10 +11,12 @@ install! 'cocoapods', :disable_input_output_paths => true
 def capacitor_pods
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
+  pod 'CapacitorCommunityAppleSignIn', :path => '../../node_modules/@capacitor-community/apple-sign-in'
   pod 'CapacitorCommunityMedia', :path => '../../node_modules/@capacitor-community/media'
   pod 'CapacitorBrowser', :path => '../../node_modules/@capacitor/browser'
   pod 'CapacitorCamera', :path => '../../node_modules/@capacitor/camera'
   pod 'CapacitorClipboard', :path => '../../node_modules/@capacitor/clipboard'
+  pod 'CapacitorDevice', :path => '../../node_modules/@capacitor/device'
   pod 'CapacitorFilesystem', :path => '../../node_modules/@capacitor/filesystem'
   pod 'CapacitorKeyboard', :path => '../../node_modules/@capacitor/keyboard'
   pod 'CapacitorPreferences', :path => '../../node_modules/@capacitor/preferences'
@@ -22,6 +24,7 @@ def capacitor_pods
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
   pod 'CapacitorStatusBar', :path => '../../node_modules/@capacitor/status-bar'
   pod 'CodetrixStudioCapacitorGoogleAuth', :path => '../../node_modules/@codetrix-studio/capacitor-google-auth'
+  pod 'CapacitorAppleLogin', :path => '../../node_modules/capacitor-apple-login'
 end
 
 target 'App' do

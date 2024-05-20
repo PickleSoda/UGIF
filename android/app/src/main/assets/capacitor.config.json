@@ -1,6 +1,6 @@
 {
-	"appId": "com.example.app",
-	"appName": "nextjs-tailwind-capacitor",
+	"appId": "com.starswap.gif",
+	"appName": "StarSwap",
 	"bundledWebRuntime": false,
 	"npmClient": "npm",
 	"webDir": "out",
