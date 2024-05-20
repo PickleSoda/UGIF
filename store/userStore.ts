@@ -9,6 +9,7 @@ const initialState: IUser = {
   token: '',
   gifs: [],
   videos : [],
+  categories: [],
   balance: 0,
 };
 

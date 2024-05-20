@@ -1,6 +1,6 @@
 import Store from '.';
 import { userStore } from './userStore';
-import { Settings, Task, IUser, IGif } from '../mock';
+import { Settings, Task, IUser, IGif, ICategory } from '../mock';
 
 export const setSettings = (settings: Settings) => {
   Store.update(s => {
@@ -23,6 +23,15 @@ export const removeTask = (taskId: string) => {
 
 export const addGif = (gif: IGif) =>
   userStore.update(state => ({ ...state, gifs: [...state.gifs, gif] }));
+
+export const addCategory = (category: ICategory) =>
+  userStore.update(state => ({ ...state, categories: [...state.categories, category] }));
+
+export const removeCategory = (id: string) =>
+  userStore.update(state => ({
+    ...state,
+    categories: state.categories.filter(category => category.id !== id),
+  }));
 
 export const addVideo = (video: IGif) =>
   userStore.update(state => ({ ...state, videos: [...state.videos, video] }));

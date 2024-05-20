@@ -51,6 +51,12 @@ export interface IGif {
   // localPath: string;
 }
 
+export interface ICategory {
+  id: string;
+  name: string;
+  category: string;
+}
+
 export interface IUser {
   isAuth: boolean;
   username: string;
@@ -58,6 +64,7 @@ export interface IUser {
   token: string;
   gifs: IGif[];
   videos: IGif[];
+  categories: ICategory[];
   balance: number;
 }
 

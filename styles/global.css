@@ -746,12 +746,13 @@ ion-searchbar.ios .custom-searchbar {
   overflow: hidden;
   padding-top: 8px;
 }
-ion-segment {
+
+ion-segment.video-gif {
   background: #FF2473;
   padding: 2px;
 }
 
-ion-segment-button{
+ion-segment-button.video-gif-button{
   background: #FF2473;
   color: #f9f9f9;
 }
@@ -882,4 +883,15 @@ ion-page {
   background-color: var(--ion-color-dark-shade);
   border-radius: 20px;
   padding: 6px;
+}
+
+.custom-toolbar .scroll-hide {
+  overflow-x: auto;  /* Allows horizontal scrolling */
+  -ms-overflow-style: none;  /* Hides scrollbar in IE and Edge */
+  scrollbar-width: none;  /* Hides scrollbar in Firefox */
+}
+
+.custom-toolbar .scroll-hide::-webkit-scrollbar {
+  width: 0px;  /* Reduces the size of the scrollbar to zero in WebKit browsers */
+  background: transparent;  /* Makes scrollbar transparent */
 }
