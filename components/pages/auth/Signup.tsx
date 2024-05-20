@@ -48,7 +48,7 @@ const SignUp = () => {
   
     const checkPlatform = async () => {
       const device = await Device.getInfo();
-      setShowAppleSignIn(device.platform === 'ios');
+      setShowAppleSignIn(device.platform === 'android');
     };
   
     checkPlatform();
@@ -200,7 +200,7 @@ const SignUp = () => {
         <IonImg src='rect-log.png' className="custom-logo" />
 
         <h1 className="login-title">Sign up</h1>
-        
+
         <div className="input-container">
           <IonLabel className="input-label">Email</IonLabel>
           <IonItem lines="none" className="input-item">
