@@ -17,9 +17,11 @@ import {
   IonHeader,
 } from '@ionic/react';
 import { Keyboard } from '@capacitor/keyboard';
+import { Device } from '@capacitor/device';
 import { request } from '../../../lib/axios';
-import { logoGoogle } from 'ionicons/icons';
+import { logoGoogle, logoApple } from 'ionicons/icons';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { SignInWithApple } from '@capacitor-community/apple-sign-in';
 import { authenticateWithFirebase } from '../../../lib/firebase/auth';
 import { loginUser } from '../../../store/actions';
 
@@ -35,14 +37,22 @@ const SignUp = () => {
   const router = useIonRouter();
   const [present, dismiss] = useIonLoading();
   const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [showAppleSignIn, setShowAppleSignIn] = useState(false);
 
   useEffect(() => {
     const showHandler = () => setKeyboardVisible(true);
     const hideHandler = () => setKeyboardVisible(false);
-
+  
     Keyboard.addListener('keyboardWillShow', showHandler);
     Keyboard.addListener('keyboardWillHide', hideHandler);
-
+  
+    const checkPlatform = async () => {
+      const device = await Device.getInfo();
+      setShowAppleSignIn(device.platform === 'ios');
+    };
+  
+    checkPlatform();
+  
     return () => {
       Keyboard.removeAllListeners();
     };
@@ -137,6 +147,39 @@ const SignUp = () => {
       }
     } catch (error) {
       console.error('Error during Google sign-in:', error);
+    } finally {
+      dismiss();
+    }
+  };
+
+  const appleSignIn = async () => {
+    try {
+      const result = await SignInWithApple.authorize();
+      present({
+        message: 'Signing in...',
+        duration: 10000,
+      });
+      console.info('result', result);
+      const token = await authenticateWithFirebase(
+        result.response.identityToken,
+      );
+      const response = await request({
+        url: '/auth/apple_signin',
+        method: 'post',
+        data: {
+          id_token: token,
+        },
+      });
+      console.info('response', response);
+  
+      const email = result.response.email ?? 'unknown@example.com';
+      loginUser({ username: email, token: response.data.token });
+      
+      if (result) {
+        router.push('/', 'none', 'push');
+      }
+    } catch (error) {
+      console.error('Error during Apple sign-in:', error);
     } finally {
       dismiss();
     }
@@ -239,6 +282,17 @@ const SignUp = () => {
             Sign up with Google
             <IonIcon className="pl-1" slot="end" icon={logoGoogle}></IonIcon>
           </IonButton>
+          {showAppleSignIn && (
+            <IonButton
+              expand="block"
+              className="apple-sign-in"
+              onClick={() => appleSignIn()}
+              disabled={loading}
+            >
+              Sign up with Apple
+              <IonIcon className="pl-1" slot="end" icon={logoApple}></IonIcon>
+            </IonButton>
+          )}
         </div>
 
         <p className={`register-link ${keyboardVisible ? 'hidden' : ''}`}>

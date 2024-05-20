@@ -12,9 +12,11 @@ public class MainActivity extends BridgeActivity {
 
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setNavigationBarColor(getResources().getColor(android.R.color.customColor));  // Example using a predefined color
+        
+        int customColor = 0xFF262626;
+        
+        window.setNavigationBarColor(customColor);
 
-        // Optionally, set the status bar color
-        window.setStatusBarColor(getResources().getColor(android.R.color.customColor)); // Example using a predefined color
+        window.setStatusBarColor(customColor);
     }
 }
