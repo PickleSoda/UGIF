@@ -21,7 +21,8 @@ import { loginUser } from '../../../store/actions';
 import { request } from '../../../lib/axios';
 import { logoGoogle, logoApple } from 'ionicons/icons';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { SignInWithApple } from '@capacitor-community/apple-sign-in';import { authenticateWithFirebase } from '../../../lib/firebase/auth';
+import { SignInWithApple,SignInWithAppleOptions } from '@capacitor-community/apple-sign-in';
+import { authenticateWithFirebase } from '../../../lib/firebase/auth';
 import { useLocation } from 'react-router-dom';
 
 const SignIn = () => {
@@ -46,7 +47,7 @@ const SignIn = () => {
   
     const checkPlatform = async () => {
       const device = await Device.getInfo();
-      setShowAppleSignIn(device.platform === 'ios');
+      setShowAppleSignIn(device.platform !== 'android');
     };
   
     checkPlatform();
@@ -151,8 +152,15 @@ const SignIn = () => {
   };
   
   const appleSignIn = async () => {
+    let options: SignInWithAppleOptions = {
+      clientId: 'com.starswap.gif',
+      redirectURI: '/',
+      scopes: 'email name',
+      state: '12345',
+      nonce: 'nonce',
+    };
     try {
-      const result = await SignInWithApple.authorize();
+      const result = await SignInWithApple.authorize(options);
       present({
         message: 'Signing in...',
         duration: 10000,
