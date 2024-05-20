@@ -154,7 +154,7 @@ const SignIn = () => {
   const appleSignIn = async () => {
     let options: SignInWithAppleOptions = {
       clientId: 'com.starswap.gif',
-      redirectURI: '/',
+      redirectURI: 'https://starswap-91cd8.firebaseapp.com/__/auth/handler',
       scopes: 'email name',
       state: '12345',
       nonce: 'nonce',
