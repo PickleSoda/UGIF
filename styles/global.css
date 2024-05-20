@@ -798,6 +798,11 @@ ion-button.signin-button, ion-button.google-sign-in, ion-button.forgot-button {
   font-family: 'Inter', sans-serif;
 }
 
+ion-fab-button {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-light);
+}
+
 .custom-logo {
   position: absolute;
   top: -10px;

@@ -21,17 +21,22 @@ const Tabs = () => {
         <Route path="/settings" render={() => <Settings />} exact={true} />
         <Route path="" render={() => <Redirect to="/gifs" />} exact={true} />
       </IonRouterOutlet>
-      <IonTabBar slot="bottom"
-        className="floating-tab-bar"
-        mode='md'
-      >
+      <IonTabBar slot="bottom" className="floating-tab-bar" mode="md">
         <IonTabButton tab="tab1" href="/gifs" className="floating-tab-button">
           <IonIcon icon={grid} />
         </IonTabButton>
-        <IonTabButton tab="tab2" href="/my-gifs" className="floating-tab-button">
+        <IonTabButton
+          tab="tab2"
+          href="/my-gifs"
+          className="floating-tab-button"
+        >
           <IonIcon icon={person} />
         </IonTabButton>
-        <IonTabButton tab="tab3" href="/settings" className="floating-tab-button">
+        <IonTabButton
+          tab="tab3"
+          href="/settings"
+          className="floating-tab-button"
+        >
           <IonIcon icon={settings} />
         </IonTabButton>
       </IonTabBar>
@@ -39,4 +44,4 @@ const Tabs = () => {
   );
 };
 
-export default Tabs;        
+export default Tabs;

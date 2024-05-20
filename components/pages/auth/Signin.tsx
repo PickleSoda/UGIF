@@ -21,7 +21,10 @@ import { loginUser } from '../../../store/actions';
 import { request } from '../../../lib/axios';
 import { logoGoogle, logoApple } from 'ionicons/icons';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { SignInWithApple,SignInWithAppleOptions } from '@capacitor-community/apple-sign-in';
+import {
+  SignInWithApple,
+  SignInWithAppleOptions,
+} from '@capacitor-community/apple-sign-in';
 import { authenticateWithFirebase } from '../../../lib/firebase/auth';
 import { useLocation } from 'react-router-dom';
 
@@ -42,17 +45,17 @@ const SignIn = () => {
   useEffect(() => {
     const showHandler = () => setKeyboardVisible(true);
     const hideHandler = () => setKeyboardVisible(false);
-  
+
     Keyboard.addListener('keyboardWillShow', showHandler);
     Keyboard.addListener('keyboardWillHide', hideHandler);
-  
+
     const checkPlatform = async () => {
       const device = await Device.getInfo();
       setShowAppleSignIn(device.platform === 'ios');
     };
-  
+
     checkPlatform();
-  
+
     return () => {
       Keyboard.removeAllListeners();
     };
@@ -156,7 +159,7 @@ const SignIn = () => {
       dismiss();
     }
   };
-  
+
   const appleSignIn = async () => {
     let options: SignInWithAppleOptions = {
       clientId: 'com.starswap.gif.auth',
@@ -183,10 +186,10 @@ const SignIn = () => {
         },
       });
       console.info('response', response);
-  
+
       const email = result.response.email ?? 'unknown@example.com';
       loginUser({ username: email, token: response.data.token });
-      
+
       if (result) {
         router.push('/', 'none', 'push');
       }
@@ -199,7 +202,7 @@ const SignIn = () => {
 
   return (
     <IonPage>
-      <IonHeader mode='ios' className='container'>
+      <IonHeader mode="ios" className="container">
         <IonToolbar className="custom-toolbar">
           <div className="star-svg-container">{star_svg}</div>
         </IonToolbar>
@@ -209,7 +212,7 @@ const SignIn = () => {
         scrollY={false}
         className="bg-login flex flex-col items-center justify-center"
       >
-        <IonImg src='rect-log.png' className="custom-logo" />
+        <IonImg src="rect-log.png" className="custom-logo" />
 
         <h1 className="login-title">Log in</h1>
 
@@ -241,13 +244,17 @@ const SignIn = () => {
           </IonItem>
         </div>
 
-        <p className="forgot-password" onClick={handleForgot} >Forgot password?</p>
+        <p className="forgot-password" onClick={handleForgot}>
+          Forgot password?
+        </p>
 
         {error && <p className="error-message">{error}</p>}
         {!error && signUpSuccess && (
           <p className="success-message">Account created successfully</p>
         )}
-        {passwordChanged  && <p className="success-message">Password changed successfully</p>}
+        {passwordChanged && (
+          <p className="success-message">Password changed successfully</p>
+        )}
 
         <div className="logins-container">
           <IonButton
@@ -286,11 +293,9 @@ const SignIn = () => {
           )}
         </div>
 
-        {
-          !keyboardVisible && 
-          <IonImg src='rect-forgot.png' className="custom-logo-bottom" />
-        }
-
+        {!keyboardVisible && (
+          <IonImg src="rect-forgot.png" className="custom-logo-bottom" />
+        )}
 
         <p className={`register-link ${keyboardVisible ? 'hidden' : ''}`}>
           Don&apos;t have an account?{' '}

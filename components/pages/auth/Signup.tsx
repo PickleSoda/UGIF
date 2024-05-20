@@ -42,17 +42,17 @@ const SignUp = () => {
   useEffect(() => {
     const showHandler = () => setKeyboardVisible(true);
     const hideHandler = () => setKeyboardVisible(false);
-  
+
     Keyboard.addListener('keyboardWillShow', showHandler);
     Keyboard.addListener('keyboardWillHide', hideHandler);
-  
+
     const checkPlatform = async () => {
       const device = await Device.getInfo();
       setShowAppleSignIn(device.platform === 'ios');
     };
-  
+
     checkPlatform();
-  
+
     return () => {
       Keyboard.removeAllListeners();
     };
@@ -171,10 +171,10 @@ const SignUp = () => {
         },
       });
       console.info('response', response);
-  
+
       const email = result.response.email ?? 'unknown@example.com';
       loginUser({ username: email, token: response.data.token });
-      
+
       if (result) {
         router.push('/', 'none', 'push');
       }
@@ -187,7 +187,7 @@ const SignUp = () => {
 
   return (
     <IonPage>
-      <IonHeader mode='ios' className='container'>
+      <IonHeader mode="ios" className="container">
         <IonToolbar className="custom-toolbar">
           <div className="star-svg-container">{star_svg}</div>
         </IonToolbar>
@@ -197,7 +197,7 @@ const SignUp = () => {
         scrollY={false}
         className="bg-login flex flex-col items-center justify-center"
       >
-        <IonImg src='rect-log.png' className="custom-logo" />
+        <IonImg src="rect-log.png" className="custom-logo" />
 
         <h1 className="login-title">Sign up</h1>
 

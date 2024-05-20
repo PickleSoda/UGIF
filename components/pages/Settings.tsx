@@ -1,31 +1,26 @@
 import {
   IonPage,
-  IonHeader,
   IonItem,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonList,
   IonRippleEffect,
   IonRefresher,
   IonRefresherContent,
-  IonThumbnail,
-  IonIcon,
   IonAvatar,
   IonButton,
+  IonImg,
 } from '@ionic/react';
-import { personCircleOutline } from 'ionicons/icons';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import PaymentModal from '../modals/PaymentModal';
 import { userStore } from '../../store/userStore';
 import useBalance from '../../hooks/useBalance';
 import useAlerts from '../../hooks/useAlerts';
 import { useState } from 'react';
-
+import ImageList from '../ui/ImageList';
 const Settings = () => {
   const { showLogoutAlert } = useAlerts();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const { fetchBalance } = useBalance();
+
   const handleRefresh = (event: CustomEvent) => {
     fetchBalance();
     setTimeout(() => {
@@ -44,63 +39,59 @@ const Settings = () => {
   const handleLogout = () => {
     showLogoutAlert();
   };
+
   return (
-    <IonPage className=' font-extrabold'>
+    <IonPage className=" font-extrabold">
       <IonContent>
         <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
-        <div className='profile-card'>
-          <IonAvatar className='h-20 w-20'>
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+        <div className="profile-card">
+          <IonAvatar className="h-20 w-20">
+            <IonImg
+              alt="Silhouette of a person's head"
+              src="https://ionicframework.com/docs/img/demos/avatar.svg"
+            />
           </IonAvatar>
           <p className="text-xl pt-1">{username}</p>
         </div>
-        <div className='container p-6 space-y-3'>
-
+        <div className="container p-6 space-y-3">
           <div className="settings-card">
-            <div className='flex flex-between justify-between'>
-              <p className="text-bae font-semibold my-auto px-4" >
+            <div className="flex flex-between justify-between">
+              <p className="text-bae font-semibold my-auto px-4">
                 Credits: <span className="px-1 font-bold"> {balance} </span>
               </p>
               <IonButton
-                mode='ios'
-                shape='round'
-                size='small'
+                mode="ios"
+                shape="round"
+                size="small"
                 onClick={() => TopUpBalance()}
               >
-                <p className='font-bold text-base'>
-                  Buy
-                </p>
+                <p className="font-bold text-base">Buy</p>
               </IonButton>
             </div>
           </div>
-          <div className="settings-card">
-            <p className="text-bae font-semibold my-auto px-4">
-              Swap materials
-            </p>
-            <div className='w-full'>
-              <Swiper
-              className='w-full'
-                spaceBetween={50}
-                slidesPerView={1}
-                onSlideChange={() => console.log('slide change')}
-                onSwiper={(swiper) => console.log(swiper)}
-              >
-                <SwiperSlide>Slide 1</SwiperSlide>
-                <SwiperSlide>Slide 2</SwiperSlide>
-                <SwiperSlide>Slide 3</SwiperSlide>
-                <SwiperSlide>Slide 4</SwiperSlide>
-              </Swiper>
+          <div className="settings-card relative px-4 h-24">
+            <p className="text-bae font-semibold my-auto ">Swap materials</p>
+            <div className="w-full flex">
+              <ImageList fab />
             </div>
           </div>
-          <IonList lines="full">
+          <IonList lines="none">
+            <IonItem>
+              <h5>Settings</h5>
+              <IonRippleEffect></IonRippleEffect>
+            </IonItem>
+            <IonItem>
+              <h5>Terms and Conditions</h5>
+              <IonRippleEffect></IonRippleEffect>
+            </IonItem>
             <IonItem onClick={() => handleLogout()}>
               <h5>Logout</h5>
               <IonRippleEffect></IonRippleEffect>
             </IonItem>
             <IonItem>
-              <h5>Terms and Conditions</h5>
+              <h5>Help</h5>
               <IonRippleEffect></IonRippleEffect>
             </IonItem>
           </IonList>

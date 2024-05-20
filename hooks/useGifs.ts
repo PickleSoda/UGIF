@@ -41,9 +41,7 @@ const useGifs = (initialPage = 1, perPage = 10) => {
     if (target) query = target.value!.toLowerCase();
 
     gifs &&
-      setgifs(
-        loadedGifs.filter(d => d.id.toLowerCase().indexOf(query) > -1),
-      );
+      setgifs(loadedGifs.filter(d => d.id.toLowerCase().indexOf(query) > -1));
   };
   const handleRefresh = (event: CustomEvent) => {
     setHasMore(true);

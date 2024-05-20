@@ -67,7 +67,7 @@ const Gifs = () => {
 const ExampleWrapper = () => {
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <div >
+    <div>
       <button
         onClick={() => setIsOpen(true)}
         className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-medium px-4 py-2 rounded hover:opacity-90 transition-opacity"

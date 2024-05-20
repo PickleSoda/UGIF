@@ -21,12 +21,16 @@ import { loginUser } from '../../../store/actions';
 import { request } from '../../../lib/axios';
 import { logoGoogle, logoApple, chevronBackOutline } from 'ionicons/icons';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { SignInWithApple } from '@capacitor-community/apple-sign-in'; import { authenticateWithFirebase } from '../../../lib/firebase/auth';
+import { SignInWithApple } from '@capacitor-community/apple-sign-in';
+import { authenticateWithFirebase } from '../../../lib/firebase/auth';
 import { useLocation } from 'react-router-dom';
-import ReactCodeInput from "react-code-input"
+import ReactCodeInput from 'react-code-input';
 
 const ChangePassword = () => {
-  const [formData, setFormData] = useState({ password: '', confirmPassword: ''});
+  const [formData, setFormData] = useState({
+    password: '',
+    confirmPassword: '',
+  });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [present, dismiss] = useIonLoading();
@@ -88,11 +92,16 @@ const ChangePassword = () => {
       color: '#FFFFFF',
       backgroundColor: 'transparent',
       border: '1px solid #FFFFFF',
-    }
+    },
   };
 
   const handleChange = async () => {
-    if (!email || !verificationCode || !formData.password || !formData.confirmPassword) {
+    if (
+      !email ||
+      !verificationCode ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
       setError('All fields are required.');
       return;
     }
@@ -104,8 +113,8 @@ const ChangePassword = () => {
         data: {
           email: email,
           reset_code: verificationCode,
-          new_password: formData.password
-        }
+          new_password: formData.password,
+        },
       });
       if (response.status === 200) {
         router.push(`/signin?password-changed=true`);
@@ -130,19 +139,23 @@ const ChangePassword = () => {
 
   return (
     <IonPage>
-      <IonHeader mode="ios" className="container">
-      </IonHeader>
+      <IonHeader mode="ios" className="container"></IonHeader>
       <IonContent
         fullscreen
         scrollY={false}
         className="bg-login flex flex-col items-center justify-center"
       >
-        <IonButton expand="block" className="back-button" disabled={loading} onClick={handleBack}>
+        <IonButton
+          expand="block"
+          className="back-button"
+          disabled={loading}
+          onClick={handleBack}
+        >
           <IonIcon slot="icon-only" icon={chevronBackOutline}></IonIcon>
         </IonButton>
-          
+
         <h1 className="forgot-title">Reset password</h1>
-        <p className='forgot-text'>Please type something you’ll remember</p>
+        <p className="forgot-text">Please type something you’ll remember</p>
 
         <div className="input-container">
           <IonLabel className="input-label">Password</IonLabel>
@@ -183,11 +196,9 @@ const ChangePassword = () => {
             Verify
           </IonButton>
         </div>
-        {
-          !keyboardVisible && 
-          <IonImg src='rect-forgot.png' className="custom-logo-bottom-forgot" />
-        }
-
+        {!keyboardVisible && (
+          <IonImg src="rect-forgot.png" className="custom-logo-bottom-forgot" />
+        )}
       </IonContent>
     </IonPage>
   );

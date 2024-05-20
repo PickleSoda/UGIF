@@ -17,6 +17,12 @@ import '@ionic/react/css/float-elements.css';
 import '@ionic/react/css/text-alignment.css';
 import '@ionic/react/css/text-transformation.css';
 
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+
+/* Theme variables */
 import '../styles/global.css';
 import '../styles/variables.css';
 const montserrat = Montserrat({

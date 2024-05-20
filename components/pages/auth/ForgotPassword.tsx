@@ -21,11 +21,12 @@ import { loginUser } from '../../../store/actions';
 import { request } from '../../../lib/axios';
 import { logoGoogle, logoApple, chevronBackOutline } from 'ionicons/icons';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { SignInWithApple } from '@capacitor-community/apple-sign-in'; import { authenticateWithFirebase } from '../../../lib/firebase/auth';
+import { SignInWithApple } from '@capacitor-community/apple-sign-in';
+import { authenticateWithFirebase } from '../../../lib/firebase/auth';
 import { useLocation } from 'react-router-dom';
 
 const ForgotPassword = () => {
-  const [formData, setFormData] = useState({ email: ''});
+  const [formData, setFormData] = useState({ email: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [present, dismiss] = useIonLoading();
@@ -38,7 +39,6 @@ const ForgotPassword = () => {
 
     Keyboard.addListener('keyboardWillShow', showHandler);
     Keyboard.addListener('keyboardWillHide', hideHandler);
-
 
     return () => {
       Keyboard.removeAllListeners();
@@ -75,7 +75,6 @@ const ForgotPassword = () => {
     setError('');
     return true;
   };
-  
 
   const handleCode = async (e: any) => {
     if (!validateForm()) return;
@@ -109,19 +108,26 @@ const ForgotPassword = () => {
 
   return (
     <IonPage>
-      <IonHeader mode="ios" className="container">
-      </IonHeader>
+      <IonHeader mode="ios" className="container"></IonHeader>
       <IonContent
         fullscreen
         scrollY={false}
         className="bg-login flex flex-col items-center justify-center"
       >
-        <IonButton expand="block" className="back-button" disabled={loading} onClick={handleBack}>
+        <IonButton
+          expand="block"
+          className="back-button"
+          disabled={loading}
+          onClick={handleBack}
+        >
           <IonIcon slot="icon-only" icon={chevronBackOutline}></IonIcon>
         </IonButton>
-          
+
         <h1 className="forgot-title">Forgot password</h1>
-        <p className='forgot-text'>Don’t worry! It happens. Please enter the email associated with your account.</p>
+        <p className="forgot-text">
+          Don’t worry! It happens. Please enter the email associated with your
+          account.
+        </p>
 
         <div className="input-container">
           <IonLabel className="input-label">Email</IonLabel>
@@ -132,7 +138,7 @@ const ForgotPassword = () => {
               type="text"
               name="email"
               mode="md"
-              className='input-class'
+              className="input-class"
               required
             ></IonInput>
           </IonItem>
@@ -140,10 +146,9 @@ const ForgotPassword = () => {
 
         {error && <p className="error-message">{error}</p>}
 
-        {
-          !keyboardVisible && 
-          <IonImg src='rect-forgot.png' className="custom-logo-bottom-forgot" />
-        }
+        {!keyboardVisible && (
+          <IonImg src="rect-forgot.png" className="custom-logo-bottom-forgot" />
+        )}
 
         <div className="logins-container">
           <IonButton

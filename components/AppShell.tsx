@@ -32,7 +32,6 @@ const AppShell = () => {
     init();
   }, []);
 
-
   if (!initialized) {
     return <div>Loading...</div>; // Show loading indicator or a splash screen
   }

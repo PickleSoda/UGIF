@@ -8,6 +8,7 @@ import {
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Media } from '@capacitor-community/media';
 import { Capacitor } from '@capacitor/core';
+import { Preferences } from '@capacitor/preferences';
 interface UserPhoto {
   filepath: string;
   webviewPath?: string;
@@ -17,7 +18,7 @@ type ResizeImage = (
   maxWidth: number,
   maxHeight: number,
 ) => Promise<string>;
-
+const PHOTO_STORAGE = 'photos';
 export function usePhotoGallery() {
 
   const takePhoto = async () => {
@@ -51,6 +52,22 @@ export function usePhotoGallery() {
     }
   };
 
+  const savePicture = async (photo: Photo) => {
+    const base64Data = await getPhotoAsBase64(photo.webPath!);
+    const fileName = 'photos/'+new Date().getTime() + '.jpeg';
+    const savedFile = await Filesystem.writeFile({
+      path: fileName,
+      data: base64Data,
+      directory: Directory.Data,
+      recursive: true,
+    });
+    console.log('Saved file:', savedFile);
+    return {
+      filepath: fileName,
+      webviewPath: photo.webPath,
+    };
+  }
+
 
   const loadSavedFolder = useCallback(async (pathName: string = '') => {
     try {
@@ -58,10 +75,11 @@ export function usePhotoGallery() {
         directory: Directory.Data,
         path: pathName,
       });
+      console.log('Files:', fileList);
       const Files = await Promise.all(
         fileList.files.map(async FileInfo => {
           const readFileResult = await Filesystem.readFile({
-            path: FileInfo.name,
+            path: pathName +'/'+ FileInfo.name,
             directory: Directory.Data,
           });
           const blob = getBase64AsBlob(readFileResult.data.toString(), 'image/jpeg');
@@ -102,13 +120,22 @@ export function usePhotoGallery() {
       // Save the file using Filesystem API
       if (reader.result) {
         const base64Data = reader.result.toString().split(',')[1];
-        console.log('Base64:', base64Data);
-        const savedFile = await Filesystem.writeFile({
-          path: fileName,
-          data: base64Data,
-          directory: Directory.Data,
-        });
-      console.log('File downloaded to:', savedFile);
+        saveBase64AsFile(base64Data, fileName);
+
+      console.log('File downloaded');
+    }
+  }
+
+  async function saveBase64AsFile(base64Data: string, fileName: string) {
+    console.log('Saving file:', fileName);
+    // Save the file using Filesystem API
+    if (base64Data) {
+      const savedFile = await Filesystem.writeFile({
+        path: fileName,
+        data: base64Data,
+        directory: Directory.Data,
+      });
+      console.log('File saved:', savedFile);
     }
   }
 
@@ -229,6 +256,17 @@ export function usePhotoGallery() {
       throw error;
     }
   };
+  // const getUserPhotos = async () => {
+  //   const photos = await loadSavedFolder('photos');
+
+  //   return photos.map(async photo => {
+  //     const blob = getBase64AsBlob(photo.data.toString(), 'image/jpeg');
+  //     return {
+  //       filepath: photo.path,
+  //       webviewPath: `data:image/jpeg;base64,${file.data}`,
+  //     };
+  //   });
+  // }
 
   return {
     takePhoto,
@@ -236,5 +274,7 @@ export function usePhotoGallery() {
     getPhotoAsBase64,
     downloadAndSaveFile,
     saveToMedia,
+    saveBase64AsFile,
+    savePicture,
   };
 }
