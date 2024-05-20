@@ -48,7 +48,7 @@ const SignIn = () => {
   
     const checkPlatform = async () => {
       const device = await Device.getInfo();
-      setShowAppleSignIn(device.platform !== 'android');
+      setShowAppleSignIn(device.platform !== 'ios');
     };
   
     checkPlatform();
@@ -159,7 +159,7 @@ const SignIn = () => {
   
   const appleSignIn = async () => {
     let options: SignInWithAppleOptions = {
-      clientId: 'com.starswap.gif',
+      clientId: 'com.starswap.gif.auth',
       redirectURI: 'https://starswap-91cd8.firebaseapp.com/__/auth/handler',
       scopes: 'email name',
       state: '12345',
@@ -259,7 +259,7 @@ const SignIn = () => {
             Log In
           </IonButton>
 
-          <div className="or-separator">appleSignIn
+          <div className="or-separator">
             <span>OR</span>
           </div>
 
