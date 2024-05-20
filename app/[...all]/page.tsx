@@ -12,6 +12,9 @@ export async function generateStaticParams() {
     { all: ['signin'] },
     { all: ['signup'] },
     { all: ['home'] },
+    { all: ['forgot-password'] },
+    { all: ['code-verify'] },
+    { all: ['change-password'] }
   ];
 }
 

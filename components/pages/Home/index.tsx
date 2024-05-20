@@ -22,16 +22,8 @@ const Home = () => {
   return (
     <IonPage>
       <IonHeader>
-        <IonToolbar className="pb-2">
-          <IonSearchbar
-            debounce={1000}
-            onIonInput={ev => console.log(ev)}
-            className="custom-searchbar mt-3 "
-            showCancelButton="focus"
-          ></IonSearchbar>
-        </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent className='bg-color'>
         <div className="my-4 p-1">
           <IonSegment
             mode="ios"

@@ -36,6 +36,7 @@ const SignIn = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const signUpSuccess = queryParams.get('signUpSuccess') === 'true';
+  const passwordChanged = queryParams.get('password-changed') === 'true';
   const [showAppleSignIn, setShowAppleSignIn] = useState(false);
 
   useEffect(() => {
@@ -121,6 +122,11 @@ const SignIn = () => {
   const handleSignUp = () => {
     router.push('/signup', 'none', 'push');
   };
+
+  const handleForgot = () => {
+    router.push('/forgot-password', 'none', 'push');
+  };
+
   const googleSignIn = async () => {
     try {
       const result = await GoogleAuth.signIn();
@@ -235,12 +241,13 @@ const SignIn = () => {
           </IonItem>
         </div>
 
-        <p className="forgot-password">Forgot password?</p>
+        <p className="forgot-password" onClick={handleForgot} >Forgot password?</p>
 
         {error && <p className="error-message">{error}</p>}
         {!error && signUpSuccess && (
           <p className="success-message">Account created successfully</p>
         )}
+        {passwordChanged  && <p className="success-message">Password changed successfully</p>}
 
         <div className="logins-container">
           <IonButton
@@ -252,7 +259,7 @@ const SignIn = () => {
             Log In
           </IonButton>
 
-          <div className="or-separator">
+          <div className="or-separator">appleSignIn
             <span>OR</span>
           </div>
 
@@ -279,7 +286,11 @@ const SignIn = () => {
           )}
         </div>
 
-        <IonImg src='rect-log2.png' className="custom-logo-bottom" />
+        {
+          !keyboardVisible && 
+          <IonImg src='rect-forgot.png' className="custom-logo-bottom" />
+        }
+
 
         <p className={`register-link ${keyboardVisible ? 'hidden' : ''}`}>
           Don&apos;t have an account?{' '}

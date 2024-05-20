@@ -6,6 +6,9 @@ import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import Signup from './Signup';
 import SingIn from './Signin';
 import Home from './Home';
+import ForgotPassword from './ForgotPassword';
+import CodeVerify from './CodeVerify';
+import ChangePassword from './ChangePassword';
 
 const Intro = () => {
   GoogleAuth.initialize({
@@ -19,6 +22,9 @@ const Intro = () => {
       <Route path="" render={() => <Redirect to="/home" />} exact={true} />
       <Route path="/signup" render={() => <Signup />} exact={true} />
       <Route path="/signin" render={() => <SingIn />} exact={true} />
+      <Route path="/forgot-password" render={() => <ForgotPassword />} exact={true} />
+      <Route path="/code-verify" render={() => <CodeVerify />} exact={true} />
+      <Route path="/change-password" render={() => <ChangePassword />} exact={true} />
       <Route path="/home" render={() => <Home />} exact={true} />
     </IonRouterOutlet>
   );
