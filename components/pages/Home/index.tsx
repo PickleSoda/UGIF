@@ -20,12 +20,11 @@ const Home = () => {
   const [selectedSegment, setSelectedSegment] = useState('GIF');
 
   return (
-    <IonPage>
-      <IonHeader>
-      </IonHeader>
-      <IonContent className='bg-color'>
-        <div className="my-4 p-1">
+    <IonPage className='bg-color'>
+      <IonHeader mode='ios' className='container'>
+        <IonToolbar className="custom-toolbar p-2 mt-2">
           <IonSegment
+          style={{ width: '100%'}}
             mode="ios"
             value={selectedSegment}
             onIonChange={ev => {
@@ -40,6 +39,10 @@ const Home = () => {
               <IonLabel>Video</IonLabel>
             </IonSegmentButton>
           </IonSegment>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent className='bg-color'>
+        <div className="my-4 p-1">
         </div>
         <div>
           {selectedSegment === 'GIF' ? (

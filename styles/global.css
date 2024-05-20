@@ -861,9 +861,10 @@ ion-button.signin-button, ion-button.google-sign-in, ion-button.forgot-button {
 .floating-tab-button {
   border-radius: 16px !important;
   background: transparent;
-  color: white; /* Ensures text is visible */
+  --color: white;
+  --color-selected: var(--ion-color-primary);
 }
 
-.floating-tab-button ion-icon {
-  color: white; 
+ion-page {
+  --background: var(--ion-color-dark);
 }

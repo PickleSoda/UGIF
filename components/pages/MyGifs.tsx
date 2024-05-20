@@ -32,8 +32,8 @@ const MyGifs = () => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
+      <IonHeader mode='ios' className='container'>
+        <IonToolbar className="custom-toolbar p-2 mt-2">
           <IonTitle> My gifs</IonTitle>
         </IonToolbar>
       </IonHeader>
