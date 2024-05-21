@@ -78,7 +78,6 @@ const Settings = () => {
               <ImageList fab="bottom" />
             </div>
           </div>
-          <CustomiseImage></CustomiseImage>
           <IonList lines="none">
             <IonItem>
               <h5>Settings</h5>
