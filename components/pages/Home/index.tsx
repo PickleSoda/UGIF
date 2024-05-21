@@ -173,7 +173,7 @@ const Home = () => {
           </IonButton>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="bg-color">
+      <IonContent className="bg-color z-50">
         <div>
           {selectedSegment === 'GIF' ? (
             <div>

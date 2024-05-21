@@ -16,6 +16,7 @@ import useBalance from '../../hooks/useBalance';
 import useAlerts from '../../hooks/useAlerts';
 import { useState } from 'react';
 import ImageList from '../ui/ImageList';
+import CustomiseImage from '../ui/CustomiseImage';
 const Settings = () => {
   const { showLogoutAlert } = useAlerts();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -74,9 +75,10 @@ const Settings = () => {
           <div className="settings-card relative px-4 h-24">
             <p className="text-bae font-semibold my-auto ">Swap materials</p>
             <div className="w-full flex">
-              <ImageList fab />
+              <ImageList fab="bottom" />
             </div>
           </div>
+          <CustomiseImage></CustomiseImage>
           <IonList lines="none">
             <IonItem>
               <h5>Settings</h5>

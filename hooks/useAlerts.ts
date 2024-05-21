@@ -9,7 +9,6 @@ const useAlerts = () => {
   const showPaymentAlert = async () => {
     await presentAlert({
       header: 'Buy Credits',
-      subHeader: 'A Sub Header Is Optional',
       buttons: [
         {
           text: 'Close',
