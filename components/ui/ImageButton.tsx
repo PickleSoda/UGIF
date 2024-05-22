@@ -84,7 +84,7 @@ const ImageButton = ({
     <div
       className="flex flex-col items-center justify-center w-full h-full"
     >
-      <div className="w-full max-w-72 flex mb-2">
+      <div className="w-full max-w-sm px-6 flex mb-2 overflow-hidden">
         {
           IsPhotoFromCamera &&
           <motion.div
@@ -94,7 +94,7 @@ const ImageButton = ({
               rotate: 10,
             }}
             onClick={() => diselectCameraPhoto()}
-            className="w-11 h-11 flex justify-center items-center mt-1.5 mr-1"
+            className="w-11 h-11 flex justify-center items-center mt-1.5 mr-10"
           >
             <IonAvatar
               className={`h-11 w-11 border-2 ${photo === photo
