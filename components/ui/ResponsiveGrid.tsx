@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 // Assuming you have imagesloaded library installed
 import imagesLoaded from 'imagesloaded';
 
@@ -7,7 +7,7 @@ const ResponsiveGrid: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const resizeGridItem = (item: HTMLElement) => {
+  const resizeGridItem = useCallback((item: HTMLElement) => {
     const grid = gridRef.current;
     if (!grid) return;
 
@@ -23,21 +23,21 @@ const ResponsiveGrid: React.FC<{ children: React.ReactNode }> = ({
         (rowHeight + rowGap),
     );
     item.style.gridRowEnd = `span ${rowSpan}`;
-  };
+  }, [gridRef]);
 
-  const resizeAllGridItems = () => {
+  const resizeAllGridItems = useCallback(() => {
     const allItems = gridRef.current?.getElementsByClassName('item');
     if (!allItems) return;
 
     for (let x = 0; x < allItems.length; x++) {
       resizeGridItem(allItems[x] as HTMLElement);
     }
-  };
+  }, [gridRef, resizeGridItem]);
 
-  const resizeInstance = (instance: any) => {
+  const resizeInstance = useCallback((instance: any) => {
     const item = instance.elements[0] as HTMLElement;
     resizeGridItem(item);
-  };
+  }, [resizeGridItem]);
 
   useEffect(() => {
     resizeAllGridItems();
@@ -53,7 +53,7 @@ const ResponsiveGrid: React.FC<{ children: React.ReactNode }> = ({
     return () => {
       window.removeEventListener('resize', resizeAllGridItems);
     };
-  }, [children]);
+  }, [children, gridRef, resizeAllGridItems, resizeInstance]);
 
   return (
     <div className="grid" ref={gridRef}>
