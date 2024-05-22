@@ -52,7 +52,7 @@ const ResponsiveGrid: React.FC<{
     <div className="grid" ref={gridRef}>
       {React.Children.map(children, child => (
         <div
-          className="item rounded-lg overflow-hidden px-0.5"
+          className="item rounded-lg overflow-hidden px-1"
           data-ratio={child.props.ratio.toString() || 1}
         >
           <div className="content">{child}</div>

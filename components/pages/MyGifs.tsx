@@ -19,8 +19,8 @@ import { IGif } from '../../mock';
 const MyGifs = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [selectedGif, setSelectedGif] = useState<IGif | null>(null);
-  const gifs = userStore.useState(s => s.gifs);
-  const videos = userStore.useState(s => s.videos);
+  const gifs = userStore.useState(s => [...s.gifs].reverse());
+  const videos = userStore.useState(s => [...s.videos].reverse());
   const openShareModal = (gif: IGif) => {
     setShowShareModal(true);
     setSelectedGif(gif);
@@ -81,9 +81,6 @@ const MyGifs = () => {
                         <IonLabel>More</IonLabel>
                       </IonButton>
                     </div>
-                    // <div onClick={() => openShareModal(video)} key={index}>
-                    //   <GifCard key={index} />
-                    // </div>
                   );
                 case 'processing':
                   return <NanCard spinner={true} key={index} />;
@@ -93,11 +90,11 @@ const MyGifs = () => {
                   return null;
               }
             })
-          : gifs.reverse().map((gif, index) => {
+          : gifs.map((gif, index) => {
               switch (gif.status) {
                 case 'completed':
                   return (
-                    <div onClick={() => openShareModal(gif)} key={index}>
+                    <div onClick={() => openShareModal(gif)} key={index} className='p-4'>
                       <GifCard key={index} src={gif.src} />
                     </div>
                   );

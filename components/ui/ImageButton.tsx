@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
-import { IonButton, IonIcon } from '@ionic/react';
+import { IonButton, IonIcon, IonAvatar, IonImg } from '@ionic/react';
 import { addCircle } from 'ionicons/icons';
 import ImageList from './ImageList';
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
@@ -30,13 +30,13 @@ const ImageButton = ({
   onPhotoSelect?: (photo: CustomiseImageProps) => void;
   onGenerateContent?: () => void;
 }) => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [IsPhotoFromCamera, setIsPhotoFromCamera] = useState(false);
   const { takePhoto, getPhotoAsBase64 } = usePhotoGallery();
   const [base64Photo, setBase64Photo] = useState<string | undefined>(undefined);
   const [photo, setPhoto] = useState<string | undefined>(undefined);
 
   const handleTakePhoto = async () => {
-    setIsOpen(false);
+    setIsPhotoFromCamera(true);
     try {
       const photoData = await takePhoto();
       console.log('Photo taken:', photoData);
@@ -62,6 +62,7 @@ const ImageButton = ({
         onPhotoSelect({ photo: undefined, base64Photo: undefined });
       return;
     }
+    setIsPhotoFromCamera(false);
     setPhoto(photo.webviewPath);
     const base64data = await getPhotoAsBase64(photo?.webviewPath);
     console.log('photo selected', photo, base64data);
@@ -72,15 +73,41 @@ const ImageButton = ({
   const handleGeneration = () => {
     onGenerateContent && onGenerateContent();
   };
+  const diselectCameraPhoto = () => {
+    setIsPhotoFromCamera(false);
+    setPhoto(undefined);
+    setBase64Photo(undefined);
+    onPhotoSelect &&
+      onPhotoSelect({ photo: undefined, base64Photo: undefined });
+  }
   return (
-    <motion.div
-      initial={true}
-      animate={isOpen ? 'open' : 'closed'}
-      className="flex flex-col items-center justify-center w-full h-full "
+    <div
+      className="flex flex-col items-center justify-center w-full h-full"
     >
-      <motion.div variants={itemVariants} className="w-full max-w-72">
+      <div className="w-full max-w-72 flex mb-2">
+        {
+          IsPhotoFromCamera &&
+          <motion.div
+
+            whileTap={{
+              scale: 0.8,
+              rotate: 10,
+            }}
+            onClick={() => diselectCameraPhoto()}
+            className="w-11 h-11 flex justify-center items-center mt-1.5 mr-1"
+          >
+            <IonAvatar
+              className={`h-11 w-11 border-2 ${photo === photo
+                  ? ' border-blue-500'
+                  : 'border-gray-700'
+                }`}
+            >
+              <IonImg src={photo} />
+            </IonAvatar>
+          </motion.div>
+        }
         <ImageList onPhotoSelect={selectPhoto}></ImageList>
-      </motion.div>
+      </div>
       <motion.button whileTap={{ scale: 0.97 }}>
         {!photo ? (
           <IonButton shape="round" mode="ios" onClick={() => handleTakePhoto()}>
@@ -106,7 +133,7 @@ const ImageButton = ({
           </IonButton>
         )}
       </motion.button>
-    </motion.div>
+    </div>
   );
 };
 

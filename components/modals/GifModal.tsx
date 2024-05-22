@@ -92,7 +92,7 @@ const SpringModal: React.FC<SpringModalProps> = ({ isOpen, setIsOpen, id }) => {
             onClick={e => e.stopPropagation()}
             className=" text-white px-6  rounded-lg w-full max-w-lg cursor-default absolute"
           >
-            <div className=" flex flex-col items-center gap-4  z-10">
+            <div className="flex flex-col items-center gap-4  z-10">
               {photo ? (
                 <motion.div
                   initial={{ scale: 0 }}
@@ -109,12 +109,18 @@ const SpringModal: React.FC<SpringModalProps> = ({ isOpen, setIsOpen, id }) => {
               )}
 
               {/* <CustomiseImage onPhotoSelect={selectPhoto}></CustomiseImage> */}
-              <ImageButton
-                onPhotoSelect={selectPhoto}
-                onGenerateContent={handleGenerateGif}
-              />
             </div>
           </motion.div>
+          <div
+            className='absolute bottom-24'
+            onClick={e => e.stopPropagation()}
+          >
+
+            <ImageButton
+              onPhotoSelect={selectPhoto}
+              onGenerateContent={handleGenerateGif}
+            />
+          </div>
         </motion.div>
       )}
     </AnimatePresence>
