@@ -1,13 +1,16 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-// Assuming you have imagesloaded library installed
-import imagesLoaded from 'imagesloaded';
 
-const ResponsiveGrid: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+interface GridItemProps {
+  ratio: number; // Width/Height ratio
+  children: React.ReactNode;
+}
+
+const ResponsiveGrid: React.FC<{
+  children: React.ReactElement<GridItemProps>[];
+}> = ({ children }) => {
   const gridRef = useRef<HTMLDivElement>(null);
 
-  const resizeGridItem = useCallback((item: HTMLElement) => {
+  const resizeGridItem = useCallback((item: HTMLElement, ratio: number) => {
     const grid = gridRef.current;
     if (!grid) return;
 
@@ -17,48 +20,41 @@ const ResponsiveGrid: React.FC<{ children: React.ReactNode }> = ({
     const rowGap = parseInt(
       window.getComputedStyle(grid).getPropertyValue('grid-row-gap'),
     );
+    const itemWidth = item.getBoundingClientRect().width;
     const rowSpan = Math.ceil(
-      (item.querySelector('.content')!.getBoundingClientRect().height +
-        rowGap) /
-        (rowHeight + rowGap),
+      (itemWidth / ratio + rowGap) / (rowHeight + rowGap),
     );
+
     item.style.gridRowEnd = `span ${rowSpan}`;
-  }, [gridRef]);
+  }, []);
 
   const resizeAllGridItems = useCallback(() => {
     const allItems = gridRef.current?.getElementsByClassName('item');
     if (!allItems) return;
 
     for (let x = 0; x < allItems.length; x++) {
-      resizeGridItem(allItems[x] as HTMLElement);
+      const item = allItems[x] as HTMLElement;
+      const ratio = parseFloat(item.getAttribute('data-ratio')!);
+      resizeGridItem(item, ratio);
     }
-  }, [gridRef, resizeGridItem]);
-
-  const resizeInstance = useCallback((instance: any) => {
-    const item = instance.elements[0] as HTMLElement;
-    resizeGridItem(item);
   }, [resizeGridItem]);
 
   useEffect(() => {
     resizeAllGridItems();
     window.addEventListener('resize', resizeAllGridItems);
 
-    const allItems = gridRef.current?.getElementsByClassName('item');
-    if (allItems) {
-      for (let x = 0; x < allItems.length; x++) {
-        imagesLoaded(allItems[x], resizeInstance);
-      }
-    }
-
     return () => {
       window.removeEventListener('resize', resizeAllGridItems);
     };
-  }, [children, gridRef, resizeAllGridItems, resizeInstance]);
+  }, [children, resizeAllGridItems]);
 
   return (
     <div className="grid" ref={gridRef}>
       {React.Children.map(children, child => (
-        <div className="item">
+        <div
+          className="item rounded-lg overflow-hidden px-0.5"
+          data-ratio={child.props.ratio.toString() || 1}
+        >
           <div className="content">{child}</div>
         </div>
       ))}

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Card from '../ui/Card';
 import { useEffect, useState } from 'react';
 import { generateRandomColor } from '../../mock';
+import { radio } from 'ionicons/icons';
 type FeedCardProps = {
   src: string;
 };
@@ -14,7 +15,7 @@ const GifCard = ({ src }: FeedCardProps) => {
   }, [src]); // Change color when the src changes
 
   return (
-    <Card className="p-1 rounded-lg">
+    <Card className="">
       <div className="relative overflow-hidden">
         <Image
           className="object-cover w-full rounded-lg"
@@ -22,7 +23,7 @@ const GifCard = ({ src }: FeedCardProps) => {
           alt={src}
           width={100}
           height={100}
-          style={{ backgroundColor }} // Use the state variable here
+          style={{ backgroundColor }}
         />
       </div>
       <div></div>

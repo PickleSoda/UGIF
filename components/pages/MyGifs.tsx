@@ -9,7 +9,7 @@ import {
   IonLabel,
   IonButton,
 } from '@ionic/react';
-import { useState} from 'react';
+import { useState } from 'react';
 import { userStore } from '../../store/userStore';
 import GifCard from '../ui/GifCard';
 import NanCard from '../ui/NanCard';

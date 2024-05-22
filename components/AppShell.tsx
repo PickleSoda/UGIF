@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
-import { StatusBar, Style } from '@capacitor/status-bar';
+import { App } from '@capacitor/app';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route } from 'react-router-dom';
 import usePollTasks from '../hooks/usePollTasks';
@@ -31,6 +31,14 @@ const AppShell = () => {
 
     init();
   }, []);
+
+  App.addListener('backButton', ({ canGoBack }) => {
+    if (canGoBack) {
+      window.history.back();
+    } else {
+      return;
+    }
+  });
 
   if (!initialized) {
     return <div>Loading...</div>; // Show loading indicator or a splash screen

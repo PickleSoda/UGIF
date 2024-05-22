@@ -8,7 +8,6 @@ import {
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { Media } from '@capacitor-community/media';
 import { Capacitor } from '@capacitor/core';
-import { Preferences } from '@capacitor/preferences';
 interface UserPhoto {
   filepath: string;
   webviewPath?: string;

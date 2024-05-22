@@ -24,7 +24,7 @@ const useVideos = (initialPage = 1, perPage = 10) => {
         Store.update(s => {
           s.videos = [...loadedVids, ...response.data.gifs];
         });
-        if(response.data.gifs.length === 0) {
+        if (response.data.gifs.length === 0) {
           setHasMore(false);
         }
       } else {
@@ -39,7 +39,7 @@ const useVideos = (initialPage = 1, perPage = 10) => {
         Store.update(s => {
           s.videos = [...loadedVids, ...response.data.gifs];
         });
-        if(response.data.gifs.length === 0) {
+        if (response.data.gifs.length === 0) {
           setHasMore(false);
         }
       }

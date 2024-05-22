@@ -13,7 +13,8 @@ import Store from '../../../store';
 import CategorySegment from '../../ui/CategorySegment';
 
 const Videos = () => {
-  const { handleCategotyChange, videos, handleRefresh, fetchGifs } = useVideos();
+  const { handleCategotyChange, videos, handleRefresh, fetchGifs } =
+    useVideos();
   const videoCategories = Store.useState(s => [
     {
       id: '',
@@ -45,19 +46,22 @@ const Videos = () => {
         <IonRefresherContent></IonRefresherContent>
       </IonRefresher>
 
-
-      {
-        videos.length === 0 ? <div className='absolute h-full top-1/2 left-1/2 -translate-x-1/2 text-xl'>No videos found</div> :
-          videos.map((item, index) => (
-            <div key={index}>
-              <video controls>
-                <source src={item.src} type="video/mp4" />
-              </video>
-              <IonButton onClick={() => openDetails(item.id)}>
-                <IonLabel>Generate Video</IonLabel>
-              </IonButton>
-            </div>
-          ))}
+      {videos.length === 0 ? (
+        <div className="absolute h-full top-1/2 left-1/2 -translate-x-1/2 text-xl">
+          No videos found
+        </div>
+      ) : (
+        videos.map((item, index) => (
+          <div key={index}>
+            <video controls>
+              <source src={item.src} type="video/mp4" />
+            </video>
+            <IonButton onClick={() => openDetails(item.id)}>
+              <IonLabel>Generate Video</IonLabel>
+            </IonButton>
+          </div>
+        ))
+      )}
       <IonInfiniteScroll
         onIonInfinite={ev => {
           console.log('yoi', ev);

@@ -1,6 +1,7 @@
 export type HomeItem = {
   id: string;
   src: string;
+  ratio: number;
 };
 
 export type TaskStatus = 'processing' | 'completed' | 'failed';

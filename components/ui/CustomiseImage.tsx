@@ -13,7 +13,6 @@ interface CustomiseImageProps {
   base64Photo: string | undefined;
 }
 
-
 const itemVariants: Variants = {
   open: {
     opacity: 1,
@@ -63,7 +62,8 @@ const CustomiseImage = ({
     if (!photo) {
       console.log('no photo selected');
       setPhoto(undefined);
-      onPhotoSelect && onPhotoSelect({ photo: undefined, base64Photo: undefined });
+      onPhotoSelect &&
+        onPhotoSelect({ photo: undefined, base64Photo: undefined });
       return;
     }
     setPhoto(photo.webviewPath);
@@ -97,7 +97,7 @@ const CustomiseImage = ({
         </IonButton>
       </motion.button>
       <motion.ul
-        className="absolute flex flex-col items-center justify-center mt-28 z-10 "
+        className="absolute flex flex-col items-center justify-center mt-36 z-10 "
         variants={{
           open: {
             clipPath: 'inset(0% 0% 0% 0% round 10px)',

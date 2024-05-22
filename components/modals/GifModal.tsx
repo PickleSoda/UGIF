@@ -2,9 +2,7 @@ import { IonButton, IonLabel, IonIcon } from '@ionic/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Store from '../../store';
 import GifCard from '../ui/GifCard';
-import {
-  arrowForwardCircle,
-} from 'ionicons/icons';
+import { arrowForwardCircle } from 'ionicons/icons';
 import { useState } from 'react';
 import { useIonLoading, useIonRouter } from '@ionic/react';
 import { request } from '../../lib/axios';
@@ -12,7 +10,7 @@ import useAlerts from '../../hooks/useAlerts';
 import { addGifTask } from '../../store/actions';
 import CustomiseImage from '../ui/CustomiseImage';
 import { App } from '@capacitor/app';
-
+import ImageButton from '../ui/ImageButton';
 type SpringModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -72,10 +70,9 @@ const SpringModal: React.FC<SpringModalProps> = ({ isOpen, setIsOpen, id }) => {
     setIsOpen(false);
     setPhoto(undefined);
     setBase64Photo(undefined);
-  }
+  };
   App.addListener('backButton', () => {
-      hanldeClose();
-      
+    hanldeClose();
   });
   const [present, dismiss] = useIonLoading();
   return (
@@ -111,24 +108,13 @@ const SpringModal: React.FC<SpringModalProps> = ({ isOpen, setIsOpen, id }) => {
                 <div></div>
               )}
 
-              <CustomiseImage onPhotoSelect={selectPhoto}></CustomiseImage>
+              {/* <CustomiseImage onPhotoSelect={selectPhoto}></CustomiseImage> */}
+              <ImageButton
+                onPhotoSelect={selectPhoto}
+                onGenerateContent={handleGenerateGif}
+              />
             </div>
           </motion.div>
-          {photo && (
-            <IonButton
-              shape="round"
-              mode="ios"
-              color="primary"
-              onClick={() => handleGenerateGif()}
-              className="w-full absolute bottom-28 px-6"
-            >
-              <IonLabel>Generate GIF</IonLabel>
-              <IonIcon
-                className="h-10 w-10 absolute -right-4"
-                icon={arrowForwardCircle}
-              />
-            </IonButton>
-          )}
         </motion.div>
       )}
     </AnimatePresence>

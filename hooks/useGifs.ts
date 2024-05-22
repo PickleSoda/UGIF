@@ -10,7 +10,7 @@ const useGifs = (initialPage = 1, perPage = 10) => {
   const [hasMore, setHasMore] = useState(true);
   const [category, setCategory] = useState<string|null>();
 
-  const fetchGifs = useCallback(async () => {
+  const fetchGifs = useCallback(async (callback?: () => void) => {
     try {
       if(!hasMore) return;
       const data = { page: page, per_page: perPage };
@@ -50,15 +50,13 @@ const useGifs = (initialPage = 1, perPage = 10) => {
       setPage(page + 1);
       console.log('Page:', page);
       setgifs(loadedGifs);
+      if (callback) {
+        callback();
+      }
     } catch (error) {
       console.error('Failed to fetch GIFs:', error);
     }
   }, [loadedGifs, setgifs, page, perPage, category, hasMore]);
-
-  useEffect(() => {
-    loadedGifs.length === 0 ? fetchGifs() : setgifs(loadedGifs);
-  }, [loadedGifs, fetchGifs]);
-
   const handleInput = (ev: Event) => {
     let query = '';
     const target = ev.target as HTMLIonSearchbarElement;
