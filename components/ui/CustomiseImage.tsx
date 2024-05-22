@@ -8,6 +8,12 @@ import {
 } from 'ionicons/icons';
 import ImageList from './ImageList';
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
+interface CustomiseImageProps {
+  photo: string | undefined;
+  base64Photo: string | undefined;
+}
+
+
 const itemVariants: Variants = {
   open: {
     opacity: 1,
@@ -22,12 +28,6 @@ const itemVariants: Variants = {
     transition: { duration: 0.2 },
   },
 };
-
-interface CustomiseImageProps {
-  photo: string | undefined;
-  base64Photo: string | undefined;
-}
-
 const CustomiseImage = ({
   onPhotoSelect,
 }: {
@@ -62,6 +62,8 @@ const CustomiseImage = ({
   const selectPhoto = async (photo: any) => {
     if (!photo) {
       console.log('no photo selected');
+      setPhoto(undefined);
+      onPhotoSelect && onPhotoSelect({ photo: undefined, base64Photo: undefined });
       return;
     }
     setPhoto(photo.webviewPath);

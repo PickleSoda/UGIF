@@ -3,18 +3,16 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Store from '../../store';
 import GifCard from '../ui/GifCard';
 import {
-  addCircle,
   arrowForwardCircle,
-  radioButtonOnOutline,
 } from 'ionicons/icons';
 import { useState } from 'react';
-import { usePhotoGallery } from '../../hooks/usePhotoGallery';
 import { useIonLoading, useIonRouter } from '@ionic/react';
 import { request } from '../../lib/axios';
 import useAlerts from '../../hooks/useAlerts';
 import { addGifTask } from '../../store/actions';
-import ImageList from '../ui/ImageList';
 import CustomiseImage from '../ui/CustomiseImage';
+import { App } from '@capacitor/app';
+
 type SpringModalProps = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -70,6 +68,15 @@ const SpringModal: React.FC<SpringModalProps> = ({ isOpen, setIsOpen, id }) => {
     setBase64Photo(photo.base64Photo);
     console.log('photo selected', photo);
   };
+  const hanldeClose = () => {
+    setIsOpen(false);
+    setPhoto(undefined);
+    setBase64Photo(undefined);
+  }
+  App.addListener('backButton', () => {
+      hanldeClose();
+      
+  });
   const [present, dismiss] = useIonLoading();
   return (
     <AnimatePresence>
@@ -78,7 +85,7 @@ const SpringModal: React.FC<SpringModalProps> = ({ isOpen, setIsOpen, id }) => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={() => setIsOpen(false)}
+          onClick={() => hanldeClose()}
           className="bg-slate-900/20 backdrop-blur p-8 fixed inset-0 z-50 grid place-items-center overflow-hidden cursor-pointer pointer-events-auto"
         >
           <motion.div

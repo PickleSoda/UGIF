@@ -27,6 +27,7 @@
 		"SignInWithApple",
 		"MediaPlugin",
 		"MediaPlugin",
+		"AppPlugin",
 		"CAPBrowserPlugin",
 		"CAPCameraPlugin",
 		"ClipboardPlugin",

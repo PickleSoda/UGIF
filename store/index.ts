@@ -60,11 +60,11 @@ export async function initializeAppState() {
     }));
   }
 
-  const currentState = Store.getRawState();
-  if (currentState.categories && currentState.categories.some(cat => cat.category === Category.Gif || cat.category === Category.Video)) {
-    console.log("Categories already initialized with required data.");
-    return;
-  }
+  // const currentState = Store.getRawState();
+  // if (currentState.categories && currentState.categories.some(cat => cat.category === Category.Gif || cat.category === Category.Video)) {
+  //   console.log("Categories already initialized with required data.");
+  //   return;
+  // }
 
   try {
     const response = await request({
@@ -73,13 +73,13 @@ export async function initializeAppState() {
     });
 
     const gifs = response.data.gifs.map((gif: any) => ({
-      id: gif.toLowerCase().replace(/\s/g, '-'),
+      id: gif.toLowerCase().replace(/\s/g, ' '),
       name: gif,
       category: Category.Gif
     }));
 
     const movies = response.data.movies.map((movie: any) => ({
-      id: movie.toLowerCase().replace(/\s/g, '-'),
+      id: movie.toLowerCase().replace(/\s/g, ' '),
       name: movie,
       category: Category.Video
     }));

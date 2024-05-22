@@ -914,3 +914,10 @@ ion-page {
   var(--ion-color-primary);
   font-weight: 800;
 }
+ion-alert .alert-wrapper{
+  --background: var(--ion-color-dark);
+}
+ion-loading{
+  --background: var(--ion-color-dark);
+  --spinner-color: var(--ion-color-primary);
+}

@@ -1,27 +1,27 @@
 import {
-  IonPage,
-  IonHeader,
-  IonContent,
-  IonSearchbar,
   IonInfiniteScrollContent,
   IonInfiniteScroll,
-  IonToolbar,
   IonRefresher,
   IonRefresherContent,
-  IonSpinner,
-  IonSegment,
-  IonSegmentButton,
-  IonLabel,
 } from '@ionic/react';
 import GifDetailModal from '../../modals/GifDetailModal';
 import GifCard from '../../ui/GifCard';
 import useGifs from '../../../hooks/useGifs';
-import React, { forwardRef, useState } from 'react';
+import React, { useState } from 'react';
 import ResponsiveGrid from '../../ui/ResponsiveGrid';
 import SpringModal from '../../modals/GifModal';
+import Store from '../../../store';
+import CategorySegment from '../../ui/CategorySegment';
 const Gifs = () => {
-  const { handleInput, gifs, handleRefresh, fetchGifs } = useGifs();
-
+  const { gifs, handleRefresh, fetchGifs, handleCategotyChange } = useGifs();
+  const gifCategories = Store.useState(s => [
+    {
+      id: '',
+      name: 'All',
+      category: 'gif',
+    },
+    ...s.categories.filter(category => category.category === 'gif'),
+  ]);
   const [showGifDetail, setShowGifDetail] = useState(false);
   const [selectedGif, setSelectedGif] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -33,6 +33,10 @@ const Gifs = () => {
 
   return (
     <>
+      <CategorySegment
+        categories={gifCategories}
+        onSegmentChange={handleCategotyChange}
+      />
       <GifDetailModal
         open={showGifDetail}
         onDidDismiss={() => setShowGifDetail(false)}
@@ -43,11 +47,13 @@ const Gifs = () => {
         <IonRefresherContent></IonRefresherContent>
       </IonRefresher>
       <ResponsiveGrid>
-        {gifs.map((item, index) => (
-          <div key={index} onClick={() => openGifDetails(item.id)}>
-            <GifCard key={index} {...item} />
-          </div>
-        ))}
+        {
+          gifs.length === 0 ? <div className='absolute h-full top-1/2 left-1/2 -translate-x-1/2 text-xl'>No gifs found</div> :
+            gifs.map((item, index) => (
+              <div key={index} onClick={() => openGifDetails(item.id)}>
+                <GifCard key={index} {...item} />
+              </div>
+            ))}
       </ResponsiveGrid>
       <IonInfiniteScroll
         onIonInfinite={ev => {
@@ -62,19 +68,6 @@ const Gifs = () => {
         ></IonInfiniteScrollContent>
       </IonInfiniteScroll>
     </>
-  );
-};
-const ExampleWrapper = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <div>
-      <button
-        onClick={() => setIsOpen(true)}
-        className="bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-medium px-4 py-2 rounded hover:opacity-90 transition-opacity"
-      >
-        Open Modal
-      </button>
-    </div>
   );
 };
 export default Gifs;

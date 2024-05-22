@@ -1,39 +1,59 @@
 import { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
-import { HomeItem } from '../mock';
 import Store from '../store';
 import { request } from '../lib/axios';
 const useVideos = (initialPage = 1, perPage = 10) => {
-  const loadedGifs = Store.useState(s => s.videos);
+  const loadedVids = Store.useState(s => s.videos);
   const [videos, setvideos] = useState<any[]>([]);
   const [page, setPage] = useState(initialPage);
   const [hasMore, setHasMore] = useState(true);
+  const [category, setCategory] = useState<string | null>();
 
   const fetchGifs = useCallback(async () => {
     try {
+      if (!hasMore) return;
       const data = { page: page, per_page: perPage };
-      console.log('Data:', data);
+      if (category) {
+        console.log('Data:', data);
 
-      const response = await request({
-        url: '/movies/fetch',
-        method: 'post',
-        data: data,
-      });
-      console.log(response.data);
-      Store.update(s => {
-        s.videos = [...loadedGifs, ...response.data.gifs];
-      });
+        const response = await request({
+          url: '/movies/fetch_by_category',
+          method: 'post',
+          data: { ...data, category: category },
+        });
+        console.log(response.data);
+        Store.update(s => {
+          s.videos = [...loadedVids, ...response.data.gifs];
+        });
+        if(response.data.gifs.length === 0) {
+          setHasMore(false);
+        }
+      } else {
+        console.log('Data:', data);
+
+        const response = await request({
+          url: '/movies/fetch',
+          method: 'post',
+          data: data,
+        });
+        console.log(response.data);
+        Store.update(s => {
+          s.videos = [...loadedVids, ...response.data.gifs];
+        });
+        if(response.data.gifs.length === 0) {
+          setHasMore(false);
+        }
+      }
       setPage(page + 1);
       console.log('Page:', page);
-      setvideos(loadedGifs);
+      setvideos(loadedVids);
     } catch (error) {
-      console.error('Failed to fetch GIFs:', error);
+      console.error('Failed to fetch movies:', error);
     }
-  }, [loadedGifs, setvideos, page, perPage]);
+  }, [loadedVids, setvideos, page, perPage, category, hasMore]);
 
   useEffect(() => {
-    loadedGifs.length === 0 ? fetchGifs() : setvideos(loadedGifs);
-  }, [loadedGifs, fetchGifs]);
+    loadedVids.length === 0 ? fetchGifs() : setvideos(loadedVids);
+  }, [loadedVids, fetchGifs]);
 
   const handleInput = (ev: Event) => {
     let query = '';
@@ -41,20 +61,27 @@ const useVideos = (initialPage = 1, perPage = 10) => {
     if (target) query = target.value!.toLowerCase();
 
     videos &&
-      setvideos(loadedGifs.filter(d => d.id.toLowerCase().indexOf(query) > -1));
+      setvideos(loadedVids.filter(d => d.id.toLowerCase().indexOf(query) > -1));
   };
-  const handleRefresh = (event: CustomEvent) => {
+  const handleRefresh = (event?: CustomEvent) => {
     setHasMore(true);
     setPage(1);
     setvideos([]);
     Store.update(s => {
       s.videos = [];
     });
-    setTimeout(() => {
-      // Any calls to load data go here
-      event.detail.complete();
-    }, 1000);
+    if (event) {
+      setTimeout(() => {
+        // Any calls to load data go here
+        event.detail.complete();
+      }, 1000);
+      console.log('refreshed:');
+    }
     console.log('refreshed:');
+  };
+  const handleCategotyChange = (category: string | null) => {
+    setCategory(category);
+    handleRefresh();
   };
   return {
     handleRefresh,
@@ -62,6 +89,7 @@ const useVideos = (initialPage = 1, perPage = 10) => {
     videos,
     fetchGifs,
     hasMore,
+    handleCategotyChange,
     reset: () => setPage(1),
   };
 };

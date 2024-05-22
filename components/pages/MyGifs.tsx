@@ -3,20 +3,17 @@ import {
   IonContent,
   IonText,
   IonHeader,
-  IonTitle,
   IonToolbar,
   IonSegment,
   IonSegmentButton,
   IonLabel,
   IonButton,
 } from '@ionic/react';
-import { Virtuoso } from 'react-virtuoso';
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import { userStore } from '../../store/userStore';
 import GifCard from '../ui/GifCard';
 import NanCard from '../ui/NanCard';
 import ShareGifModal from '../modals/ShareGifModal';
-import { usePhotoGallery } from '../../hooks/usePhotoGallery';
 import { IGif } from '../../mock';
 
 const MyGifs = () => {
@@ -32,25 +29,36 @@ const MyGifs = () => {
 
   return (
     <IonPage>
-      <IonHeader></IonHeader>
-      <IonContent fullscreen className="bg-color">
-        <div className="my-4 p-1">
+      <IonHeader mode="ios" className="container">
+        <IonToolbar className="custom-toolbar p-2 mt-2">
           <IonSegment
+            style={{ width: '100%' }}
             mode="ios"
+            className="video-gif"
             value={selectedSegment}
             onIonChange={ev => {
               ev.detail.value && setSelectedSegment(ev.detail.value.toString());
               console.log(selectedSegment);
             }}
           >
-            <IonSegmentButton mode="ios" value="GIF">
+            <IonSegmentButton
+              mode="ios"
+              value="GIF"
+              className="video-gif-button"
+            >
               <IonLabel>GIF</IonLabel>
             </IonSegmentButton>
-            <IonSegmentButton mode="ios" value="Video">
+            <IonSegmentButton
+              mode="ios"
+              value="Video"
+              className="video-gif-button"
+            >
               <IonLabel>Video</IonLabel>
             </IonSegmentButton>
           </IonSegment>
-        </div>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent fullscreen className="bg-color">
         {((gifs.length === 0 && selectedSegment === 'GIF') ||
           (videos.length === 0 && selectedSegment === 'Video')) && (
           <IonText
