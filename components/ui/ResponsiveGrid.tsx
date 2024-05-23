@@ -5,9 +5,12 @@ interface GridItemProps {
   children: React.ReactNode;
 }
 
-const ResponsiveGrid: React.FC<{
+interface ResponsiveGridProps {
   children: React.ReactElement<GridItemProps>[];
-}> = ({ children }) => {
+  cols: number; // Number of columns
+}
+
+const ResponsiveGrid: React.FC<ResponsiveGridProps> = ({ children, cols }) => {
   const gridRef = useRef<HTMLDivElement>(null);
 
   const resizeGridItem = useCallback((item: HTMLElement, ratio: number) => {
@@ -48,12 +51,24 @@ const ResponsiveGrid: React.FC<{
     };
   }, [children, resizeAllGridItems]);
 
+  const gridStyle = {
+    display: 'grid',
+    gridTemplateColumns: `repeat(${cols}, 1fr)`,
+    gridAutoRows: '5px', // Adjust as needed
+    gridRowGap: '5px', // Adjust as needed
+  };
+
   return (
-    <div className="grid" ref={gridRef}>
+    <div style={gridStyle} ref={gridRef}>
       {React.Children.map(children, child => (
         <div
-          className="item rounded-lg overflow-hidden px-1"
-          data-ratio={child.props.ratio.toString() || 1}
+          className="item"
+          data-ratio={child.props.ratio.toString() || '1'}
+          style={{
+            borderRadius: '8px',
+            overflow: 'hidden',
+            padding: '0.25rem',
+          }}
         >
           <div className="content">{child}</div>
         </div>

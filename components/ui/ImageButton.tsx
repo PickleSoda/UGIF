@@ -79,16 +79,12 @@ const ImageButton = ({
     setBase64Photo(undefined);
     onPhotoSelect &&
       onPhotoSelect({ photo: undefined, base64Photo: undefined });
-  }
+  };
   return (
-    <div
-      className="flex flex-col items-center justify-center w-full h-full"
-    >
+    <div className="flex flex-col items-center justify-center w-full h-full">
       <div className="w-full max-w-sm px-6 flex mb-2 overflow-hidden">
-        {
-          IsPhotoFromCamera &&
+        {IsPhotoFromCamera && (
           <motion.div
-
             whileTap={{
               scale: 0.8,
               rotate: 10,
@@ -97,15 +93,14 @@ const ImageButton = ({
             className="w-11 h-11 flex justify-center items-center mt-1.5 mr-10"
           >
             <IonAvatar
-              className={`h-11 w-11 border-2 ${photo === photo
-                  ? ' border-blue-500'
-                  : 'border-gray-700'
-                }`}
+              className={`h-11 w-11 border-2 ${
+                photo === photo ? ' border-blue-500' : 'border-gray-700'
+              }`}
             >
               <IonImg src={photo} />
             </IonAvatar>
           </motion.div>
-        }
+        )}
         <ImageList onPhotoSelect={selectPhoto}></ImageList>
       </div>
       <motion.button whileTap={{ scale: 0.97 }}>

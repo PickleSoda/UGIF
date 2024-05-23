@@ -52,13 +52,15 @@ const Videos = () => {
         </div>
       ) : (
         videos.map((item, index) => (
-          <div key={index}>
+          <div key={index} className="px-6">
             <video controls>
               <source src={item.src} type="video/mp4" />
             </video>
-            <IonButton onClick={() => openDetails(item.id)}>
-              <IonLabel>Generate Video</IonLabel>
-            </IonButton>
+            <div className="mb-4 flex justify-center">
+              <IonButton onClick={() => openDetails(item.id)}>
+                <IonLabel>Generate Video</IonLabel>
+              </IonButton>
+            </div>
           </div>
         ))
       )}

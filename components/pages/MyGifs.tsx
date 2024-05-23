@@ -94,7 +94,11 @@ const MyGifs = () => {
               switch (gif.status) {
                 case 'completed':
                   return (
-                    <div onClick={() => openShareModal(gif)} key={index} className='p-4'>
+                    <div
+                      onClick={() => openShareModal(gif)}
+                      key={index}
+                      className="p-4"
+                    >
                       <GifCard key={index} src={gif.src} />
                     </div>
                   );

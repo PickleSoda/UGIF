@@ -112,10 +112,9 @@ const SpringModal: React.FC<SpringModalProps> = ({ isOpen, setIsOpen, id }) => {
             </div>
           </motion.div>
           <div
-            className='absolute bottom-24'
+            className="absolute bottom-24"
             onClick={e => e.stopPropagation()}
           >
-
             <ImageButton
               onPhotoSelect={selectPhoto}
               onGenerateContent={handleGenerateGif}

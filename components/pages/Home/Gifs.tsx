@@ -73,7 +73,7 @@ const Gifs = () => {
           </div>
         )
       ) : (
-        <ResponsiveGrid>
+        <ResponsiveGrid cols={2}>
           {gifs.map((item, index) => (
             <GridItem key={index} ratio={item.ratio}>
               <motion.div

@@ -61,7 +61,7 @@ const CategorySegment: React.FC<CategorySegmentProps> = ({
   };
 
   return (
-    <IonToolbar className="custom-toolbar p-2">
+    <div className="custom-toolbar p-2">
       <IonSegment
         scrollable={true}
         ref={segmentRef}
@@ -81,7 +81,7 @@ const CategorySegment: React.FC<CategorySegmentProps> = ({
           </IonSegmentButton>
         ))}
       </IonSegment>
-    </IonToolbar>
+    </div>
   );
 };
 

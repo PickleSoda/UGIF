@@ -45,17 +45,7 @@ const Home = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="bg-color z-50">
-        <div>
-          {selectedSegment === 'GIF' ? (
-            <div>
-              <Gifs />
-            </div>
-          ) : (
-            <div>
-              <Videos />
-            </div>
-          )}
-        </div>
+        {selectedSegment === 'GIF' ? <Gifs /> : <Videos />}
       </IonContent>
     </IonPage>
   );
