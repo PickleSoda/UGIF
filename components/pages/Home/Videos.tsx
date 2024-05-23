@@ -6,12 +6,13 @@ import {
   IonLabel,
   IonButton,
 } from '@ionic/react';
-import VideoDetailModal from '../../modals/VideoDetailModal';
+import ModalFrame from '../../modals/ModalFrame';
 import useVideos from '../../../hooks/useVideos';
 import React, { forwardRef, useState } from 'react';
 import Store from '../../../store';
 import CategorySegment from '../../ui/CategorySegment';
-
+import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
+import { motion } from 'framer-motion';
 const Videos = () => {
   const { handleCategotyChange, videos, handleRefresh, fetchGifs } =
     useVideos();
@@ -37,10 +38,11 @@ const Videos = () => {
         categories={videoCategories}
         onSegmentChange={handleCategotyChange}
       />
-      <VideoDetailModal
+      <ModalFrame
         open={showGifDetail}
         onDidDismiss={() => setShowGifDetail(false)}
         id={selectedGif}
+        type="video"
       />
       <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
         <IonRefresherContent></IonRefresherContent>
@@ -51,18 +53,31 @@ const Videos = () => {
           No videos found
         </div>
       ) : (
-        videos.map((item, index) => (
-          <div key={index} className="px-6">
-            <video controls>
-              <source src={item.src} type="video/mp4" />
-            </video>
-            <div className="mb-4 flex justify-center">
-              <IonButton onClick={() => openDetails(item.id)}>
-                <IonLabel>Generate Video</IonLabel>
-              </IonButton>
-            </div>
-          </div>
-        ))
+        <ResponsiveGrid cols={1}>
+          {videos.map((item, index) => (
+            <GridItem key={index} ratio={item.ratio - 0.22}>
+              <motion.div
+                onClick={() => openDetails(item.id)}
+                initial={{ scale: 0.7, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="px-6"
+              >
+                <video controls className="w-full rounded-lg ">
+                  <source
+                    src={item.src}
+                    type="video/mp4"
+                    className="min-h-60"
+                  />
+                </video>
+                <div className="mb-4 flex justify-center">
+                  <IonButton>
+                    <IonLabel>Generate Video</IonLabel>
+                  </IonButton>
+                </div>
+              </motion.div>
+            </GridItem>
+          ))}
+        </ResponsiveGrid>
       )}
       <IonInfiniteScroll
         onIonInfinite={ev => {

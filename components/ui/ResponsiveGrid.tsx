@@ -78,3 +78,7 @@ const ResponsiveGrid: React.FC<ResponsiveGridProps> = ({ children, cols }) => {
 };
 
 export default ResponsiveGrid;
+export const GridItem: React.FC<{
+  ratio: number;
+  children: React.ReactElement<any>;
+}> = ({ ratio, children }) => <div data-ratio={ratio}>{children}</div>;

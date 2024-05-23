@@ -6,13 +6,15 @@ import {
   IonTabButton,
   IonIcon,
   IonLabel,
+  IonChip,
 } from '@ionic/react';
 import { person, grid, settings } from 'ionicons/icons';
-
+import Store from '../../store';
 import Settings from './Settings';
 import Home from './Home';
 import MyGifs from './MyGifs';
 const Tabs = () => {
+  const currentTasks = Store.getRawState()?.tasks;
   return (
     <IonTabs>
       <IonRouterOutlet>
@@ -30,6 +32,13 @@ const Tabs = () => {
           href="/my-gifs"
           className="floating-tab-button"
         >
+          {currentTasks.length ? (
+            <IonChip className="notificationChip" color="danger">
+              {currentTasks.length}
+            </IonChip>
+          ) : (
+            <span />
+          )}
           <IonIcon icon={person} />
         </IonTabButton>
         <IonTabButton

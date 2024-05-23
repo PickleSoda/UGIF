@@ -4,19 +4,15 @@ import {
   IonRefresher,
   IonRefresherContent,
 } from '@ionic/react';
-import GifDetailModal from '../../modals/GifDetailModal';
 import GifCard from '../../ui/GifCard';
 import useGifs from '../../../hooks/useGifs';
 import React, { useState, useEffect } from 'react';
-import ResponsiveGrid from '../../ui/ResponsiveGrid';
-import SpringModal from '../../modals/GifModal';
+import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
 import Store from '../../../store';
 import CategorySegment from '../../ui/CategorySegment';
 import { motion } from 'framer-motion';
-const GridItem: React.FC<{
-  ratio: number;
-  children: React.ReactElement<any>;
-}> = ({ ratio, children }) => <div data-ratio={ratio}>{children}</div>;
+import ModalFrame from '../../modals/ModalFrame';
+
 const Gifs = () => {
   const { gifs, handleRefresh, fetchGifs, handleCategotyChange } = useGifs();
   const gifCategories = Store.useState(s => [
@@ -34,6 +30,7 @@ const Gifs = () => {
 
   const openGifDetails = (id: string) => {
     setIsOpen(true);
+    setShowGifDetail(true);
     setSelectedGif(id);
   };
   const handleSegmentChange = (category: string) => {
@@ -56,12 +53,12 @@ const Gifs = () => {
         categories={gifCategories}
         onSegmentChange={handleSegmentChange}
       />
-      <GifDetailModal
+      <ModalFrame
         open={showGifDetail}
         onDidDismiss={() => setShowGifDetail(false)}
         id={selectedGif}
+        type="gif"
       />
-      <SpringModal isOpen={isOpen} setIsOpen={setIsOpen} id={selectedGif} />
       {gifs.length === 0 ? (
         gifsLoaded ? (
           <div className="absolute h-full top-1/2 left-1/2 -translate-x-1/2 text-xl">
