@@ -781,7 +781,7 @@ ion-button.signin-button-home, ion-button.create-account-button-home {
 }
 
 ion-button.signin-button-home, ion-button.signin-button {
-  --background: black;
+  --background: var(--ion-color-primary);
   --color: white;
 }
 
