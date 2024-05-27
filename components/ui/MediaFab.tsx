@@ -18,7 +18,7 @@ function MediaFab({
   side: side;
   photoTaken: () => Promise<void> | void;
 }) {
-  const { takePhoto, savePicture } = usePhotoGallery();
+  const { takePhoto, savePicture,pickPhotosFromGallery } = usePhotoGallery();
   const openCamera = async () => {
     try {
       const photo = await takePhoto();
@@ -31,6 +31,20 @@ function MediaFab({
       console.log(error);
     }
   };
+  const openGallery = async () => {
+    try {
+      const photos = await pickPhotosFromGallery();
+      console.log('Photos selected:', photos);
+      photos.photos.map(async (photo: any) => {
+        const saved = await savePicture(photo);
+        console.log('Photo saved:', saved);
+      });
+      photoTaken();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       <div>
@@ -43,7 +57,7 @@ function MediaFab({
               <IonIcon icon={camera}></IonIcon>
             </IonFabButton>
             <IonFabButton>
-              <IonIcon icon={image}></IonIcon>
+              <IonIcon icon={image} onClick={()=>openGallery()}></IonIcon>
             </IonFabButton>
           </IonFabList>
         </IonFab>

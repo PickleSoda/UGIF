@@ -937,3 +937,8 @@ ion-loading{
   margin-right: 10px;
   z-index: 100;
 }
+
+.customize-button{
+  --padding-end:0px;
+  --padding-start:0px;
+}

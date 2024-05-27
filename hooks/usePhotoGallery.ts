@@ -51,6 +51,34 @@ export function usePhotoGallery() {
     }
   };
 
+  const pickPhotosFromGallery = async () => {
+    if (Capacitor.isNativePlatform()) {
+      const cameraPermission = await Camera.checkPermissions();
+
+      // Check if the camera permission is not granted
+      if (cameraPermission.camera !== 'granted') {
+        const requestedPermission = await Camera.requestPermissions();
+
+        // Re-check if permissions have been granted after requesting
+        if (requestedPermission.camera !== 'granted') {
+          throw new Error('Camera permission not granted');
+        }
+      }
+    }
+    try {
+      const photos = await Camera.pickImages({
+        presentationStyle: 'popover',
+        limit: 5,
+        quality: 50,
+      });
+      console.log('Photos picked:', photos);
+      return photos;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
   const savePicture = async (photo: Photo) => {
     const base64Data = await getPhotoAsBase64(photo.webPath!);
     const fileName = 'photos/'+new Date().getTime() + '.jpeg';
@@ -266,7 +294,12 @@ export function usePhotoGallery() {
   //     };
   //   });
   // }
-
+  const deletePhoto = async (fileName: string) => {
+    await Filesystem.deleteFile({
+      path: fileName,
+      directory: Directory.Data
+    });
+  };
   return {
     takePhoto,
     loadSavedFolder,
@@ -275,5 +308,6 @@ export function usePhotoGallery() {
     saveToMedia,
     saveBase64AsFile,
     savePicture,
+    pickPhotosFromGallery,
   };
 }

@@ -5,13 +5,18 @@ import {
   addCircle,
   heartCircleOutline,
   radioButtonOnOutline,
+  arrowUpCircleOutline,
 } from 'ionicons/icons';
-import ImageList from './ImageList';
-import { usePhotoGallery } from '../../hooks/usePhotoGallery';
-interface CustomiseImageProps {
+interface photo {
   photo: string | undefined;
   base64Photo: string | undefined;
 }
+
+interface CustomiseImageProps {
+  onPhotoSelect: ((photo: photo) => void) | undefined;
+  onTakePhoto: () => void;
+  onOpenGallery: () => void;
+};
 
 const itemVariants: Variants = {
   open: {
@@ -27,56 +32,8 @@ const itemVariants: Variants = {
     transition: { duration: 0.2 },
   },
 };
-const CustomiseImage = ({
-  onPhotoSelect,
-}: {
-  onPhotoSelect?: (photo: CustomiseImageProps) => void;
-}) => {
+const CustomiseImage = ({onPhotoSelect, onTakePhoto, onOpenGallery}:CustomiseImageProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
-  const { takePhoto, getPhotoAsBase64 } = usePhotoGallery();
-  const [base64Photo, setBase64Photo] = useState<string | undefined>(undefined);
-  const [photo, setPhoto] = useState<string | undefined>(undefined);
-
-  const handleTakePhoto = async () => {
-    setIsGalleryOpen(false);
-    setIsOpen(false);
-    try {
-      const photoData = await takePhoto();
-      console.log('Photo taken:', photoData);
-      if (!photoData) return;
-      setPhoto(photoData.photo.webPath);
-      setBase64Photo(photoData.base64Data);
-      onPhotoSelect &&
-        onPhotoSelect({
-          photo: photoData.photo.webPath,
-          base64Photo: photoData.base64Data,
-        });
-    } catch (error) {
-      console.error('Error taking photo:', error);
-    }
-    console.log('requesting generation', base64Photo);
-  };
-
-  const selectPhoto = async (photo: any) => {
-    if (!photo) {
-      console.log('no photo selected');
-      setPhoto(undefined);
-      onPhotoSelect &&
-        onPhotoSelect({ photo: undefined, base64Photo: undefined });
-      return;
-    }
-    setPhoto(photo.webviewPath);
-    const base64data = await getPhotoAsBase64(photo?.webviewPath);
-    console.log('photo selected', photo, base64data);
-    onPhotoSelect &&
-      onPhotoSelect({ photo: photo.webviewPath, base64Photo: base64data });
-  };
-
-  const openGalery = () => {
-    setIsOpen(false);
-    setIsGalleryOpen(true);
-  };
   return (
     <motion.div
       initial={false}
@@ -97,7 +54,7 @@ const CustomiseImage = ({
         </IonButton>
       </motion.button>
       <motion.ul
-        className="absolute flex flex-col items-center justify-center mt-36 z-10 "
+        className="absolute flex flex-col items-center justify-center -mt-40 z-10 "
         variants={{
           open: {
             clipPath: 'inset(0% 0% 0% 0% round 10px)',
@@ -106,7 +63,7 @@ const CustomiseImage = ({
               bounce: 0,
               duration: 0.5,
               delayChildren: 0.3,
-              staggerChildren: 0.1,
+              staggerChildren: -0.1,
             },
           },
           closed: {
@@ -116,8 +73,8 @@ const CustomiseImage = ({
               bounce: 0,
               duration: 0.3,
               when: 'afterChildren',
-              staggerDirection: -1,
-              staggerChildren: 0.06,
+              staggerDirection: 1,
+              staggerChildren: -0.06,
             },
           },
         }}
@@ -129,14 +86,14 @@ const CustomiseImage = ({
             mode="ios"
             size="small"
             className="customise-button-small"
-            onClick={() => openGalery()}
+            onClick={() => onOpenGallery()}
           >
             <IonIcon
               className="h-10 w-10 -ml-6"
-              icon={heartCircleOutline}
+              icon={arrowUpCircleOutline}
               slot="start"
             ></IonIcon>
-            Swap materials
+           choose from gallery
           </IonButton>
         </motion.li>
         <motion.li variants={itemVariants}>
@@ -145,7 +102,7 @@ const CustomiseImage = ({
             mode="ios"
             size="small"
             className="customise-button-small"
-            onClick={() => handleTakePhoto()}
+            onClick={() => onTakePhoto()}
           >
             <IonIcon
               className="h-10 w-10 -ml-6"
@@ -156,11 +113,6 @@ const CustomiseImage = ({
           </IonButton>
         </motion.li>
       </motion.ul>
-      <motion.div initial={false} animate={isGalleryOpen ? 'open' : 'closed'}>
-        <motion.div variants={itemVariants} className="w-full max-w-72">
-          <ImageList onPhotoSelect={selectPhoto}></ImageList>
-        </motion.div>
-      </motion.div>
     </motion.div>
   );
 };

@@ -3,7 +3,7 @@ import { motion, Variants } from 'framer-motion';
 import { IonButton, IonIcon, IonAvatar, IonImg } from '@ionic/react';
 import { addCircle } from 'ionicons/icons';
 import { Swiper, SwiperSlide } from 'swiper/react';
-
+import CustomiseImageCircles from './CustomiseImageCircles';
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
 interface PhotoProps {
     photo: string | undefined;
@@ -20,7 +20,7 @@ const PhotoSelectSection = ({
     onPhotoSelect?: (photo: PhotoProps) => void;
     onGenerateContent?: () => void;
 }) => {
-    const { takePhoto, savePicture, loadSavedFolder, getPhotoAsBase64 } = usePhotoGallery();
+    const { takePhoto, savePicture, loadSavedFolder, getPhotoAsBase64,pickPhotosFromGallery } = usePhotoGallery();
     const [photos, setPhotos] = useState<UserPhoto[]>([]);
 
     const [selectedPhoto, setSelectedPhoto] = useState<UserPhoto | null>(null);
@@ -59,7 +59,20 @@ const PhotoSelectSection = ({
             }
         }
     };
-
+    const openGallery = async () => {
+        try {
+          const galleryResponse = await pickPhotosFromGallery();
+          const galleryPhotos = galleryResponse.photos;
+          console.log('Photos selected:', galleryPhotos);
+          galleryPhotos.map(async (photo: any) => {
+            const saved = await savePicture(photo);
+            console.log('Photo saved:', saved);
+            setPhotos([saved, ...photos]);
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
     const fetchPhotos = useCallback(async () => {
         const photos = await loadSavedFolder('photos');
         console.log('photos', photos);
@@ -72,7 +85,7 @@ const PhotoSelectSection = ({
 
     return (
         <div className="flex flex-col items-center justify-center w-full h-full">
-            <div className="w-full max-w-sm px-6 flex mb-2 overflow-hidden">
+            <div className="w-full max-w-sm px-6 flex mb-2 overflow-hidden rounded-2xl bg-black/80 pb-2 pt-1 z-0">
                 <Swiper
                     className="w-full mt-1.5"
                     spaceBetween={50}
@@ -103,17 +116,10 @@ const PhotoSelectSection = ({
                     ))}
                 </Swiper>
             </div>
-            <div className='w-full flex flex-col items-center justify-center'>
+            <div className='w-full flex flex-col items-center justify-center h-16'>
             <motion.button whileTap={{ scale: 0.97 }}>
                 {!selectedPhoto ? (
-                    <IonButton shape="round" mode="ios" onClick={() => openCamera()}>
-                        <IonIcon
-                            className="h-10 w-10 -ml-4"
-                            icon={addCircle}
-                            slot="start"
-                        ></IonIcon>
-                        Take Photo
-                    </IonButton>
+                    <CustomiseImageCircles onPhotoSelect={onPhotoSelect} onTakePhoto={openCamera} onOpenGallery={openGallery} />
                 ) : (
                     <IonButton
                         shape="round"
@@ -123,7 +129,6 @@ const PhotoSelectSection = ({
                         <IonIcon
                             className="h-10 w-10 -ml-4"
                             icon={addCircle}
-                            slot="start"
                         ></IonIcon>
                         Generate
                     </IonButton>
