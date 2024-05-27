@@ -92,6 +92,7 @@ export const logoutUser = () => {
     s.username = '';
     s.token = '';
     s.gifs = [];
+    s.videos = [];
     s.balance = 1;
   });
 };
