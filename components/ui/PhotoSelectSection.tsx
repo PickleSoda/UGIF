@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { IonButton, IonIcon, IonAvatar, IonImg } from '@ionic/react';
-import { addCircle } from 'ionicons/icons';
+import { addCircle, flash, flashOutline } from 'ionicons/icons';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import CustomiseImageCircles from './CustomiseImageCircles';
 import { usePhotoGallery } from '../../hooks/usePhotoGallery';
@@ -117,23 +117,28 @@ const PhotoSelectSection = ({
                 </Swiper>
             </div>
             <div className='w-full flex flex-col items-center justify-center h-16'>
-            <motion.button whileTap={{ scale: 0.97 }}>
                 {!selectedPhoto ? (
                     <CustomiseImageCircles onPhotoSelect={onPhotoSelect} onTakePhoto={openCamera} onOpenGallery={openGallery} />
                 ) : (
+                    <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
                     <IonButton
                         shape="round"
                         mode="ios"
+                        color={'light'}
                         onClick={() => handleGeneration()}
                     >
                         <IonIcon
-                            className="h-10 w-10 -ml-4"
-                            icon={addCircle}
+                            className="h-8 w-10 -ml-4"
+                            icon={flash}
                         ></IonIcon>
                         Generate
                     </IonButton>
+                </motion.div>
                 )}
-            </motion.button>
             </div>
         </div>
     );

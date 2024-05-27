@@ -8,7 +8,7 @@ import {
   IonLabel,
   IonChip,
 } from '@ionic/react';
-import { person, grid, settings } from 'ionicons/icons';
+import { person, grid, settings, flashOutline, flash } from 'ionicons/icons';
 import Store from '../../store';
 import Settings from './Settings';
 import Home from './Home';
@@ -39,14 +39,14 @@ const Tabs = () => {
           ) : (
             <span />
           )}
-          <IonIcon icon={person} />
+          <IonIcon icon={flash} />
         </IonTabButton>
         <IonTabButton
           tab="tab3"
           href="/settings"
           className="floating-tab-button"
         >
-          <IonIcon icon={settings} />
+          <IonIcon icon={person} />
         </IonTabButton>
       </IonTabBar>
     </IonTabs>

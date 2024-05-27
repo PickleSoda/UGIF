@@ -50,11 +50,13 @@ const CustomiseImageCircles = ({ onPhotoSelect, onTakePhoto, onOpenGallery }: Cu
 
   return (
     <motion.div
-      initial={false}
-      animate={isOpen ? 'open' : 'closed'}
-      className="flex flex-col items-center justify-center w-full h-12"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+      className="flex flex-col items-center justify-center w-full h-14"
     >
-      <div className="z-10  flex items-center justify-center space-x-4">
+      <motion.div      initial={false}
+      animate={isOpen ? 'open' : 'closed'} className="z-10 overflow-hidden  flex items-center justify-center space-x-4">
         <motion.div variants={leftVariants}>
           <IonButton
             className='customize-button'
@@ -62,7 +64,7 @@ const CustomiseImageCircles = ({ onPhotoSelect, onTakePhoto, onOpenGallery }: Cu
             mode="ios"
             onClick={() => onOpenGallery()}
           >
-            <IonIcon className="h-12 w-12"icon={arrowUpCircleOutline} />
+            <IonIcon className="h-12 w-12" icon={arrowUpCircleOutline} />
           </IonButton>
         </motion.div>
         <motion.button
@@ -71,16 +73,19 @@ const CustomiseImageCircles = ({ onPhotoSelect, onTakePhoto, onOpenGallery }: Cu
           className="relative"
         >
           <IonButton
-            className={isOpen ?`customize-button` : ``}
+            className={isOpen ? `customize-button` : ``}
             shape="round"
             mode="ios">
-            <motion.div
-              animate={{ rotate: isOpen ? 45 : 0 }}
-              className="flex items-center"
-            >
-              <IonIcon className={isOpen ?`h-12 w-12` : `h-10 w-10 -ml-4`} icon={addCircle} slot="start" />
-            </motion.div>
-              {!isOpen && <span className="ml-2">Customise</span>}
+            <div className={isOpen ? `h-12 w-12` : `h-10 w-10 -ml-4`}>
+              <motion.div
+                animate={{ rotate: isOpen ? 45 : 0 }}
+                className="flex items-center"
+              >
+
+                <IonIcon className={isOpen ? `h-12 w-12` : `h-10 w-10`} icon={addCircle} slot="start" />
+              </motion.div>
+            </div>
+            {!isOpen && <span className="ml-2">Customise</span>}
           </IonButton>
         </motion.button>
         <motion.div variants={rightVariants}>
@@ -93,7 +98,7 @@ const CustomiseImageCircles = ({ onPhotoSelect, onTakePhoto, onOpenGallery }: Cu
             <IonIcon className="h-12 w-12" icon={radioButtonOnOutline} />
           </IonButton>
         </motion.div>
-      </div>
+      </motion.div>
     </motion.div>
   );
 };

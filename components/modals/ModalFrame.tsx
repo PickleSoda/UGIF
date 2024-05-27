@@ -161,7 +161,7 @@ function ModalFrame({
                 )}
             </motion.div>
             <div
-              className="absolute w-full bottom-24"
+              className="absolute w-full bottom-24 px-6"
               onClick={e => e.stopPropagation()}
             >
               <PhotoSelectSection
