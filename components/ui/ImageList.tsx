@@ -8,12 +8,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 type side = 'start' | 'end' | 'top' | 'bottom' | undefined;
 
 type fab = side;
-type SettingsProps = {
+type ImageListProps = {
   fab?: fab;
   onPhotoSelect?: (photo: any) => void;
 };
 
-const Settings = ({ fab = undefined, onPhotoSelect }: SettingsProps) => {
+const ImageList = ({ fab = undefined, onPhotoSelect }: ImageListProps) => {
   const { loadSavedFolder } = usePhotoGallery();
   const [photos, setPhotos] = useState<any[]>([]);
   const [selectedPhoto, setSelectedPhoto] = useState<any>(null);
@@ -27,7 +27,7 @@ const Settings = ({ fab = undefined, onPhotoSelect }: SettingsProps) => {
     } else {
       setSelectedPhoto(photo);
       if (onPhotoSelect) {
-        onPhotoSelect(photo);
+        onPhotoSelect({photo: photo.webviewPath, base64Photo: photo.base64Data});
       }
     }
   };
@@ -83,4 +83,4 @@ const Settings = ({ fab = undefined, onPhotoSelect }: SettingsProps) => {
   );
 };
 
-export default Settings;
+export default ImageList;
