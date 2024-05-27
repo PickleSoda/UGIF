@@ -17,7 +17,7 @@ interface CustomiseImageProps {
   onPhotoSelect: ((photo: photo) => void) | undefined;
   onTakePhoto: () => void;
   onOpenGallery: () => void;
-};
+}
 
 const leftVariants: Variants = {
   open: {
@@ -45,21 +45,28 @@ const rightVariants: Variants = {
   },
 };
 
-const CustomiseImageCircles = ({ onPhotoSelect, onTakePhoto, onOpenGallery }: CustomiseImageProps) => {
+const CustomiseImageCircles = ({
+  onPhotoSelect,
+  onTakePhoto,
+  onOpenGallery,
+}: CustomiseImageProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="flex flex-col items-center justify-center w-full h-14"
     >
-      <motion.div      initial={false}
-      animate={isOpen ? 'open' : 'closed'} className="z-10 overflow-hidden  flex items-center justify-center space-x-4">
+      <motion.div
+        initial={false}
+        animate={isOpen ? 'open' : 'closed'}
+        className="z-10 overflow-hidden  flex items-center justify-center space-x-4"
+      >
         <motion.div variants={leftVariants}>
           <IonButton
-            className='customize-button'
+            className="customize-button"
             shape="round"
             mode="ios"
             onClick={() => onOpenGallery()}
@@ -75,14 +82,18 @@ const CustomiseImageCircles = ({ onPhotoSelect, onTakePhoto, onOpenGallery }: Cu
           <IonButton
             className={isOpen ? `customize-button` : ``}
             shape="round"
-            mode="ios">
+            mode="ios"
+          >
             <div className={isOpen ? `h-12 w-12` : `h-10 w-10 -ml-4`}>
               <motion.div
                 animate={{ rotate: isOpen ? 45 : 0 }}
                 className="flex items-center"
               >
-
-                <IonIcon className={isOpen ? `h-12 w-12` : `h-10 w-10`} icon={addCircle} slot="start" />
+                <IonIcon
+                  className={isOpen ? `h-12 w-12` : `h-10 w-10`}
+                  icon={addCircle}
+                  slot="start"
+                />
               </motion.div>
             </div>
             {!isOpen && <span className="ml-2">Customise</span>}
@@ -90,7 +101,7 @@ const CustomiseImageCircles = ({ onPhotoSelect, onTakePhoto, onOpenGallery }: Cu
         </motion.button>
         <motion.div variants={rightVariants}>
           <IonButton
-            className='customize-button'
+            className="customize-button"
             shape="round"
             mode="ios"
             onClick={() => onTakePhoto()}

@@ -49,13 +49,13 @@ function ModalFrame({
 
         type == 'gif'
           ? addGifTask({
-            id: response.data.task_id,
-            status: 'processing',
-          })
+              id: response.data.task_id,
+              status: 'processing',
+            })
           : addVideoTask({
-            id: response.data.task_id,
-            status: 'processing',
-          });
+              id: response.data.task_id,
+              status: 'processing',
+            });
       })
       .catch(error => {
         dismiss();
@@ -129,38 +129,37 @@ function ModalFrame({
               initial={{ scale: 0, rotate: '12.5deg' }}
               animate={{ scale: 1, rotate: '0deg' }}
               exit={{ scale: 0, rotate: '0deg' }}
-
               className="px-6 absolute w-full  bottom-64"
             >
-              {media ?
-                (
-                  <>
-                    {type == 'gif' ?
-                        (
-                          <motion.div
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            exit={{ scale: 1 }}
-                            onClick={e => e.stopPropagation()}
-                            className={`h-full`}
-                          >
-                            <GifCard {...media} />
-                          </motion.div>
-                        ) : (
-                          <video controls onClick={e => e.stopPropagation()}>
-                            <source src={media.src} type="video/mp4" />
-                          </video>
-                        )}
-                        <div 
-                            className={`h-full  ${media?.ratio > 1 && 'mb-10'}`}
-                      ></div>
-                  </>
-
-                ) : (
-                  <NanCard spinner />
-                )}
+              {media ? (
+                <>
+                  {type == 'gif' ? (
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 1 }}
+                      onClick={e => e.stopPropagation()}
+                      className={`h-full`}
+                    >
+                      <GifCard {...media} />
+                    </motion.div>
+                  ) : (
+                    <video controls onClick={e => e.stopPropagation()}>
+                      <source src={media.src} type="video/mp4" />
+                    </video>
+                  )}
+                  <div
+                    className={`h-full  ${media?.ratio > 1 && 'mb-10'}`}
+                  ></div>
+                </>
+              ) : (
+                <NanCard spinner />
+              )}
             </motion.div>
-            <div
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               className="absolute w-full bottom-24 px-6"
               onClick={e => e.stopPropagation()}
             >
@@ -168,7 +167,7 @@ function ModalFrame({
                 onPhotoSelect={selectPhoto}
                 onGenerateContent={handleGenerateGif}
               ></PhotoSelectSection>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

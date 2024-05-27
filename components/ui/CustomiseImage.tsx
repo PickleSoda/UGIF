@@ -16,7 +16,7 @@ interface CustomiseImageProps {
   onPhotoSelect: ((photo: photo) => void) | undefined;
   onTakePhoto: () => void;
   onOpenGallery: () => void;
-};
+}
 
 const itemVariants: Variants = {
   open: {
@@ -32,7 +32,11 @@ const itemVariants: Variants = {
     transition: { duration: 0.2 },
   },
 };
-const CustomiseImage = ({onPhotoSelect, onTakePhoto, onOpenGallery}:CustomiseImageProps) => {
+const CustomiseImage = ({
+  onPhotoSelect,
+  onTakePhoto,
+  onOpenGallery,
+}: CustomiseImageProps) => {
   const [isOpen, setIsOpen] = useState(false);
   return (
     <motion.div
@@ -93,7 +97,7 @@ const CustomiseImage = ({onPhotoSelect, onTakePhoto, onOpenGallery}:CustomiseIma
               icon={arrowUpCircleOutline}
               slot="start"
             ></IonIcon>
-           choose from gallery
+            choose from gallery
           </IonButton>
         </motion.li>
         <motion.li variants={itemVariants}>

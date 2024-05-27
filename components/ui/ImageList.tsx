@@ -14,7 +14,7 @@ type ImageListProps = {
 };
 
 const ImageList = ({ fab = undefined, onPhotoSelect }: ImageListProps) => {
-  const { loadSavedFolder } = usePhotoGallery();
+  const { loadSavedFolder, checkAndDeleteOldPhotos } = usePhotoGallery();
   const [photos, setPhotos] = useState<any[]>([]);
   const [selectedPhoto, setSelectedPhoto] = useState<any>(null);
 
@@ -27,12 +27,16 @@ const ImageList = ({ fab = undefined, onPhotoSelect }: ImageListProps) => {
     } else {
       setSelectedPhoto(photo);
       if (onPhotoSelect) {
-        onPhotoSelect({photo: photo.webviewPath, base64Photo: photo.base64Data});
+        onPhotoSelect({
+          photo: photo.webviewPath,
+          base64Photo: photo.base64Data,
+        });
       }
     }
   };
 
   const fetchPhotos = useCallback(async () => {
+    await checkAndDeleteOldPhotos();
     const photos = await loadSavedFolder('photos');
     console.log('photos', photos);
     setPhotos(photos.reverse());

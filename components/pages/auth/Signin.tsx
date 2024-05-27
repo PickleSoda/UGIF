@@ -25,9 +25,12 @@ import {
   SignInWithApple,
   SignInWithAppleOptions,
 } from '@capacitor-community/apple-sign-in';
-import { authenticateWithFirebase, authenticateWithApple } from '../../../lib/firebase/auth';
+import {
+  authenticateWithFirebase,
+  authenticateWithApple,
+} from '../../../lib/firebase/auth';
 import { useLocation } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid'; 
+import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto'; // Node's crypto module
 
 const SignIn = () => {
@@ -162,14 +165,14 @@ const SignIn = () => {
     }
   };
 
-  async function sha256(message:string) {
+  async function sha256(message: string) {
     return crypto.createHash('sha256').update(message).digest('hex');
-}
+  }
 
   const appleSignIn = async () => {
     const nonce = uuidv4(); // Generate a secure random nonce
     const hashedNonceHex = await sha256(nonce); // Hash the nonce
-      
+
     let options: any = {
       clientId: 'com.starswap.gif',
       redirectURI: 'https://starswap-91cd8.firebaseapp.com/__/auth/handler',
@@ -177,7 +180,7 @@ const SignIn = () => {
       state: '12345',
       nonce: hashedNonceHex,
     };
-  
+
     try {
       const result = await SignInWithApple.authorize(options);
       present({
@@ -185,11 +188,11 @@ const SignIn = () => {
         duration: 10000,
       });
       console.info('result', result);
-  
+
       const { identityToken, authorizationCode, email } = result.response;
-  
+
       const token = await authenticateWithApple(identityToken, nonce);
-  
+
       const response = await request({
         url: '/auth/google_signin',
         method: 'post',
@@ -198,10 +201,10 @@ const SignIn = () => {
         },
       });
       console.info('response', response);
-  
+
       const userEmail = email ?? 'unknown@example.com';
       loginUser({ username: userEmail, token: response.data.token });
-  
+
       if (result) {
         router.push('/', 'none', 'push');
       }

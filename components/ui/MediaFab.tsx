@@ -18,7 +18,7 @@ function MediaFab({
   side: side;
   photoTaken: () => Promise<void> | void;
 }) {
-  const { takePhoto, savePicture,pickPhotosFromGallery } = usePhotoGallery();
+  const { takePhoto, savePicture, pickPhotosFromGallery } = usePhotoGallery();
   const openCamera = async () => {
     try {
       const photo = await takePhoto();
@@ -43,7 +43,7 @@ function MediaFab({
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <>
@@ -57,7 +57,7 @@ function MediaFab({
               <IonIcon icon={camera}></IonIcon>
             </IonFabButton>
             <IonFabButton>
-              <IonIcon icon={image} onClick={()=>openGallery()}></IonIcon>
+              <IonIcon icon={image} onClick={() => openGallery()}></IonIcon>
             </IonFabButton>
           </IonFabList>
         </IonFab>

@@ -16,7 +16,6 @@ import useBalance from '../../hooks/useBalance';
 import useAlerts from '../../hooks/useAlerts';
 import { useState } from 'react';
 import ImageList from '../ui/ImageList';
-import CustomiseImage from '../ui/CustomiseImage';
 const Settings = () => {
   const { showLogoutAlert } = useAlerts();
   const [showPaymentModal, setShowPaymentModal] = useState(false);
@@ -24,6 +23,7 @@ const Settings = () => {
 
   const handleRefresh = (event: CustomEvent) => {
     fetchBalance();
+
     setTimeout(() => {
       // Any calls to load data go here
       console.log('refresh');

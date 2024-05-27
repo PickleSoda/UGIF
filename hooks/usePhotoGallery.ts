@@ -19,7 +19,6 @@ type ResizeImage = (
 ) => Promise<string>;
 const PHOTO_STORAGE = 'photos';
 export function usePhotoGallery() {
-
   const takePhoto = async () => {
     if (Capacitor.isNativePlatform()) {
       const cameraPermission = await Camera.checkPermissions();
@@ -44,7 +43,7 @@ export function usePhotoGallery() {
       console.log('Photo taken:', photo);
       const base64Data = await getPhotoAsBase64(photo.webPath!);
       console.log('Base64:', base64Data);
-      return {photo,base64Data};
+      return { photo, base64Data };
     } catch (error) {
       console.log(error);
       throw error;
@@ -77,11 +76,11 @@ export function usePhotoGallery() {
       console.log(error);
       throw error;
     }
-  }
+  };
 
   const savePicture = async (photo: Photo) => {
     const base64Data = await getPhotoAsBase64(photo.webPath!);
-    const fileName = 'photos/'+new Date().getTime() + '.jpeg';
+    const fileName = 'photos/' + new Date().getTime() + '.jpeg';
     const savedFile = await Filesystem.writeFile({
       path: fileName,
       data: base64Data,
@@ -93,8 +92,7 @@ export function usePhotoGallery() {
       filepath: fileName,
       webviewPath: photo.webPath,
     };
-  }
-
+  };
 
   const loadSavedFolder = useCallback(async (pathName: string = '') => {
     try {
@@ -106,11 +104,14 @@ export function usePhotoGallery() {
       const Files = await Promise.all(
         fileList.files.map(async FileInfo => {
           const readFileResult = await Filesystem.readFile({
-            path: pathName +'/'+ FileInfo.name,
+            path: pathName + '/' + FileInfo.name,
             directory: Directory.Data,
           });
-          const blob = getBase64AsBlob(readFileResult.data.toString(), 'image/jpeg');
-          console.log('blob', blob, FileInfo);
+          const blob = getBase64AsBlob(
+            readFileResult.data.toString(),
+            'image/jpeg',
+          );
+          // console.log('blob', blob, FileInfo);
           const webviewPath = URL.createObjectURL(blob);
           const photo: UserPhoto = {
             filepath: FileInfo.name,
@@ -120,6 +121,7 @@ export function usePhotoGallery() {
         }),
       );
 
+      console.log('Photos:', Files);
       return Files;
     } catch (error) {
       console.error('Error loading saved photos:', error);
@@ -128,26 +130,26 @@ export function usePhotoGallery() {
   }, []);
 
   async function downloadAndSaveFile(url: string, fileName: string) {
-      console.log('Downloading file:', url);
-      // Fetch the file as a blob
-      const response = await fetch(url,{ mode: 'no-cors'});
-      console.error(`response: ${response}`);
+    console.log('Downloading file:', url);
+    // Fetch the file as a blob
+    const response = await fetch(url, { mode: 'no-cors' });
+    console.error(`response: ${response}`);
 
-      const blob = await response.blob();
-      console.log('Blob:', blob);
+    const blob = await response.blob();
+    console.log('Blob:', blob);
 
-      // Convert blob to base64
-      const reader = new FileReader();
-      reader.readAsDataURL(blob);
-      await new Promise(resolve => {
-        reader.onloadend = resolve;
-      });
-      console.log('File downloaded:', reader.result);
+    // Convert blob to base64
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    await new Promise(resolve => {
+      reader.onloadend = resolve;
+    });
+    console.log('File downloaded:', reader.result);
 
-      // Save the file using Filesystem API
-      if (reader.result) {
-        const base64Data = reader.result.toString().split(',')[1];
-        saveBase64AsFile(base64Data, fileName);
+    // Save the file using Filesystem API
+    if (reader.result) {
+      const base64Data = reader.result.toString().split(',')[1];
+      saveBase64AsFile(base64Data, fileName);
 
       console.log('File downloaded');
     }
@@ -296,9 +298,25 @@ export function usePhotoGallery() {
   // }
   const deletePhoto = async (fileName: string) => {
     await Filesystem.deleteFile({
-      path: fileName,
-      directory: Directory.Data
+      path: PHOTO_STORAGE + '/' + fileName,
+      directory: Directory.Data,
     });
+  };
+  const checkAndDeleteOldPhotos = async () => {
+    const savedPhotos = await loadSavedFolder(PHOTO_STORAGE);
+    if (savedPhotos.length > 20) {
+      const sortedPhotos = savedPhotos.sort(
+        (a, b) =>
+          parseInt(a.filepath.split('.')[0]) -
+          parseInt(b.filepath.split('.')[0]),
+      );
+      const photosToDelete = sortedPhotos.slice(0, savedPhotos.length - 20);
+
+      for (const photo of photosToDelete) {
+        await deletePhoto(photo.filepath);
+      }
+      console.log('Old photos deleted:', photosToDelete);
+    }
   };
   return {
     takePhoto,
@@ -309,5 +327,6 @@ export function usePhotoGallery() {
     saveBase64AsFile,
     savePicture,
     pickPhotosFromGallery,
+    checkAndDeleteOldPhotos,
   };
 }
