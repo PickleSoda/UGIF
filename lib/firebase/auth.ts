@@ -1,5 +1,6 @@
 import firebase_app from "./config";
-import { createUserWithEmailAndPassword,signInWithEmailAndPassword,signInWithCredential, getAuth , signInWithPopup,GoogleAuthProvider } from "firebase/auth";
+import { createUserWithEmailAndPassword,signInWithEmailAndPassword,signInWithCredential, getAuth , signInWithPopup,GoogleAuthProvider, OAuthProvider } from "firebase/auth";
+import crypto from 'crypto'; // Node's crypto module
 
 const auth = getAuth(firebase_app);
 
@@ -81,3 +82,26 @@ export async function authenticateWithFirebase(googleIdToken : string ) {
       throw error;
     }
   }
+
+  export async function authenticateWithApple(appleIdToken: string, rawNonce: string) {
+    const provider = new OAuthProvider('apple.com');
+    const credential = provider.credential({
+        idToken: appleIdToken,
+        rawNonce: rawNonce,
+    });
+
+    console.log('Using raw nonce for Firebase credential:', rawNonce);
+
+    signInWithCredential(auth, credential)
+      .then(firebaseUserCredential => {
+          console.log('Firebase Auth successful, user:', firebaseUserCredential.user);
+          return firebaseUserCredential.user.getIdToken();
+      })
+      .then(firebaseIdToken => {
+          console.log('Firebase ID token:', firebaseIdToken);
+          return firebaseIdToken;
+      })
+      .catch(error => {
+          console.error('Error authenticating with Firebase:', error);
+      });
+}

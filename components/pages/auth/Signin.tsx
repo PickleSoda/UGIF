@@ -25,8 +25,10 @@ import {
   SignInWithApple,
   SignInWithAppleOptions,
 } from '@capacitor-community/apple-sign-in';
-import { authenticateWithFirebase } from '../../../lib/firebase/auth';
+import { authenticateWithFirebase, authenticateWithApple } from '../../../lib/firebase/auth';
 import { useLocation } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid'; 
+import crypto from 'crypto'; // Node's crypto module
 
 const SignIn = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -160,14 +162,22 @@ const SignIn = () => {
     }
   };
 
+  async function sha256(message:string) {
+    return crypto.createHash('sha256').update(message).digest('hex');
+}
+
   const appleSignIn = async () => {
-    let options: SignInWithAppleOptions = {
-      clientId: 'com.starswap.gif.auth',
+    const nonce = uuidv4(); // Generate a secure random nonce
+    const hashedNonceHex = await sha256(nonce); // Hash the nonce
+      
+    let options: any = {
+      clientId: 'com.starswap.gif',
       redirectURI: 'https://starswap-91cd8.firebaseapp.com/__/auth/handler',
       scopes: 'email name',
       state: '12345',
-      nonce: 'nonce',
+      nonce: hashedNonceHex,
     };
+  
     try {
       const result = await SignInWithApple.authorize(options);
       present({
@@ -175,21 +185,23 @@ const SignIn = () => {
         duration: 10000,
       });
       console.info('result', result);
-      const token = await authenticateWithFirebase(
-        result.response.identityToken,
-      );
+  
+      const { identityToken, authorizationCode, email } = result.response;
+  
+      const token = await authenticateWithApple(identityToken, nonce);
+  
       const response = await request({
-        url: '/auth/apple_signin',
+        url: '/auth/google_signin',
         method: 'post',
         data: {
           id_token: token,
         },
       });
       console.info('response', response);
-
-      const email = result.response.email ?? 'unknown@example.com';
-      loginUser({ username: email, token: response.data.token });
-
+  
+      const userEmail = email ?? 'unknown@example.com';
+      loginUser({ username: userEmail, token: response.data.token });
+  
       if (result) {
         router.push('/', 'none', 'push');
       }

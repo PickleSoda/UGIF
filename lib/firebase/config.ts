@@ -15,7 +15,6 @@
     measurementId: "G-ZEH45CHVK6"
   };
   
-  
   // Initialize Firebase
   let firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   
