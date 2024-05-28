@@ -40,7 +40,7 @@ const ImageList = ({ fab = undefined, onPhotoSelect }: ImageListProps) => {
     const photos = await loadSavedFolder('photos');
     console.log('photos', photos);
     setPhotos(photos.reverse());
-  }, [loadSavedFolder, setPhotos]);
+  }, [loadSavedFolder, setPhotos, checkAndDeleteOldPhotos]);
 
   useEffect(() => {
     fetchPhotos();

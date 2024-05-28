@@ -25,10 +25,9 @@ const VideoCard = ({ src, autoPlay = false, className }: FeedCardProps) => {
           src={src+'#t=1'}
           autoPlay={autoPlay}
 >
-        <BigPlayButton position='center' />
-        <ControlBar autoHide={false} disableDefaultControls={true}>
+        <BigPlayButton className='big-play-button-hide' />
+        <ControlBar autoHide={false} disableDefaultControls={true} className='bg-opacity-0'>
         <PlayToggle />
-        <VolumeMenuButton />
         <VolumeMenuButton vertical />
       </ControlBar>
           </Player>

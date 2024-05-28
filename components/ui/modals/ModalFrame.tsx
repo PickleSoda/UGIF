@@ -156,7 +156,7 @@ function ModalFrame({
                     </motion.div>
                   )}
                   <div
-                    className={`h-full  ${media?.ratio > 1 && 'mb-10'}`}
+                    className={`h-full  ${media?.ratio > 1 && 'mb-20'}`}
                   ></div>
                 </>
               ) : (
