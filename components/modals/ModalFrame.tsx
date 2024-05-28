@@ -3,6 +3,7 @@ import { IonModal, createAnimation } from '@ionic/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Store from '../../store';
 import GifCard from '../ui/GifCard';
+import VideoCard from '../ui/VideoCard';
 import NanCard from '../ui/NanCard';
 import { useState } from 'react';
 import { useIonLoading } from '@ionic/react';
@@ -144,9 +145,15 @@ function ModalFrame({
                       <GifCard {...media} />
                     </motion.div>
                   ) : (
-                    <video controls onClick={e => e.stopPropagation()}>
-                      <source src={media.src} type="video/mp4" />
-                    </video>
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 1 }}
+                      onClick={e => e.stopPropagation()}
+                      className={`h-full`}
+                    >
+                      <VideoCard src={media.src} autoPlay></VideoCard>
+                    </motion.div>
                   )}
                   <div
                     className={`h-full  ${media?.ratio > 1 && 'mb-10'}`}

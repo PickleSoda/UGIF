@@ -13,6 +13,7 @@ import Store from '../../../store';
 import CategorySegment from '../../ui/CategorySegment';
 import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
 import { motion } from 'framer-motion';
+import VideoCard from '../../ui/VideoCard';
 const Videos = () => {
   const { handleCategotyChange, videos, handleRefresh, fetchGifs } =
     useVideos();
@@ -62,18 +63,15 @@ const Videos = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 className="px-6"
               >
-                <video controls className="w-full rounded-lg ">
+                {/* <video controls className="w-full rounded-lg ">
                   <source
                     src={item.src}
                     type="video/mp4"
                     className="min-h-60"
                   />
-                </video>
-                <div className="mb-4 flex justify-center">
-                  <IonButton>
-                    <IonLabel>Generate Video</IonLabel>
-                  </IonButton>
-                </div>
+                </video> */}
+                
+                <VideoCard src={item.src} className='pointer-events-none'></VideoCard>
               </motion.div>
             </GridItem>
           ))}
