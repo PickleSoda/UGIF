@@ -1,4 +1,4 @@
-import Card from '../ui/Card';
+import Card from './Card';
 import { IonIcon, IonSpinner } from '@ionic/react';
 import { person } from 'ionicons/icons';
 const GifCard = ({ spinner = false }: { spinner: boolean }) => (

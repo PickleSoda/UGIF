@@ -9,7 +9,7 @@ import {
   IonImg,
 } from '@ionic/react';
 import { add, image, camera, save } from 'ionicons/icons';
-import { usePhotoGallery } from '../../hooks/usePhotoGallery';
+import { usePhotoGallery } from '../../../hooks/usePhotoGallery';
 type side = 'start' | 'end' | 'top' | 'bottom' | undefined;
 function MediaFab({
   photoTaken,

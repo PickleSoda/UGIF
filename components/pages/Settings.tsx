@@ -15,7 +15,7 @@ import { userStore } from '../../store/userStore';
 import useBalance from '../../hooks/useBalance';
 import useAlerts from '../../hooks/useAlerts';
 import { useState } from 'react';
-import ImageList from '../ui/ImageList';
+import ImageList from '../ui/ImageRelated/ImageList';
 const Settings = () => {
   const { showLogoutAlert } = useAlerts();
   const [showPaymentModal, setShowPaymentModal] = useState(false);

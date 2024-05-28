@@ -1,8 +1,8 @@
 import { IonImg, IonAvatar } from '@ionic/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useState, useEffect, useCallback } from 'react';
-import MediaFab from '../ui/MediaFab';
-import { usePhotoGallery } from '../../hooks/usePhotoGallery';
+import MediaFab from './MediaFab';
+import { usePhotoGallery } from '../../../hooks/usePhotoGallery';
 import { AnimatePresence, motion } from 'framer-motion';
 
 type side = 'start' | 'end' | 'top' | 'bottom' | undefined;

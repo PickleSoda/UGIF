@@ -4,12 +4,12 @@ import {
   IonRefresher,
   IonRefresherContent,
 } from '@ionic/react';
-import GifCard from '../../ui/GifCard';
+import GifCard from '../../ui/Cards/GifCard';
 import useGifs from '../../../hooks/useGifs';
 import React, { useState, useEffect } from 'react';
 import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
 import Store from '../../../store';
-import CategorySegment from '../../ui/CategorySegment';
+import CategorySegment from '../../ui/Home/CategorySegment';
 import { motion } from 'framer-motion';
 import ModalFrame from '../../modals/ModalFrame';
 

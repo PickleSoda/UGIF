@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import Card from '../ui/Card';
+import Card from './Card';
 import { useEffect, useState } from 'react';
-import { generateRandomColor } from '../../mock';
+import { generateRandomColor } from '../../../mock';
 import { radio } from 'ionicons/icons';
 type FeedCardProps = {
   src: string;

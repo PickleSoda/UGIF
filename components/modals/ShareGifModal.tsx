@@ -10,7 +10,7 @@ import {
   IonRow,
   useIonLoading,
 } from '@ionic/react';
-import GifCard from '../ui/GifCard';
+import GifCard from '../ui/Cards/GifCard';
 import { IGif } from '../../mock';
 import { shareOutline, downloadOutline, copyOutline } from 'ionicons/icons';
 import { Clipboard } from '@capacitor/clipboard';

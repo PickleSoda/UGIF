@@ -10,12 +10,12 @@ import ModalFrame from '../../modals/ModalFrame';
 import useVideos from '../../../hooks/useVideos';
 import React, { forwardRef, useState } from 'react';
 import Store from '../../../store';
-import CategorySegment from '../../ui/CategorySegment';
+import CategorySegment from '../../ui/Home/CategorySegment';
 import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
 import { motion } from 'framer-motion';
-import VideoCard from '../../ui/VideoCard';
+import VideoCard from '../../ui/Cards/VideoCard';
 const Videos = () => {
-  const { handleCategotyChange, videos, handleRefresh, fetchGifs } =
+  const { handleCategotyChange, videos, handleRefresh, fetchVideos } =
     useVideos();
   const videoCategories = Store.useState(s => [
     {
@@ -25,12 +25,12 @@ const Videos = () => {
     },
     ...s.categories.filter(category => category.category === 'video'),
   ]);
-  const [showGifDetail, setShowGifDetail] = useState(false);
-  const [selectedGif, setSelectedGif] = useState('');
+  const [showVideoDetail, setShowVideoDetail] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState('');
 
   const openDetails = (id: string) => {
-    setShowGifDetail(true);
-    setSelectedGif(id);
+    setShowVideoDetail(true);
+    setSelectedVideo(id);
   };
 
   return (
@@ -40,9 +40,9 @@ const Videos = () => {
         onSegmentChange={handleCategotyChange}
       />
       <ModalFrame
-        open={showGifDetail}
-        onDidDismiss={() => setShowGifDetail(false)}
-        id={selectedGif}
+        open={showVideoDetail}
+        onDidDismiss={() => setShowVideoDetail(false)}
+        id={selectedVideo}
         type="video"
       />
       <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
@@ -63,14 +63,6 @@ const Videos = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 className="px-6"
               >
-                {/* <video controls className="w-full rounded-lg ">
-                  <source
-                    src={item.src}
-                    type="video/mp4"
-                    className="min-h-60"
-                  />
-                </video> */}
-                
                 <VideoCard src={item.src} className='pointer-events-none'></VideoCard>
               </motion.div>
             </GridItem>
@@ -80,7 +72,7 @@ const Videos = () => {
       <IonInfiniteScroll
         onIonInfinite={ev => {
           console.log('yoi', ev);
-          fetchGifs();
+          fetchVideos();
           setTimeout(() => ev.target.complete(), 500);
         }}
       >

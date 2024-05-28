@@ -8,7 +8,7 @@ const useVideos = (initialPage = 1, perPage = 10) => {
   const [hasMore, setHasMore] = useState(true);
   const [category, setCategory] = useState<string | null>();
 
-  const fetchGifs = useCallback(async () => {
+  const fetchVideos = useCallback(async () => {
     try {
       if (!hasMore) return;
       const data = { page: page, per_page: perPage };
@@ -52,8 +52,8 @@ const useVideos = (initialPage = 1, perPage = 10) => {
   }, [loadedVids, setvideos, page, perPage, category, hasMore]);
 
   useEffect(() => {
-    loadedVids.length === 0 ? fetchGifs() : setvideos(loadedVids);
-  }, [loadedVids, fetchGifs]);
+    loadedVids.length === 0 ? fetchVideos() : setvideos(loadedVids);
+  }, [loadedVids, fetchVideos]);
 
   const handleInput = (ev: Event) => {
     let query = '';
@@ -87,7 +87,7 @@ const useVideos = (initialPage = 1, perPage = 10) => {
     handleRefresh,
     handleInput,
     videos,
-    fetchGifs,
+    fetchVideos,
     hasMore,
     handleCategotyChange,
     reset: () => setPage(1),

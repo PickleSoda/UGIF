@@ -4,7 +4,7 @@ import { IonButton, IonIcon, IonAvatar, IonImg } from '@ionic/react';
 import { addCircle, flash, flashOutline } from 'ionicons/icons';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import CustomiseImageCircles from './CustomiseImageCircles';
-import { usePhotoGallery } from '../../hooks/usePhotoGallery';
+import { usePhotoGallery } from '../../../hooks/usePhotoGallery';
 interface PhotoProps {
   photo: string | undefined;
   base64Photo: string | undefined;

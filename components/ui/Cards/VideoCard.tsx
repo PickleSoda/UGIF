@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Card from './Card';
 import { useEffect, useState } from 'react';
-import { generateRandomColor } from '../../mock';
+import { generateRandomColor } from '../../../mock';
 import { Player, BigPlayButton,ControlBar,PlayToggle, VolumeMenuButton } from 'video-react';
 type FeedCardProps = {
   src: string;
