@@ -10,13 +10,13 @@ import {
   IonRow,
   useIonLoading,
 } from '@ionic/react';
-import GifCard from '../ui/Cards/GifCard';
-import { IGif } from '../../mock';
+import GifCard from '../Cards/GifCard';
+import { IGif } from '../../../mock';
 import { shareOutline, downloadOutline, copyOutline } from 'ionicons/icons';
 import { Clipboard } from '@capacitor/clipboard';
 import { Capacitor } from '@capacitor/core';
 import { Share } from '@capacitor/share';
-import { usePhotoGallery } from '../../hooks/usePhotoGallery';
+import { usePhotoGallery } from '../../../hooks/usePhotoGallery';
 
 const ShareGifModal = ({
   open,

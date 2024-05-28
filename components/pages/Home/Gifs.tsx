@@ -11,7 +11,7 @@ import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
 import Store from '../../../store';
 import CategorySegment from '../../ui/Home/CategorySegment';
 import { motion } from 'framer-motion';
-import ModalFrame from '../../modals/ModalFrame';
+import ModalFrame from '../../ui/modals/ModalFrame';
 
 const Gifs = () => {
   const { gifs, handleRefresh, fetchGifs, handleCategotyChange } = useGifs();

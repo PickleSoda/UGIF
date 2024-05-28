@@ -10,7 +10,7 @@ import {
   IonButton,
   IonImg,
 } from '@ionic/react';
-import PaymentModal from '../modals/PaymentModal';
+import PaymentModal from '../ui/modals/PaymentModal';
 import { userStore } from '../../store/userStore';
 import useBalance from '../../hooks/useBalance';
 import useAlerts from '../../hooks/useAlerts';

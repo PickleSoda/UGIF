@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { userStore } from '../../store/userStore';
 import GifCard from '../ui/Cards/GifCard';
 import NanCard from '../ui/Cards/NanCard';
-import ShareGifModal from '../modals/ShareGifModal';
+import ShareGifModal from '../ui/modals/ShareGifModal';
 import { IGif } from '../../mock';
 
 const MyGifs = () => {

@@ -1,17 +1,17 @@
 import React from 'react';
 import { IonModal, createAnimation } from '@ionic/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import Store from '../../store';
-import GifCard from '../ui/Cards/GifCard';
-import VideoCard from '../ui/Cards/VideoCard';
-import NanCard from '../ui/Cards/NanCard';
+import Store from '../../../store';
+import GifCard from '../Cards/GifCard';
+import VideoCard from '../Cards/VideoCard';
+import NanCard from '../Cards/NanCard';
 import { useState } from 'react';
 import { useIonLoading } from '@ionic/react';
-import { request } from '../../lib/axios';
-import useAlerts from '../../hooks/useAlerts';
-import { addGifTask, addVideoTask } from '../../store/actions';
+import { request } from '../../../lib/axios';
+import useAlerts from '../../../hooks/useAlerts';
+import { addGifTask, addVideoTask } from '../../../store/actions';
 import { App } from '@capacitor/app';
-import PhotoSelectSection from '../ui/ImageRelated/PhotoSelectSection';
+import PhotoSelectSection from '../ImageRelated/PhotoSelectSection';
 function ModalFrame({
   open,
   onDidDismiss,

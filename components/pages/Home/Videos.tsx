@@ -6,7 +6,7 @@ import {
   IonLabel,
   IonButton,
 } from '@ionic/react';
-import ModalFrame from '../../modals/ModalFrame';
+import ModalFrame from '../../ui/modals/ModalFrame';
 import useVideos from '../../../hooks/useVideos';
 import React, { forwardRef, useState } from 'react';
 import Store from '../../../store';

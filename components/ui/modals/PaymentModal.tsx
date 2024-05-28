@@ -8,9 +8,9 @@ import {
   useIonLoading,
 } from '@ionic/react';
 import { useState } from 'react';
-import { request } from '../../lib/axios';
+import { request } from '../../../lib/axios';
 import { Browser } from '@capacitor/browser';
-import { points } from '../../mock';
+import { points } from '../../../mock';
 
 const PaymentModal = ({
   open,
