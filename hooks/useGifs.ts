@@ -68,7 +68,6 @@ const useGifs = (initialPage = 1, perPage = 10) => {
   const handleCategotyChange = (category:string|null) => {
     setCategory(category);
     handleRefresh();
-
   };
   const handleRefresh = (event?: CustomEvent) => {
     setHasMore(true);

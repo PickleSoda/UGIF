@@ -25,17 +25,14 @@ const Gifs = () => {
   ]);
   const [showGifDetail, setShowGifDetail] = useState(false);
   const [selectedGif, setSelectedGif] = useState('');
-  const [isOpen, setIsOpen] = useState(false);
   const [gifsLoaded, setgifsLoaded] = useState(false);
 
   const openGifDetails = (id: string) => {
-    setIsOpen(true);
     setShowGifDetail(true);
     setSelectedGif(id);
   };
   const handleSegmentChange = (category: string) => {
     handleCategotyChange(category);
-
     setgifsLoaded(false);
   };
   useEffect(() => {
@@ -43,6 +40,7 @@ const Gifs = () => {
       ? fetchGifs(() => setTimeout(() => setgifsLoaded(true), 500))
       : setgifsLoaded(true);
   }, [gifs, fetchGifs]);
+
 
   return (
     <>

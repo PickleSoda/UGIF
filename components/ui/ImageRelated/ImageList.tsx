@@ -36,13 +36,12 @@ const ImageList = ({ fab = undefined, onPhotoSelect }: ImageListProps) => {
   };
 
   const fetchPhotos = useCallback(async () => {
-    await checkAndDeleteOldPhotos();
     const photos = await loadSavedFolder('photos');
     console.log('photos', photos);
     setPhotos(photos.reverse());
-  }, [loadSavedFolder, setPhotos, checkAndDeleteOldPhotos]);
+  }, [loadSavedFolder, setPhotos]);
 
-  useEffect(() => {
+  useEffect( () => {
     fetchPhotos();
   }, [fetchPhotos]);
 
@@ -50,7 +49,7 @@ const ImageList = ({ fab = undefined, onPhotoSelect }: ImageListProps) => {
     <div className="w-full flex">
       {fab && (
         <div className="w-20 h-14 z-50">
-          <MediaFab side={fab} photoTaken={() => fetchPhotos()} />
+          <MediaFab side={fab} photoTaken={() => {checkAndDeleteOldPhotos();fetchPhotos()}} />
         </div>
       )}
       <Swiper

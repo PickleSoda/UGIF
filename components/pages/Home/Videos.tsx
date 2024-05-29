@@ -8,7 +8,7 @@ import {
 } from '@ionic/react';
 import ModalFrame from '../../ui/modals/ModalFrame';
 import useVideos from '../../../hooks/useVideos';
-import React, { forwardRef, useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Store from '../../../store';
 import CategorySegment from '../../ui/Home/CategorySegment';
 import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
@@ -32,7 +32,6 @@ const Videos = () => {
     setShowVideoDetail(true);
     setSelectedVideo(id);
   };
-
   return (
     <>
       <CategorySegment
