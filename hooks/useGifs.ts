@@ -6,7 +6,7 @@ import { request } from '../lib/axios';
 const useGifs = (initialPage = 1, perPage = 10) => {
   const loadedGifs = Store.useState(s => s.gifs);
   const [gifs, setgifs] = useState<HomeItem[]>([]);
-  const [page, setPage] = useState(initialPage);
+  const [page, setPage] = useState((loadedGifs.length/perPage)+1);
   const [hasMore, setHasMore] = useState(true);
   const [category, setCategory] = useState<string|null>();
 
