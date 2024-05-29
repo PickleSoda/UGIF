@@ -8,7 +8,7 @@ import {
 } from '@ionic/react';
 import ModalFrame from '../../ui/modals/ModalFrame';
 import useVideos from '../../../hooks/useVideos';
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Store from '../../../store';
 import CategorySegment from '../../ui/Home/CategorySegment';
 import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
@@ -62,7 +62,10 @@ const Videos = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 className="px-6"
               >
-                <VideoCard src={item.src} className='pointer-events-none'></VideoCard>
+                <VideoCard
+                  src={item.src}
+                  className="pointer-events-none"
+                ></VideoCard>
               </motion.div>
             </GridItem>
           ))}

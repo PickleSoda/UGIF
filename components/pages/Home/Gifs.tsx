@@ -14,7 +14,7 @@ import { motion } from 'framer-motion';
 import ModalFrame from '../../ui/modals/ModalFrame';
 
 const Gifs = () => {
-  const { gifs, handleRefresh, fetchGifs, handleCategotyChange } = useGifs();
+  const { handleRefresh, fetchGifs, handleCategotyChange } = useGifs();
   const gifCategories = Store.useState(s => [
     {
       id: '',
@@ -23,6 +23,7 @@ const Gifs = () => {
     },
     ...s.categories.filter(category => category.category === 'gif'),
   ]);
+  const Gifs = Store.useState(s => s.gifs);
   const [showGifDetail, setShowGifDetail] = useState(false);
   const [selectedGif, setSelectedGif] = useState('');
   const [gifsLoaded, setgifsLoaded] = useState(false);
@@ -36,11 +37,10 @@ const Gifs = () => {
     setgifsLoaded(false);
   };
   useEffect(() => {
-    gifs.length == 0
+    Gifs.length == 0
       ? fetchGifs(() => setTimeout(() => setgifsLoaded(true), 500))
       : setgifsLoaded(true);
-  }, [gifs, fetchGifs]);
-
+  }, [Gifs, fetchGifs]);
 
   return (
     <>
@@ -57,7 +57,7 @@ const Gifs = () => {
         id={selectedGif}
         type="gif"
       />
-      {gifs.length === 0 ? (
+      {Gifs.length === 0 ? (
         gifsLoaded ? (
           <div className="absolute h-full top-1/2 left-1/2 -translate-x-1/2 text-xl">
             No gifs found
@@ -69,7 +69,7 @@ const Gifs = () => {
         )
       ) : (
         <ResponsiveGrid cols={2}>
-          {gifs.map((item, index) => (
+          {Gifs.map((item, index) => (
             <GridItem key={index} ratio={item.ratio}>
               <motion.div
                 onClick={() => openGifDetails(item.id)}

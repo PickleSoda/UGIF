@@ -13,7 +13,9 @@ import Videos from './Videos';
 import { motion } from 'framer-motion';
 
 const Home = () => {
-  const [selectedSegment, setSelectedSegment] = useState<'GIF'|'Video'>('GIF');
+  const [selectedSegment, setSelectedSegment] = useState<'GIF' | 'Video'>(
+    'GIF',
+  );
   return (
     <IonPage className="bg-color">
       <IonHeader mode="ios" className="container">
@@ -24,7 +26,10 @@ const Home = () => {
             className="video-gif"
             value={selectedSegment}
             onIonChange={ev => {
-              ev.detail.value && setSelectedSegment(ev.detail.value.toString() == 'GIF' ? 'GIF' : 'Video');
+              ev.detail.value &&
+                setSelectedSegment(
+                  ev.detail.value.toString() == 'GIF' ? 'GIF' : 'Video',
+                );
               console.log(selectedSegment);
             }}
           >
@@ -47,13 +52,11 @@ const Home = () => {
       </IonHeader>
       <IonContent className="bg-color z-50">
         <motion.div
-        
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
         >
-        {selectedSegment === 'GIF' ?  <Gifs/> : <Videos/>}
+          {selectedSegment === 'GIF' ? <Gifs /> : <Videos />}
         </motion.div>
       </IonContent>
     </IonPage>

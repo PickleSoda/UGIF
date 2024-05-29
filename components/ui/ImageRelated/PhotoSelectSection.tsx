@@ -95,8 +95,7 @@ const PhotoSelectSection = ({
 
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
-      {
-        photos && photos.length > 0 &&
+      {photos && photos.length > 0 && (
         <div className="w-full max-w-sm px-6 flex mb-2 overflow-hidden rounded-2xl bg-black/80 pb-2 pt-1 z-0">
           <Swiper
             className="w-full mt-1.5"
@@ -116,10 +115,11 @@ const PhotoSelectSection = ({
                   className="w-11 h-11 flex justify-center items-center"
                 >
                   <IonAvatar
-                    className={`h-11 w-11 border-2 ${selectedPhoto?.filepath === photo.filepath
+                    className={`h-11 w-11 border-2 ${
+                      selectedPhoto?.filepath === photo.filepath
                         ? ' border-blue-500'
                         : 'border-gray-700'
-                      }`}
+                    }`}
                   >
                     <IonImg src={photo.webviewPath} />
                   </IonAvatar>
@@ -128,7 +128,7 @@ const PhotoSelectSection = ({
             ))}
           </Swiper>
         </div>
-      }
+      )}
 
       <div className="w-full flex flex-col items-center justify-center h-16">
         {!selectedPhoto ? (

@@ -4,7 +4,7 @@ import { request } from '../lib/axios';
 const useVideos = (initialPage = 1, perPage = 10) => {
   const loadedVids = Store.useState(s => s.videos);
   const [videos, setvideos] = useState<any[]>([]);
-  const [page, setPage] = useState((loadedVids.length/perPage)+1);
+  const [page, setPage] = useState(loadedVids.length / perPage + 1);
 
   const [hasMore, setHasMore] = useState(true);
   const [category, setCategory] = useState<string | null>();

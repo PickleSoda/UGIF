@@ -2,7 +2,13 @@ import Image from 'next/image';
 import Card from './Card';
 import { useEffect, useState } from 'react';
 import { generateRandomColor } from '../../../mock';
-import { Player, BigPlayButton,ControlBar,PlayToggle, VolumeMenuButton } from 'video-react';
+import {
+  Player,
+  BigPlayButton,
+  ControlBar,
+  PlayToggle,
+  VolumeMenuButton,
+} from 'video-react';
 type FeedCardProps = {
   src: string;
   className?: string;
@@ -19,18 +25,22 @@ const VideoCard = ({ src, autoPlay = false, className }: FeedCardProps) => {
   return (
     <Card className={`${className} rounded-full`}>
       <div className="relative overflow-hidden">
-          <Player
-          preload='metadata'
+        <Player
+          preload="metadata"
           playsInline
-          src={src+'#t=1'}
+          src={src + '#t=1'}
           autoPlay={autoPlay}
->
-        <BigPlayButton className='big-play-button-hide' />
-        <ControlBar autoHide={false} disableDefaultControls={true} className='bg-opacity-0'>
-        <PlayToggle />
-        <VolumeMenuButton vertical />
-      </ControlBar>
-          </Player>
+        >
+          <BigPlayButton className="big-play-button-hide" />
+          <ControlBar
+            autoHide={false}
+            disableDefaultControls={true}
+            className="bg-opacity-0"
+          >
+            <PlayToggle />
+            <VolumeMenuButton vertical />
+          </ControlBar>
+        </Player>
       </div>
       <div></div>
     </Card>
