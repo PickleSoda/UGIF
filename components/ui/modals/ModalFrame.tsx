@@ -152,7 +152,7 @@ function ModalFrame({
                       onClick={e => e.stopPropagation()}
                       className={`h-full`}
                     >
-                      <VideoCard src={media.src} autoPlay></VideoCard>
+                      <VideoCard src={media.cdn} autoPlay></VideoCard>
                     </motion.div>
                   )}
                   <div

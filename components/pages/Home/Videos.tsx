@@ -14,6 +14,7 @@ import CategorySegment from '../../ui/Home/CategorySegment';
 import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
 import { motion } from 'framer-motion';
 import VideoCard from '../../ui/Cards/VideoCard';
+import GifCard from '../../ui/Cards/GifCard';
 const Videos = () => {
   const { handleCategotyChange, videos, handleRefresh, fetchVideos } =
     useVideos();
@@ -62,10 +63,7 @@ const Videos = () => {
                 animate={{ scale: 1, opacity: 1 }}
                 className="px-6"
               >
-                <VideoCard
-                  src={item.src}
-                  className="pointer-events-none"
-                ></VideoCard>
+                <GifCard src={item.thumbnail} />
               </motion.div>
             </GridItem>
           ))}

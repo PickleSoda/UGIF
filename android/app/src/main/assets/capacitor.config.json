@@ -19,7 +19,8 @@
 	"cordova": {},
 	"server": {
 		"allowNavigation": [
-			"videos.unclothed.com"
+			"videos.unclothed.com",
+			"starswap.b-cdn.net"
 		]
 	}
 }

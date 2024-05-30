@@ -76,7 +76,6 @@ const ResponsiveGrid: React.FC<ResponsiveGridProps> = ({ children, cols }) => {
             borderRadius: '8px',
             overflow: 'hidden',
             paddingTop: '0.5rem',
-
           }}
         >
           <div className="content">{child}</div>
