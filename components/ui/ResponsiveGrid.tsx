@@ -37,25 +37,33 @@ const ResponsiveGrid: React.FC<ResponsiveGridProps> = ({ children, cols }) => {
 
     for (let x = 0; x < allItems.length; x++) {
       const item = allItems[x] as HTMLElement;
-      const ratio = parseFloat(item.getAttribute('data-ratio')!);
+      let ratio = parseFloat(item.getAttribute('data-ratio')!);
       resizeGridItem(item, ratio);
     }
   }, [resizeGridItem]);
 
   useEffect(() => {
     resizeAllGridItems();
-    window.addEventListener('resize', resizeAllGridItems);
+    const resizeObserver = new ResizeObserver(resizeAllGridItems);
+    const grid = gridRef.current;
+    if (grid) {
+      window.addEventListener('resize', resizeAllGridItems);
+      resizeObserver.observe(grid);
+    }
 
     return () => {
       window.removeEventListener('resize', resizeAllGridItems);
+      resizeObserver.disconnect();
     };
-  }, [children, resizeAllGridItems]);
+  }, [resizeAllGridItems]);
 
   const gridStyle = {
     display: 'grid',
     gridTemplateColumns: `repeat(${cols}, 1fr)`,
     gridAutoRows: '5px', // Adjust as needed
     gridRowGap: '5px', // Adjust as needed
+    gridAutoColumns: '1fr',
+    gridColumnGap: '5px',
   };
 
   return (
@@ -67,7 +75,8 @@ const ResponsiveGrid: React.FC<ResponsiveGridProps> = ({ children, cols }) => {
           style={{
             borderRadius: '8px',
             overflow: 'hidden',
-            padding: '0.25rem',
+            paddingTop: '1rem',
+
           }}
         >
           <div className="content">{child}</div>
@@ -78,6 +87,7 @@ const ResponsiveGrid: React.FC<ResponsiveGridProps> = ({ children, cols }) => {
 };
 
 export default ResponsiveGrid;
+
 export const GridItem: React.FC<{
   ratio: number;
   children: React.ReactElement<any>;

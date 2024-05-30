@@ -3,6 +3,7 @@ import axios from 'axios';
 import { HomeItem } from '../mock';
 import Store from '../store';
 import { request } from '../lib/axios';
+import Gifs from '../components/pages/Home/Gifs';
 const useGifs = (initialPage = 1, perPage = 10) => {
   const loadedGifs = Store.useState(s => s.gifs);
   const [page, setPage] = useState((loadedGifs.length/perPage)+1);
@@ -73,6 +74,8 @@ const useGifs = (initialPage = 1, perPage = 10) => {
       }, 1000);
       console.log('refreshed:');
     }
+
+    console.log('refreshed:');
   };
   return {
     handleRefresh,
