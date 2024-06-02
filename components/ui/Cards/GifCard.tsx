@@ -5,9 +5,10 @@ import { generateRandomColor } from '../../../mock';
 import { radio } from 'ionicons/icons';
 type FeedCardProps = {
   src: string;
+  className: string;
 };
 
-const GifCard = ({ src }: FeedCardProps) => {
+const GifCard = ({ src, className }: FeedCardProps) => {
   const [backgroundColor, setBackgroundColor] = useState('#D81159'); // Initial color
 
   useEffect(() => {
@@ -15,17 +16,15 @@ const GifCard = ({ src }: FeedCardProps) => {
   }, [src]); // Change color when the src changes
 
   return (
-    <Card className="">
-      <div className="relative overflow-hidden">
+    <Card className={className+' rounded-lg'}>
         <Image
-          className="object-cover w-full rounded-lg"
+          className="object-contain w-full rounded-lg"
           src={src}
           alt={src}
           width={100}
           height={100}
           style={{ backgroundColor }}
         />
-      </div>
     </Card>
   );
 };

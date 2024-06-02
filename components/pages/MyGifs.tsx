@@ -99,7 +99,7 @@ const MyGifs = () => {
                       key={index}
                       className="p-4"
                     >
-                      <GifCard key={index} src={gif.src} />
+                      <GifCard key={index} src={gif.src} className=''/>
                     </div>
                   );
                 case 'processing':

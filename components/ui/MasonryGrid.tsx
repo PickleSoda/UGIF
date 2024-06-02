@@ -49,11 +49,12 @@ function MasonryGrid({ rows, fetchMore, hasNextPage, cols = 1, ImageClick }: { r
     <>
       <div
         ref={parentRef}
-        className="List"
+        className="ion-content-scroll-host"
         style={{
           height: `90vh`,
           width: `100%`,
           overflow: 'auto',
+          position: 'relative',
         }}
       >
         <div
@@ -64,7 +65,7 @@ function MasonryGrid({ rows, fetchMore, hasNextPage, cols = 1, ImageClick }: { r
           }}
         >
           {rowVirtualizer.getVirtualItems().map(virtualRow => {
-            const isLoaderRow = virtualRow.index > rows.length - 2
+            const isLoaderRow = virtualRow.index > rows.length - 1
             return isLoaderRow ?
               <IonInfiniteScroll
                 key={virtualRow.index}
@@ -81,19 +82,22 @@ function MasonryGrid({ rows, fetchMore, hasNextPage, cols = 1, ImageClick }: { r
 
               <div
                 key={virtualRow.index}
-                className="rounded-lg p-2"
+                className="p-2"
                 style={{
                   position: 'absolute',
                   top: 0,
                   left: `${virtualRow.lane * 50}%`,
                   width: `${100 / cols}%`,
-                  height: `${rows[virtualRow.index]}px`,
                   transform: `translateY(${virtualRow.start}px)`,
                 }}
 
                 onClick={() => ImageClick(rows[virtualRow.index].id)}
               >
-                <GifCard src={rows[virtualRow.index].src} />
+                <div className='overflow-hidden  rounded-lg ' style={{
+                  height: `${(width.current/rows[virtualRow.index].ratio/cols)-16}px`,
+                }}>
+                <GifCard className='' src={rows[virtualRow.index].src} />
+                </div>
               </div>
           })}
 

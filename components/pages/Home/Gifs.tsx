@@ -45,18 +45,12 @@ const Gifs = () => {
 
   return (
     <>
-      <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
+      <IonRefresher slot='fixed' pullMin={600} onIonRefresh={handleRefresh}>
         <IonRefresherContent></IonRefresherContent>
       </IonRefresher>
       <CategorySegment
         categories={gifCategories}
         onSegmentChange={handleSegmentChange}
-      />
-      <ModalFrame
-        open={showGifDetail}
-        onDidDismiss={() => setShowGifDetail(false)}
-        id={selectedGif}
-        type="gif"
       />
       {Gifs.length === 0 ? (
         gifsLoaded ? (
@@ -69,8 +63,15 @@ const Gifs = () => {
           </div>
         )
       ) : (
-          <MasonryGrid rows={Gifs} fetchMore={(func)=>fetchGifs(func)} hasNextPage  ImageClick={(id)=>openGifDetails(id)} cols={2}/>
+        <MasonryGrid rows={Gifs} fetchMore={(func) => fetchGifs(func)} hasNextPage ImageClick={(id) => openGifDetails(id)} cols={2} />
       )}
+
+      <ModalFrame
+        open={showGifDetail}
+        onDidDismiss={() => setShowGifDetail(false)}
+        id={selectedGif}
+        type="gif"
+      />
     </>
   );
 };

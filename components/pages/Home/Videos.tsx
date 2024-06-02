@@ -42,6 +42,9 @@ const Videos = () => {
 
   return (
     <>
+      <IonRefresher slot='fixed' pullMin={600} onIonRefresh={handleRefresh}>
+        <IonRefresherContent></IonRefresherContent>
+      </IonRefresher>
       <CategorySegment
         categories={videoCategories}
         onSegmentChange={handleCategotyChange}
@@ -52,30 +55,12 @@ const Videos = () => {
         id={selectedVideo}
         type="video"
       />
-      <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
-        <IonRefresherContent></IonRefresherContent>
-      </IonRefresher>
 
       {Videos.length === 0 ? (
         <div className="absolute h-full top-1/2 left-1/2 -translate-x-1/2 text-xl">
           No videos found
         </div>
       ) : (
-        // <ResponsiveGrid cols={1}>
-        //   {videos.map((item, index) => (
-        //     <GridItem key={index} ratio={item.ratio - 0.22}>
-        //       <motion.div
-        //         onClick={() => openDetails(item.id)}
-        //         initial={{ scale: 0.7, opacity: 0 }}
-        //         animate={{ scale: 1, opacity: 1 }}
-        //         className="px-6"
-        //       >
-        //         <GifCard src={item.thumbnail} />
-        //       </motion.div>
-        //     </GridItem>
-        //   ))}
-        // </ResponsiveGrid>
-
           <MasonryGrid
             rows={Videos}
             ImageClick={openDetails}
