@@ -50,7 +50,7 @@ const Home = () => {
           </IonSegment>
         </IonToolbar>
       </IonHeader>
-      <IonContent className="bg-color z-50">
+      <IonContent className="bg-color z-50" scrollY={false}>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

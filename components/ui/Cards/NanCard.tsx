@@ -13,7 +13,6 @@ const GifCard = ({ spinner = false }: { spinner: boolean }) => (
         />
       )}
     </div>
-    <div></div>
   </Card>
 );
 export default GifCard;

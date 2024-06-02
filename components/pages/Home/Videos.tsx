@@ -11,12 +11,9 @@ import useVideos from '../../../hooks/useVideos';
 import React, { useState, useEffect } from 'react';
 import Store from '../../../store';
 import CategorySegment from '../../ui/Home/CategorySegment';
-import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
-import { motion } from 'framer-motion';
-import VideoCard from '../../ui/Cards/VideoCard';
-import GifCard from '../../ui/Cards/GifCard';
+import MasonryGrid from '../../ui/MasonryGrid';
 const Videos = () => {
-  const { handleCategotyChange, videos, handleRefresh, fetchVideos } =
+  const { handleCategotyChange, handleRefresh, fetchVideos } =
     useVideos();
   const videoCategories = Store.useState(s => [
     {
@@ -33,6 +30,16 @@ const Videos = () => {
     setShowVideoDetail(true);
     setSelectedVideo(id);
   };
+  const Videos = Store.useState(s => s.videos.map(video => {
+    return {
+      id: video.id,
+      src: video.thumbnail,
+      ratio: 1.78,
+    };
+  })
+  );
+
+
   return (
     <>
       <CategorySegment
@@ -49,25 +56,33 @@ const Videos = () => {
         <IonRefresherContent></IonRefresherContent>
       </IonRefresher>
 
-      {videos.length === 0 ? (
+      {Videos.length === 0 ? (
         <div className="absolute h-full top-1/2 left-1/2 -translate-x-1/2 text-xl">
           No videos found
         </div>
       ) : (
-        <ResponsiveGrid cols={1}>
-          {videos.map((item, index) => (
-            <GridItem key={index} ratio={item.ratio - 0.22}>
-              <motion.div
-                onClick={() => openDetails(item.id)}
-                initial={{ scale: 0.7, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="px-6"
-              >
-                <GifCard src={item.thumbnail} />
-              </motion.div>
-            </GridItem>
-          ))}
-        </ResponsiveGrid>
+        // <ResponsiveGrid cols={1}>
+        //   {videos.map((item, index) => (
+        //     <GridItem key={index} ratio={item.ratio - 0.22}>
+        //       <motion.div
+        //         onClick={() => openDetails(item.id)}
+        //         initial={{ scale: 0.7, opacity: 0 }}
+        //         animate={{ scale: 1, opacity: 1 }}
+        //         className="px-6"
+        //       >
+        //         <GifCard src={item.thumbnail} />
+        //       </motion.div>
+        //     </GridItem>
+        //   ))}
+        // </ResponsiveGrid>
+
+          <MasonryGrid
+            rows={Videos}
+            ImageClick={openDetails}
+            cols={1}
+            fetchMore={fetchVideos}
+            hasNextPage
+          />
       )}
       <IonInfiniteScroll
         onIonInfinite={ev => {

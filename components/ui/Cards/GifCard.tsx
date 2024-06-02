@@ -8,7 +8,7 @@ type FeedCardProps = {
 };
 
 const GifCard = ({ src }: FeedCardProps) => {
-  const [backgroundColor, setBackgroundColor] = useState('green'); // Initial color
+  const [backgroundColor, setBackgroundColor] = useState('#D81159'); // Initial color
 
   useEffect(() => {
     setBackgroundColor(generateRandomColor()); // Set a random color from the array
@@ -26,7 +26,6 @@ const GifCard = ({ src }: FeedCardProps) => {
           style={{ backgroundColor }}
         />
       </div>
-      <div></div>
     </Card>
   );
 };

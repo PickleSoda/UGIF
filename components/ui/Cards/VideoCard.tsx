@@ -42,7 +42,6 @@ const VideoCard = ({ src, autoPlay = false, className }: FeedCardProps) => {
           </ControlBar>
         </Player>
       </div>
-      <div></div>
     </Card>
   );
 };

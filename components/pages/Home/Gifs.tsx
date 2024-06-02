@@ -7,11 +7,12 @@ import {
 import GifCard from '../../ui/Cards/GifCard';
 import useGifs from '../../../hooks/useGifs';
 import React, { useState, useEffect } from 'react';
-import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
+// import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
 import Store from '../../../store';
 import CategorySegment from '../../ui/Home/CategorySegment';
 import { motion } from 'framer-motion';
 import ModalFrame from '../../ui/modals/ModalFrame';
+import MasonryGrid from '../../ui/MasonryGrid';
 
 const Gifs = () => {
   const { handleRefresh, fetchGifs, handleCategotyChange } = useGifs();
@@ -68,33 +69,10 @@ const Gifs = () => {
           </div>
         )
       ) : (
-        <ResponsiveGrid cols={2}>
-          {Gifs.map((item, index) => (
-            <GridItem key={index} ratio={item.ratio}>
-              <motion.div
-                onClick={() => openGifDetails(item.id)}
-                initial={{ scale: 0.7, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-              >
-                <GifCard {...item} />
-              </motion.div>
-            </GridItem>
-          ))}
-        </ResponsiveGrid>
+          <MasonryGrid rows={Gifs} fetchMore={(func)=>fetchGifs(func)} hasNextPage  ImageClick={(id)=>openGifDetails(id)} cols={2}/>
       )}
-      <IonInfiniteScroll
-        onIonInfinite={ev => {
-          console.log('yoi', ev);
-          fetchGifs();
-          setTimeout(() => ev.target.complete(), 500);
-        }}
-      >
-        <IonInfiniteScrollContent
-          loadingText="Please wait..."
-          loadingSpinner="bubbles"
-        ></IonInfiniteScrollContent>
-      </IonInfiniteScroll>
     </>
   );
 };
+
 export default Gifs;

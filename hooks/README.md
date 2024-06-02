@@ -32,7 +32,7 @@ Manages GIFs displayed on the home screen, including fetching from an API and up
 - `handleInput`: Filters the displayed GIFs based on user input.
 - `handleRefresh`: Handles refresh logic for re-fetching GIFs.
 
-### usePhotoGallery
+### usePhotoGallerynpm install react-virtualized --save
 
 Provides functionalities related to photo management, including taking photos, resizing, and saving them both locally and to a media library.
 

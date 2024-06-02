@@ -31,7 +31,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "components/ui/MasonryGrid.tsx"  ],
   "exclude": [
     "node_modules"
   ]

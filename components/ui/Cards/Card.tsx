@@ -4,7 +4,7 @@ const Card = ({
   children,
   className,
 }: {
-  children: React.ReactElement[];
+  children: React.ReactElement;
   className: string;
 }) => (
   <div className={classNames('max-w-xl', className)}>
