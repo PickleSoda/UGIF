@@ -37,9 +37,9 @@ export function usePhotoGallery() {
 
     try {
       const photo = await Camera.getPhoto({
+        direction: CameraDirection.Front,
         resultType: CameraResultType.Uri,
         source: CameraSource.Camera,
-        direction: CameraDirection.Rear,
         quality: 100,
       });
       console.log('Photo taken:', photo);
