@@ -77,9 +77,11 @@ const MyGifs = () => {
                       <video controls>
                         <source src={video.src} type="video/mp4" />
                       </video>
+                      <div className='w-full flex justify-center'>
                       <IonButton onClick={() => openShareModal(video)}>
                         <IonLabel>More</IonLabel>
                       </IonButton>
+                      </div>
                     </div>
                   );
                 case 'processing':
