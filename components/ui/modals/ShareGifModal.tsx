@@ -120,7 +120,7 @@ const ShareGifModal = ({
                 })}
               </IonRow>
               <IonRow>
-                <GifCard src={gif.src} />
+                <GifCard src={gif.src} className='' />
               </IonRow>
             </IonGrid>
           ) : (
