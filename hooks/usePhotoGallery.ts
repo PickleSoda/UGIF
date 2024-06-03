@@ -3,6 +3,7 @@ import {
   Camera,
   CameraResultType,
   CameraSource,
+  CameraDirection,
   Photo,
 } from '@capacitor/camera';
 import { Filesystem, Directory } from '@capacitor/filesystem';
@@ -38,6 +39,7 @@ export function usePhotoGallery() {
       const photo = await Camera.getPhoto({
         resultType: CameraResultType.Uri,
         source: CameraSource.Camera,
+        direction: CameraDirection.Rear,
         quality: 100,
       });
       console.log('Photo taken:', photo);
