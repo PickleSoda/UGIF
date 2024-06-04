@@ -79,22 +79,22 @@ const Settings = () => {
             </div>
           </div>
           <IonList lines="none">
-            <IonItem>
+            {/* <IonItem>
               <h5>Settings</h5>
               <IonRippleEffect></IonRippleEffect>
             </IonItem>
             <IonItem>
               <h5>Terms and Conditions</h5>
               <IonRippleEffect></IonRippleEffect>
-            </IonItem>
+            </IonItem> */}
             <IonItem onClick={() => handleLogout()}>
               <h5>Logout</h5>
               <IonRippleEffect></IonRippleEffect>
             </IonItem>
-            <IonItem>
+            {/* <IonItem>
               <h5>Help</h5>
               <IonRippleEffect></IonRippleEffect>
-            </IonItem>
+            </IonItem> */}
           </IonList>
         </div>
 

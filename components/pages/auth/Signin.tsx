@@ -56,7 +56,7 @@ const SignIn = () => {
 
     const checkPlatform = async () => {
       const device = await Device.getInfo();
-      setShowAppleSignIn(device.platform === 'ios');
+      setShowAppleSignIn(device.platform !== 'android');
     };
 
     checkPlatform();
@@ -177,7 +177,7 @@ const SignIn = () => {
       clientId: 'com.starswap.gif',
       redirectURI: 'https://starswap-91cd8.firebaseapp.com/__/auth/handler',
       scopes: 'email name',
-      state: '12345',
+      state: 'initial',
       nonce: hashedNonceHex,
     };
 

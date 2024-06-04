@@ -10,15 +10,15 @@ import {
   IonRow,
   useIonLoading,
 } from '@ionic/react';
-import GifCard from '../Cards/GifCard';
 import { IGif } from '../../../mock';
 import { shareOutline, downloadOutline, copyOutline } from 'ionicons/icons';
 import { Clipboard } from '@capacitor/clipboard';
 import { Capacitor } from '@capacitor/core';
 import { Share } from '@capacitor/share';
 import { usePhotoGallery } from '../../../hooks/usePhotoGallery';
+import VideoCard from '../Cards/VideoCard';
 
-const ShareGifModal = ({
+const ShareVideoModal = ({
   open,
   onDidDismiss,
   gif,
@@ -94,7 +94,9 @@ const ShareGifModal = ({
           {gif ? (
             <IonGrid>
               <IonRow>
-                <GifCard src={gif.src} className='' />
+                <IonCol>
+                  <VideoCard autoPlay src={gif.src} className='' />
+                </IonCol>
               </IonRow>
               <IonRow>
                 {buttonData.map(button => {
@@ -132,4 +134,4 @@ const ShareGifModal = ({
   );
 };
 
-export default ShareGifModal;
+export default ShareVideoModal;

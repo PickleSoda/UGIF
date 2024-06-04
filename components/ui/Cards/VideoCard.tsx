@@ -23,8 +23,8 @@ const VideoCard = ({ src, autoPlay = false, className }: FeedCardProps) => {
   }, [src]); // Change color when the src changes
 
   return (
-    <Card className={`${className} rounded-full`}>
-      <div className="relative overflow-hidden">
+    <Card className={`${className}`}>
+      <div className="relative overflow-hidden rounded-lg">
         <Player
           preload="metadata"
           playsInline

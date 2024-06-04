@@ -24,6 +24,7 @@ const GifCard = ({ src, className }: FeedCardProps) => {
           width={100}
           height={100}
           style={{ backgroundColor }}
+          loading="eager" 
         />
     </Card>
   );

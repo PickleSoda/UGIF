@@ -50,7 +50,7 @@ const PaymentModal = ({
       isOpen={open}
       onDidDismiss={onDidDismiss}
       initialBreakpoint={0.75}
-      breakpoints={[0.75]}
+      breakpoints={[0, 0.75]}
       handleBehavior="cycle"
     >
       <IonContent>

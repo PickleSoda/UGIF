@@ -15,15 +15,18 @@ import GifCard from '../ui/Cards/GifCard';
 import NanCard from '../ui/Cards/NanCard';
 import ShareGifModal from '../ui/modals/ShareGifModal';
 import { IGif } from '../../mock';
+import VideoCard from '../ui/Cards/VideoCard';
+import ShareVideoModal from '../ui/modals/ShareVideoModal ';
 
 const MyGifs = () => {
   const [showShareModal, setShowShareModal] = useState(false);
   const [selectedGif, setSelectedGif] = useState<IGif | null>(null);
   const gifs = userStore.useState(s => [...s.gifs].reverse());
   const videos = userStore.useState(s => [...s.videos].reverse());
-  const openShareModal = (gif: IGif) => {
+  const openShareModal = (source: IGif) => {
+
     setShowShareModal(true);
-    setSelectedGif(gif);
+    setSelectedGif(source);
   };
   const [selectedSegment, setSelectedSegment] = useState('GIF');
 
@@ -73,15 +76,8 @@ const MyGifs = () => {
               switch (video.status) {
                 case 'completed':
                   return (
-                    <div key={index}>
-                      <video controls>
-                        <source src={video.src} type="video/mp4" />
-                      </video>
-                      <div className='w-full flex justify-center'>
-                      <IonButton onClick={() => openShareModal(video)}>
-                        <IonLabel>More</IonLabel>
-                      </IonButton>
-                      </div>
+                    <div key={index} onClick={() => openShareModal(video)}>
+                      <VideoCard src={video.src} className='pointer-events-none p-2' />
                     </div>
                   );
                 case 'processing':
@@ -113,11 +109,23 @@ const MyGifs = () => {
               }
             })}
 
-        <ShareGifModal
-          gif={selectedGif}
-          open={showShareModal}
-          onDidDismiss={() => setShowShareModal(false)}
-        ></ShareGifModal>
+            {
+              selectedSegment === 'GIF' ?(
+                <ShareGifModal
+                gif={selectedGif}
+                open={showShareModal}
+                onDidDismiss={() => setShowShareModal(false)}
+              ></ShareGifModal>
+              ): 
+              
+              <ShareVideoModal
+              gif={selectedGif}
+              open={showShareModal}
+              onDidDismiss={() => setShowShareModal(false)}
+            ></ShareVideoModal>
+            }
+
+
       </IonContent>
     </IonPage>
   );
