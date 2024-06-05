@@ -5,10 +5,9 @@ import {
   IonTabBar,
   IonTabButton,
   IonIcon,
-  IonLabel,
   IonChip,
 } from '@ionic/react';
-import { person, grid, settings, flashOutline, flash } from 'ionicons/icons';
+import { person, grid, flash } from 'ionicons/icons';
 import Store from '../../store';
 import Settings from './Settings';
 import Home from './Home';

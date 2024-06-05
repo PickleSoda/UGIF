@@ -2,22 +2,18 @@ import Image from 'next/image';
 import Card from './Card';
 import { useEffect, useState } from 'react';
 import { generateRandomColor } from '../../../mock';
-import { radio } from 'ionicons/icons';
+import CapImageCacheComponent from '../../../utils/cache/CapacitorCacheComponent';
 type FeedCardProps = {
   src: string;
   className: string;
 };
 
 const GifCard = ({ src, className }: FeedCardProps) => {
-  const [backgroundColor, setBackgroundColor] = useState('#D81159'); // Initial color
-
-  useEffect(() => {
-    setBackgroundColor(generateRandomColor()); // Set a random color from the array
-  }, [src]); // Change color when the src changes
 
   return (
-    <Card className={className+' rounded-lg'}>
-        <Image
+    <Card className={className+' rounded-lg h-full'}>
+          <CapImageCacheComponent src={src} lazy={false}/>
+        {/* <Image
           className="object-contain w-full rounded-lg"
           src={src}
           alt={src}
@@ -25,7 +21,7 @@ const GifCard = ({ src, className }: FeedCardProps) => {
           height={100}
           style={{ backgroundColor }}
           loading="eager" 
-        />
+        /> */}
     </Card>
   );
 };

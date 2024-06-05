@@ -8,7 +8,7 @@ const Card = ({
   className: string;
 }) => (
   <div className={classNames('max-w-xl', className)}>
-    <div className="shadow-md">{children}</div>
+    {children}
   </div>
 );
 
