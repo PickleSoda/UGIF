@@ -75,8 +75,8 @@ const CapImageCacheComponent: React.FC<CapImageCacheProps> = ({ src, lazy = fals
   }, [src, lazy]);
 
   return (
-    <div ref={elementRef} className='h-full rounded-lg' >
-      {imageSrc ? <img src={imageSrc} alt="cached" /> :
+    <div ref={elementRef}  className='h-full rounded-lg'>
+      {imageSrc ? <img src={imageSrc} alt="cached"  className='h-full w-full object-cover rounded-lg'/> :
         <IonSkeletonText animated={true} style={{ backgroundColor, width: '100%' }} />
       }
     </div>

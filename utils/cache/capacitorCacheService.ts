@@ -18,8 +18,12 @@ export class CapImageCacheService {
         directory: Directory.Cache,
         path: `${this.cachePath}/${imageName}`,
       });
+      const imageBlob = this.getBase64AsBlob(
+        readFile.data,
+        `image/${imageType}`,
+      );
       return {
-        data: `data:image/${imageType};base64,${readFile.data}`,
+        data: imageBlob,
         from: 'cache',
       };
     } catch (e) {
@@ -39,7 +43,10 @@ export class CapImageCacheService {
     }
   }
 
-  private static async storeImage(url: string, path: string): Promise<WriteFileResult | unknown> {
+  private static async storeImage(
+    url: string,
+    path: string,
+  ): Promise<WriteFileResult | unknown> {
     try {
       const response = await fetch(url);
       const blob = await response.blob();
@@ -73,5 +80,34 @@ export class CapImageCacheService {
       };
       reader.readAsDataURL(blob);
     });
+  }
+  private static getBase64AsBlob(
+    b64Data: string | Blob,
+    contentType = '',
+    sliceSize = 512,
+  ) {
+    if (b64Data instanceof Blob) {
+      const url = URL.createObjectURL(b64Data);
+
+      return url;
+    }
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+
+    const url = URL.createObjectURL(blob);
+
+    return url;
   }
 }
