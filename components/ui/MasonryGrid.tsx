@@ -17,7 +17,7 @@ function MasonryGrid({ rows, fetchMore, hasNextPage, cols = 1, ImageClick }: { r
     count: rows.length,
     getScrollElement: () => parentRef.current || null,
     estimateSize: i => width.current / (rows[i].ratio * cols),
-    overscan: 50,
+    overscan: 20,
     lanes: cols,
   });
   const isLoadingRef = useRef(false);
