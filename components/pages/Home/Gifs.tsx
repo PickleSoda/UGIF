@@ -1,14 +1,17 @@
 import {
+  IonInfiniteScrollContent,
+  IonInfiniteScroll,
   IonRefresher,
   IonRefresherContent,
 } from '@ionic/react';
+import GifCard from '../../ui/Cards/GifCard';
 import useGifs from '../../../hooks/useGifs';
 import React, { useState, useEffect } from 'react';
-// import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
+import ResponsiveGrid, { GridItem } from '../../ui/ResponsiveGrid';
 import Store from '../../../store';
 import CategorySegment from '../../ui/Home/CategorySegment';
+import { motion } from 'framer-motion';
 import ModalFrame from '../../ui/modals/ModalFrame';
-import MasonryGrid from '../../ui/MasonryGrid';
 
 const Gifs = () => {
   const { handleRefresh, fetchGifs, handleCategotyChange } = useGifs();
@@ -41,12 +44,18 @@ const Gifs = () => {
 
   return (
     <>
-      <IonRefresher slot='fixed' pullMin={600} onIonRefresh={handleRefresh}>
+      <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
         <IonRefresherContent></IonRefresherContent>
       </IonRefresher>
       <CategorySegment
         categories={gifCategories}
         onSegmentChange={handleSegmentChange}
+      />
+      <ModalFrame
+        open={showGifDetail}
+        onDidDismiss={() => setShowGifDetail(false)}
+        id={selectedGif}
+        type="gif"
       />
       {Gifs.length === 0 ? (
         gifsLoaded ? (
@@ -59,17 +68,33 @@ const Gifs = () => {
           </div>
         )
       ) : (
-        <MasonryGrid rows={Gifs} fetchMore={(func) => fetchGifs(func)} hasNextPage ImageClick={(id) => openGifDetails(id)} cols={2} />
+        <ResponsiveGrid cols={2}>
+          {Gifs.map((item, index) => (
+            <GridItem key={index} ratio={item.ratio}>
+              <motion.div
+                onClick={() => openGifDetails(item.id)}
+                initial={{ scale: 0.7, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+              >
+                <GifCard {...item} className=""/>
+              </motion.div>
+            </GridItem>
+          ))}
+        </ResponsiveGrid>
       )}
-
-      <ModalFrame
-        open={showGifDetail}
-        onDidDismiss={() => setShowGifDetail(false)}
-        id={selectedGif}
-        type="gif"
-      />
+      <IonInfiniteScroll
+        onIonInfinite={ev => {
+          console.log('yoi', ev);
+          fetchGifs();
+          setTimeout(() => ev.target.complete(), 500);
+        }}
+      >
+        <IonInfiniteScrollContent
+          loadingText="Please wait..."
+          loadingSpinner="bubbles"
+        ></IonInfiniteScrollContent>
+      </IonInfiniteScroll>
     </>
   );
 };
-
 export default Gifs;
