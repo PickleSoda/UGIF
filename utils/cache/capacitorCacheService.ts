@@ -33,9 +33,13 @@ export class CapImageCacheService {
           directory: Directory.Cache,
           path: `${this.cachePath}/${imageName}`,
         });
+        const imageBlob = this.getBase64AsBlob(
+          readFile.data,
+          `image/${imageType}`,
+        );
         return {
-          data: `data:image/${imageType};base64,${readFile.data}`,
-          from: 'network',
+          data: imageBlob,
+          from: 'cache',
         };
       } catch (error) {
         throw new Error("There's a network error");
